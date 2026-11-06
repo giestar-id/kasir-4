@@ -3,6 +3,7 @@
 use App\Livewire\Auth\Login;
 use App\Livewire\Categories\Index as CategoriesIndex;
 use App\Livewire\Dashboard;
+use App\Livewire\Employees\Index as EmployeesIndex;
 use App\Livewire\Ingredients\Index as IngredientsIndex;
 use App\Livewire\Menu\Index as MenuIndex;
 use App\Livewire\OnlineOrders\Index as OnlineOrdersIndex;
@@ -60,6 +61,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/pembelian', PurchasesIndex::class)->name('purchases');
         Route::get('/stok-opname', StockOpnameIndex::class)->name('stock-opname');
         Route::get('/laporan', ReportsIndex::class)->name('reports');
+        Route::get('/pekerja', EmployeesIndex::class)->name('employees');
         Route::get('/pengaturan', SettingsIndex::class)->name('settings');
     });
 });

@@ -133,6 +133,7 @@
                     </div>
                     <div x-show="isDesktop && desktopCollapsed" x-cloak class="my-2 border-t border-[#ECEEF2] mx-2"></div>
 
+                    <x-nav-link route="employees" icon="users" label="Kelola Pekerja" />
                     <x-nav-link route="settings" icon="settings" label="Pengaturan" />
                 @else
                     <div x-show="!(isDesktop && desktopCollapsed)" x-cloak class="my-2 border-t border-[#ECEEF2] px-2 pt-2">
