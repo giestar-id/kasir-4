@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"outline":"#ECEEF2","surface-container-high":"#e7e7f4","on-background":"#191b24","tertiary-container":"#b25c00","error":"#E5484D","tertiary-fixed":"#ffdcc5","on-error":"#ffffff","on-primary-fixed-variant":"#2e30b9","on-primary-fixed":"#04006d","on-tertiary":"#ffffff","secondary-fixed":"#e5e2d8","surface-container-low":"#f3f2ff","inverse-surface":"#2e3039","secondary-fixed-dim":"#c9c7bc","on-primary":"#ffffff","on-tertiary-container":"#fff9f7","on-tertiary-fixed-variant":"#703800","on-tertiary-fixed":"#301400","surface-tint":"#484cd2","on-secondary":"#ffffff","on-secondary-fixed-variant":"#48473f","inverse-primary":"#c0c1ff","primary-fixed":"#e1e0ff","surface-variant":"#e1e1ee","tertiary-fixed-dim":"#ffb782","secondary":"#605f56","outline-variant":"#c6c5d7","success":"#2EB872","primary":"#4448ce","surface-dim":"#d9d9e6","on-surface-variant":"#464554","surface-container-lowest":"#ffffff","inverse-on-surface":"#f0f0fc","surface":"#FFFFFF","on-primary-container":"#fcf9ff","primary-pressed":"#4D52D6","primary-container":"#5e63e8","on-surface-muted":"#8E92A4","on-error-container":"#93000a","on-secondary-container":"#64635a","surface-container":"#ededfa","surface-container-highest":"#e1e1ee","surface-bright":"#faf8ff","secondary-container":"#e2e0d5","error-container":"#ffdad6","background":"#F8F8FA","primary-fixed-dim":"#c0c1ff","on-surface":"#191b24","on-secondary-fixed":"#1c1c15","tertiary":"#8d4800"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","lg":"24px","sm":"8px","xs":"4px","md":"16px","gutter":"20px","xl":"32px","space-md":"1rem","space-xs":"0.25rem","margin":"28px","space-xl":"2rem","space-lg":"1.5rem"},"fontFamily":{"headline-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"caption":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["13px",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"caption":["11px",{"lineHeight":"1.35","letterSpacing":"0.01em","fontWeight":"500"}],"title-md":["15px",{"lineHeight":"1.35","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"1.25","letterSpacing":"0em","fontWeight":"600"}],"headline-lg-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[232px] bg-secondary-fixed z-50 flex flex-col justify-between py-space-lg"><div class="flex flex-col gap-space-md"><div class="px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">storefront</span></div><span class="font-title-md text-title-md text-on-surface tracking-tight font-bold">POS Kuliner</span></div><nav class="flex flex-col gap-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-label-md text-label-md">Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="kasir" href="#"><span class="material-symbols-outlined text-[20px]">point_of_sale</span><span class="font-label-md text-label-md">Kasir</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pesanan-online" href="#"><span class="material-symbols-outlined text-[20px]">delivery_dining</span><span class="font-label-md text-label-md">Pesanan Online</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="riwayat-transaksi" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-md text-label-md">Riwayat Transaksi</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="menu" href="#"><span class="material-symbols-outlined text-[20px]">restaurant_menu</span><span class="font-label-md text-label-md">Menu</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="kategori" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span class="font-label-md text-label-md">Kategori</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="bahan-baku" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="font-label-md text-label-md">Bahan Baku</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pembelian" href="#"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="font-label-md text-label-md">Pembelian</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="stok-opname" href="#"><span class="material-symbols-outlined text-[20px]">fact_check</span><span class="font-label-md text-label-md">Stok Opname</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="laporan" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span class="font-label-md text-label-md">Laporan</span></a></nav></div><div class="px-space-sm"><nav class="flex flex-col" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pengaturan" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-md text-label-md">Pengaturan</span></a></nav></div></aside><div class="pl-[232px]"><header class="fixed top-0 left-[232px] right-0 h-16 bg-background/90 backdrop-blur-md z-40 px-[36px] flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex items-center flex-1 max-w-md"><div class="flex items-center w-full bg-surface rounded-lg px-space-md py-sm gap-space-sm shadow-[0_1px_4px_rgba(0,0,0,0.03)]"><span class="material-symbols-outlined text-on-surface-muted text-[18px]">search</span><input class="w-full bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-on-surface-muted" placeholder="Cari transaksi atau menu..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-xs px-space-sm py-xs rounded-full bg-surface"><span class="w-2 h-2 rounded-full bg-success"></span><span class="font-caption text-caption text-success font-semibold">AI Terhubung</span></div><button class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-on-surface-variant hover:text-on-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background px-[36px] py-[28px]"><div class="flex flex-col w-full relative">
+<!-- Underlying Context: Dimmed Pesanan Online Table View -->
+<div class="flex flex-col gap-lg pointer-events-none select-none filter blur-[1px] opacity-60">
+<!-- Top Action Bar & Live Statistics -->
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-xs text-on-surface-muted">
+<span class="font-caption text-caption tracking-wider uppercase font-semibold">Manajemen Antrean</span>
+<span class="font-caption text-caption">/</span>
+<span class="font-caption text-caption text-primary font-semibold">Integrasi Agregator</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-xs">Pesanan Online Masuk</h1>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-sm bg-surface px-space-md py-sm rounded-xl shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-success animate-pulse"></span>
+<span class="font-label-md text-label-md text-on-surface font-semibold">Channel GoFood, Grab &amp; Shopee Aktif</span>
+</div>
+<button class="flex items-center gap-space-xs px-space-md py-[10px] rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add_photo_alternate</span>
+<span>Unggah Screenshot</span>
+</button>
+</div>
+</div>
+<!-- Live Aggregator Channel Metric Cards -->
+<div class="grid grid-cols-4 gap-gutter">
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption uppercase tracking-wider text-on-surface-muted font-bold">GoFood Live</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-primary font-caption text-caption font-semibold">12 Tiket</span>
+</div>
+<div class="mt-space-md">
+<div class="font-headline-lg text-headline-lg text-on-surface font-bold">Rp 1.482.000</div>
+<p class="font-caption text-caption text-success mt-xs flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +14.2% dari target shift
+          </p>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption uppercase tracking-wider text-on-surface-muted font-bold">GrabFood Kitchen</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-primary font-caption text-caption font-semibold">8 Tiket</span>
+</div>
+<div class="mt-space-md">
+<div class="font-headline-lg text-headline-lg text-on-surface font-bold">Rp 940.500</div>
+<p class="font-caption text-caption text-on-surface-muted mt-xs">Rata-rata saji: 14 mnt</p>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption uppercase tracking-wider text-on-surface-muted font-bold">ShopeeFood Ready</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-primary font-caption text-caption font-semibold">6 Tiket</span>
+</div>
+<div class="mt-space-md">
+<div class="font-headline-lg text-headline-lg text-on-surface font-bold">Rp 612.000</div>
+<p class="font-caption text-caption text-success mt-xs flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> OCR Otomatis Aktif
+          </p>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-caption text-caption uppercase tracking-wider text-on-surface-muted font-bold">OCR Akurasi AI</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-low text-primary-pressed font-caption text-caption font-semibold">V3.2 Engine</span>
+</div>
+<div class="mt-space-md">
+<div class="font-headline-lg text-headline-lg text-on-surface font-bold">99.4%</div>
+<p class="font-caption text-caption text-on-surface-muted mt-xs">38 dari 38 terbaca instan</p>
+</div>
+</div>
+</div>
+<!-- Dense Background Operational Table View -->
+<div class="bg-surface rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="px-space-lg py-space-md bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-md text-title-md text-on-surface font-bold">Antrean Pesanan Masuk (Realtime)</span>
+<span class="px-space-xs py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-caption text-caption font-semibold">26 Order Aktif</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="w-64 bg-background rounded-lg px-space-sm py-xs flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-muted text-[16px]">filter_list</span>
+<span class="font-caption text-caption text-on-surface-muted">Filter status atau channel...</span>
+</div>
+</div>
+</div>
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low/50 text-on-surface-muted font-caption text-caption uppercase tracking-wider font-semibold">
+<th class="py-sm px-space-lg">ID / No. Order</th>
+<th class="py-sm px-space-md">Kanal</th>
+<th class="py-sm px-space-md">Driver / Pelanggan</th>
+<th class="py-sm px-space-md">Item Pesanan</th>
+<th class="py-sm px-space-md">Total Bayar</th>
+<th class="py-sm px-space-md">Metode Masuk</th>
+<th class="py-sm px-space-lg text-right">Status</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline">
+<tr class="text-body-md font-body-md text-on-surface">
+<td class="py-space-md px-space-lg font-semibold">#GF-99214</td>
+<td class="py-space-md px-space-md"><span class="px-2 py-0.5 rounded bg-error-container text-on-error-container font-caption text-caption font-bold">GoFood</span></td>
+<td class="py-space-md px-space-md">Dimas Prasetyo (B 4410 SN)</td>
+<td class="py-space-md px-space-md">2x Nasi Goreng Kampung, 1x Es Teh</td>
+<td class="py-space-md px-space-md font-semibold">Rp 76.500</td>
+<td class="py-space-md px-space-md text-on-surface-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">document_scanner</span> AI Screenshot
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<span class="px-space-sm py-xs rounded bg-surface-container text-on-surface-variant font-caption text-caption font-semibold">Sedang Dipersiapkan</span>
+</td>
+</tr>
+<tr class="text-body-md font-body-md text-on-surface">
+<td class="py-space-md px-space-lg font-semibold">#SP-31849</td>
+<td class="py-space-md px-space-md"><span class="px-2 py-0.5 rounded bg-tertiary-fixed text-on-tertiary-fixed font-caption text-caption font-bold">ShopeeFood</span></td>
+<td class="py-space-md px-space-md">Rina Kartika (D 2911 ABC)</td>
+<td class="py-space-md px-space-md">1x Ayam Geprek Mozzarella Lv 3</td>
+<td class="py-space-md px-space-md font-semibold">Rp 42.000</td>
+<td class="py-space-md px-space-md text-on-surface-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-success">bolt</span> API Direct
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<span class="px-space-sm py-xs rounded bg-success/15 text-success font-caption text-caption font-semibold">Menunggu Driver</span>
+</td>
+</tr>
+<tr class="text-body-md font-body-md text-on-surface">
+<td class="py-space-md px-space-lg font-semibold">#GR-77412</td>
+<td class="py-space-md px-space-md"><span class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-caption text-caption font-bold">GrabFood</span></td>
+<td class="py-space-md px-space-md">Hendra Kurnia (B 6682 PR)</td>
+<td class="py-space-md px-space-md">3x Kopi Susu Aren Gula Merah</td>
+<td class="py-space-md px-space-md font-semibold">Rp 66.000</td>
+<td class="py-space-md px-space-md text-on-surface-muted flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px] text-primary">document_scanner</span> AI Screenshot
+            </td>
+<td class="py-space-md px-space-lg text-right">
+<span class="px-space-sm py-xs rounded bg-surface-container text-on-surface-variant font-caption text-caption font-semibold">Menunggu Dapur</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Ambient Backdrop Scrim Modal Layer (rgba(30, 32, 41, 0.45)) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 transition-all duration-200" id="modal-container" style="background-color: rgba(30, 32, 41, 0.45); backdrop-filter: blur(2px);">
+<!-- 520px Dialog Window -->
+<div class="w-full max-w-[520px] bg-surface rounded-xl shadow-[0_8px_32px_rgba(30,32,41,0.18)] p-space-lg flex flex-col gap-space-lg relative animate-in fade-in zoom-in-95 duration-150">
+<!-- Modal Header -->
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">document_scanner</span>
+</div>
+<div>
+<h2 class="font-title-md text-title-md text-on-surface font-bold tracking-tight">Unggah Screenshot Pesanan Online</h2>
+<p class="font-caption text-caption text-on-surface-muted">Ekstrak otomatis daftar menu, alamat &amp; nominal order</p>
+</div>
+</div>
+<button aria-label="Tutup Dialog" class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-muted hover:text-on-surface hover:bg-surface-container transition-colors" id="btn-close-modal" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<div class="flex flex-col gap-space-md">
+<!-- Drag-and-drop / Ctrl+V Paste Dropzone -->
+<div class="relative group cursor-pointer bg-background hover:bg-surface-container-low/40 rounded-xl p-space-lg transition-all duration-200 text-center flex flex-col items-center justify-center" id="dropzone" style="border: 2px dashed #5E63E8;">
+<input accept="image/png, image/jpeg, image/webp" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer" id="file-input" multiple="" type="file"/>
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-primary-container mb-space-sm group-hover:scale-105 transition-transform duration-150">
+<span class="material-symbols-outlined text-[24px]">cloud_upload</span>
+</div>
+<p class="font-label-md text-label-md text-on-surface font-semibold">
+            Tarik file screenshot ke sini atau tekan <span class="bg-surface px-1.5 py-0.5 rounded shadow-sm text-primary font-mono text-caption">Ctrl + V</span>
+</p>
+<p class="font-caption text-caption text-on-surface-muted mt-1">
+            Format JPG, PNG, WEBP · Maks 8 MB per file
+          </p>
+<div class="mt-space-sm flex items-center gap-xs text-primary-container font-caption text-caption font-semibold">
+<span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+<span>Mendukung screenshot multi-aplikasi (GoFood / Shopee / Grab)</span>
+</div>
+</div>
+<!-- Section Label & Counter -->
+<div class="flex items-center justify-between pt-xs">
+<span class="font-caption text-caption uppercase tracking-wider text-on-surface-muted font-bold">File Terdeteksi (2)</span>
+<span class="font-caption text-caption text-on-surface-muted">Total Ukuran: 2.05 MB</span>
+</div>
+<!-- Uploaded File List Preview -->
+<div class="flex flex-col gap-space-xs">
+<!-- File Item 1: screenshot_gofood_1428.jpg -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-background hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container relative">
+<img class="w-full h-full object-cover" data-alt="High contrast digital smartphone screen capture showing an official GoFood order ticket receipt with noodle dishes, beverages, customer address notes and detailed total calculation in warm culinary lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUPM2sYX2HQUZXnKdJ3YWZpIlaFCaIFzhdjm7qfJEkQoY84n_Ume6sykjc3LJeRkGpeTuL5HnNCQTHVJjhhJwXzGUSO39QFbE5mmNq5uu2nCBT2GUg60sKQPvFu88xO-AV5RDLnOKCxi6XnVgbUX4NXTidmSTwKtHSmt78h0-bVmh5H_YSK8zej1C9Mt7Vf4FSLnY2t4r_8KAntyiPwSTFU_STh_WEjW56U1lbaw"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-body-md text-on-surface font-semibold truncate">screenshot_gofood_1428.jpg</span>
+<div class="flex items-center gap-xs font-caption text-caption text-on-surface-muted">
+<span>1.2 MB</span>
+<span>•</span>
+<span class="flex items-center gap-0.5 text-on-surface-muted">
+<span class="material-symbols-outlined text-[13px] text-success">verified_user</span> SHA-256 Verified
+                  </span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0 ml-space-sm">
+<span class="px-space-sm py-[3px] rounded-sm font-caption text-caption font-bold" style="background-color: rgba(46, 184, 114, 0.12); color: #2EB872;">
+                Siap diproses
+              </span>
+<button class="w-7 h-7 rounded flex items-center justify-center text-on-surface-muted hover:text-error hover:bg-surface transition-colors" title="Hapus berkas" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+<!-- File Item 2: order_shopee_nov05.png -->
+<div class="flex items-center justify-between p-space-sm rounded-lg bg-background hover:bg-surface-container-low transition-colors group">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container relative">
+<img class="w-full h-full object-cover" data-alt="Clear detailed mobile application screenshot of an incoming ShopeeFood food order with orange header, spicy chicken dishes, modifier selections, and price breakdown." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUUC-yMGOiZoKntDDiLLOIdmwXGHDCZ_j0nW6NG2zV4b9_JrKM_MjaTBFNTWMwKqdPB9QV8zmJqtlfjcbXCy-8n4D6VnlfpixUE7055RmgzI2EHbZDqmVlNjhJAAkZ11sFQAQmGpMJp5s5eHulAryWiEC9M-FzDvS99nqgggJf20xEZ78FHpi5m6t3tG4QsTihyuOVd9SggW0gKGS-YWWvUxquvrGUQu83_UGIKg"/>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-body-md text-body-md text-on-surface font-semibold truncate">order_shopee_nov05.png</span>
+<div class="flex items-center gap-xs font-caption text-caption text-on-surface-muted">
+<span>850 KB</span>
+<span>•</span>
+<span class="flex items-center gap-0.5 text-on-surface-muted">
+<span class="material-symbols-outlined text-[13px] text-primary">tag</span> SHA-256 Hash unik
+                  </span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-shrink-0 ml-space-sm">
+<span class="px-space-sm py-[3px] rounded-sm font-caption text-caption font-bold" style="background-color: rgba(46, 184, 114, 0.12); color: #2EB872;">
+                Siap diproses
+              </span>
+<button class="w-7 h-7 rounded flex items-center justify-center text-on-surface-muted hover:text-error hover:bg-surface transition-colors" title="Hapus berkas" type="button">
+<span class="material-symbols-outlined text-[16px]">delete</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Privacy & Processing Notification Note -->
+<div class="p-space-sm rounded-lg bg-surface-container-low flex items-start gap-space-sm">
+<span class="material-symbols-outlined text-primary-container text-[18px] mt-0.5">info</span>
+<p class="font-caption text-caption text-on-surface-variant leading-relaxed">
+            Data nomor telepon pelanggan dan kode promo disamarkan secara otomatis sesuai standar privasi dapur sebelum tiket dicetak.
+          </p>
+</div>
+</div>
+<!-- Modal Footer -->
+<div class="flex items-center justify-between pt-space-xs">
+<!-- Left: Secondary Cancel Button -->
+<button class="px-space-md py-[10px] rounded-lg bg-surface text-on-surface font-label-md text-label-md hover:bg-surface-container transition-colors shadow-sm" id="btn-cancel" type="button">
+          Batal
+        </button>
+<!-- Right: Primary Action Button -->
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-space-xs px-space-md py-[10px] rounded-lg text-on-primary font-label-md text-label-md hover:opacity-95 active:scale-[0.98] transition-all shadow-sm" id="btn-process" style="background-color: #5E63E8;" type="button">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+<span>Proses Screenshot (2)</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Inline Micro-interactions for Screen Dialog Demo -->
+<script>
+    (function() {
+      const dropzone = document.getElementById('dropzone');
+      const modal = document.getElementById('modal-container');
+      const closeBtn = document.getElementById('btn-close-modal');
+      const cancelBtn = document.getElementById('btn-cancel');
+      const processBtn = document.getElementById('btn-process');
+
+      // Dropzone hover feedback
+      if (dropzone) {
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.classList.add('bg-surface-container-low');
+          });
+        });
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropzone.addEventListener(eventName, (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('bg-surface-container-low');
+          });
+        });
+      }
+
+      // Close interactions
+      const dismissModal = () => {
+        if (modal) {
+          modal.style.opacity = '0';
+          modal.style.pointerEvents = 'none';
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 180);
+        }
+      };
+
+      if (closeBtn) closeBtn.addEventListener('click', dismissModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', dismissModal);
+
+      // Process interaction with feedback
+      if (processBtn) {
+        processBtn.addEventListener('click', function() {
+          const originalContent = this.innerHTML;
+          this.disabled = true;
+          this.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span><span>Memproses OCR...</span>';
+          setTimeout(() => {
+            this.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span><span>2 Pesanan Masuk!</span>';
+            setTimeout(dismissModal, 700);
+          }, 1000);
+        });
+      }
+    })();
+  </script>
+</div></main></div></body></html>

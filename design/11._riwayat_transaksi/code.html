@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"outline":"#ECEEF2","surface-container-high":"#e7e7f4","on-background":"#191b24","tertiary-container":"#b25c00","error":"#E5484D","tertiary-fixed":"#ffdcc5","on-error":"#ffffff","on-primary-fixed-variant":"#2e30b9","on-primary-fixed":"#04006d","on-tertiary":"#ffffff","secondary-fixed":"#e5e2d8","surface-container-low":"#f3f2ff","inverse-surface":"#2e3039","secondary-fixed-dim":"#c9c7bc","on-primary":"#ffffff","on-tertiary-container":"#fff9f7","on-tertiary-fixed-variant":"#703800","on-tertiary-fixed":"#301400","surface-tint":"#484cd2","on-secondary":"#ffffff","on-secondary-fixed-variant":"#48473f","inverse-primary":"#c0c1ff","primary-fixed":"#e1e0ff","surface-variant":"#e1e1ee","tertiary-fixed-dim":"#ffb782","secondary":"#605f56","outline-variant":"#c6c5d7","success":"#2EB872","primary":"#4448ce","surface-dim":"#d9d9e6","on-surface-variant":"#464554","surface-container-lowest":"#ffffff","inverse-on-surface":"#f0f0fc","surface":"#FFFFFF","on-primary-container":"#fcf9ff","primary-pressed":"#4D52D6","primary-container":"#5e63e8","on-surface-muted":"#8E92A4","on-error-container":"#93000a","on-secondary-container":"#64635a","surface-container":"#ededfa","surface-container-highest":"#e1e1ee","surface-bright":"#faf8ff","secondary-container":"#e2e0d5","error-container":"#ffdad6","background":"#F8F8FA","primary-fixed-dim":"#c0c1ff","on-surface":"#191b24","on-secondary-fixed":"#1c1c15","tertiary":"#8d4800"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","lg":"24px","sm":"8px","xs":"4px","md":"16px","gutter":"20px","xl":"32px","space-md":"1rem","space-xs":"0.25rem","margin":"28px","space-xl":"2rem","space-lg":"1.5rem"},"fontFamily":{"headline-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"caption":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["13px",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"caption":["11px",{"lineHeight":"1.35","letterSpacing":"0.01em","fontWeight":"500"}],"title-md":["15px",{"lineHeight":"1.35","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"1.25","letterSpacing":"0em","fontWeight":"600"}],"headline-lg-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[232px] bg-[#EFECE1] z-50 flex flex-col justify-between py-space-lg"><div class="flex flex-col gap-space-md"><div class="px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-surface shadow-sm"><span class="material-symbols-outlined text-[18px]">storefront</span></div><span class="font-title-md text-title-md text-on-surface tracking-tight font-bold">POS Kuliner</span></div><nav class="flex flex-col gap-xs px-space-sm" data-active-classes="bg-surface text-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="kasir" href="#">Kasir</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pesanan-online" href="#">Pesanan Online</a><a aria-current="page" class="flex items-center px-space-md py-sm transition-colors bg-surface text-primary-container font-semibold rounded-lg shadow-sm" data-path="riwayat-transaksi" href="#">Riwayat Transaksi</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="menu" href="#">Menu</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="kategori" href="#">Kategori</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="bahan-baku" href="#">Bahan Baku</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pembelian" href="#">Pembelian</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="stok-opname" href="#">Stok Opname</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="laporan" href="#">Laporan</a></nav></div><div class="px-space-sm"><nav class="flex flex-col" data-active-classes="bg-surface text-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pengaturan" href="#">Pengaturan</a></nav></div></aside><div class="pl-[232px]"><header class="fixed top-0 left-[232px] right-0 h-16 bg-background/90 backdrop-blur-md z-40 px-[36px] flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex items-center flex-1 max-w-md"><div class="flex items-center w-full bg-surface rounded-lg px-space-md py-sm gap-space-sm shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline"><span class="material-symbols-outlined text-on-surface-muted text-[18px]">search</span><input class="w-full bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-on-surface-muted" placeholder="Cari transaksi atau menu..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-xs px-space-sm py-xs rounded-full bg-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline"><span class="w-2 h-2 rounded-full bg-success"></span><span class="font-caption text-caption text-success font-semibold">AI Terhubung</span></div><button class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-on-surface-variant hover:text-on-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background px-[36px] py-[28px]"><div class="flex flex-col w-full">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md mb-space-lg">
+<div>
+<div class="flex items-center gap-space-sm mb-xs">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Riwayat Transaksi</h1>
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-surface-container-high text-on-surface font-caption text-caption uppercase tracking-wider font-semibold">Buku Besar Kas</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-muted">Daftar seluruh transaksi kasir offline dan pesanan online terverifikasi.</p>
+</div>
+<div class="flex items-center gap-space-sm self-start lg:self-auto">
+<button class="inline-flex items-center gap-xs px-space-md py-sm rounded-lg bg-surface text-on-surface font-label-md text-label-md shadow-sm hover:bg-secondary-fixed transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">download</span>
+<span>Ekspor Rekap (CSV)</span>
+</button>
+<button class="inline-flex items-center gap-xs px-space-md py-sm rounded-lg bg-primary-container text-on-primary font-label-md text-label-md shadow-sm hover:bg-primary-pressed transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+<span>Cetak Ringkasan Kas</span>
+</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-space-lg">
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-muted uppercase font-semibold">Omset Terverifikasi</span>
+<span class="font-headline-lg text-headline-lg text-on-surface mt-xs tabular-nums">Rp3.428.000</span>
+<span class="font-caption text-caption text-success flex items-center gap-xs mt-xs">
+<span class="material-symbols-outlined text-[14px]">arrow_upward</span>
+          +12.4% vs kemarin
+        </span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">payments</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-muted uppercase font-semibold">Total Selesai</span>
+<span class="font-headline-lg text-headline-lg text-on-surface mt-xs tabular-nums">47 Pesanan</span>
+<span class="font-caption text-caption text-on-surface-muted mt-xs">Rata-rata Rp72.936 / nota</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">check_circle</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-error uppercase font-semibold">Dibatalkan / Void</span>
+<span class="font-headline-lg text-headline-lg text-error mt-xs tabular-nums">1 Nota</span>
+<span class="font-caption text-caption text-on-surface-muted mt-xs">Rp120.000 dikembalikan</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-error-container flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-[22px]">cancel</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-md shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-muted uppercase font-semibold">Kanal Paling Aktif</span>
+<span class="font-title-md text-title-md text-on-surface mt-xs">Offline POS</span>
+<span class="font-caption text-caption text-on-surface-muted mt-xs">68% total transaksi hari ini</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">point_of_sale</span>
+</div>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-md shadow-sm mb-space-lg flex flex-col lg:flex-row gap-space-md lg:items-center justify-between">
+<div class="flex flex-wrap items-center gap-space-sm">
+<span class="font-caption text-caption text-on-surface-muted uppercase font-semibold mr-xs">Periode:</span>
+<div class="inline-flex p-xs bg-background rounded-lg">
+<button class="px-space-md py-xs rounded-md bg-surface text-primary-container font-label-md text-label-md shadow-sm" type="button">Hari Ini</button>
+<button class="px-space-md py-xs rounded-md text-on-surface-muted hover:text-on-surface font-label-md text-label-md transition-colors" type="button">7 Hari</button>
+<button class="px-space-md py-xs rounded-md text-on-surface-muted hover:text-on-surface font-label-md text-label-md transition-colors" type="button">Bulan Ini</button>
+<button class="px-space-md py-xs rounded-md text-on-surface-muted hover:text-on-surface font-label-md text-label-md transition-colors flex items-center gap-xs" type="button">
+<span class="material-symbols-outlined text-[16px]">calendar_today</span>
+<span>Kustom</span>
+</button>
+</div>
+<div class="h-6 w-[1px] bg-outline mx-xs hidden xl:block"></div>
+<div class="relative">
+<select class="appearance-none bg-background rounded-lg pl-space-md pr-space-xl py-sm font-body-md text-body-md text-on-surface focus:outline-none cursor-pointer">
+<option>Semua Kanal</option>
+<option>Offline POS</option>
+<option>GoFood</option>
+<option>ShopeeFood</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-sm top-1/2 -translate-y-1/2 text-on-surface-muted text-[18px]">expand_more</span>
+</div>
+<div class="relative">
+<select class="appearance-none bg-background rounded-lg pl-space-md pr-space-xl py-sm font-body-md text-body-md text-on-surface focus:outline-none cursor-pointer">
+<option>Semua Status</option>
+<option>Selesai</option>
+<option>Void</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-sm top-1/2 -translate-y-1/2 text-on-surface-muted text-[18px]">expand_more</span>
+</div>
+</div>
+<div class="relative w-full lg:w-80">
+<span class="material-symbols-outlined absolute left-space-md top-1/2 -translate-y-1/2 text-on-surface-muted text-[18px]">search</span>
+<input class="w-full bg-background rounded-lg pl-10 pr-space-md py-sm font-body-md text-body-md text-on-surface placeholder:text-on-surface-muted focus:outline-none" placeholder="Cari nomor transaksi atau kasir..." type="text"/>
+</div>
+</div>
+<div class="bg-surface rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="overflow-x-auto w-full">
+<table class="w-full text-left whitespace-nowrap">
+<thead>
+<tr class="bg-background/80 font-caption text-caption text-on-surface-muted uppercase tracking-wider">
+<th class="py-space-md px-space-lg font-semibold">Nomor Transaksi</th>
+<th class="py-space-md px-space-md font-semibold">Waktu</th>
+<th class="py-space-md px-space-md font-semibold">Kanal</th>
+<th class="py-space-md px-space-md font-semibold">Nomor Eksternal</th>
+<th class="py-space-md px-space-md font-semibold">Metode Bayar</th>
+<th class="py-space-md px-space-md font-semibold text-right">Total (Rp)</th>
+<th class="py-space-md px-space-md font-semibold text-center">Status</th>
+<th class="py-space-md px-space-md font-semibold">Kasir</th>
+<th class="py-space-md px-space-lg font-semibold text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline">
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-lg font-label-md text-label-md text-primary-container font-semibold">
+<a class="hover:underline flex items-center gap-xs" href="#">
+<span>TRX-20261105-0012</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-muted">open_in_new</span>
+</a>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-variant tabular-nums">14:32 WIB</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#E8F8F0] text-[#1D8348] font-caption text-caption font-semibold">
+                Offline POS
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-muted">-</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-muted">payments</span>
+<span>Tunai</span>
+</td>
+<td class="py-space-md px-space-md font-label-md text-label-md text-on-surface text-right tabular-nums font-semibold">Rp88.000</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#EAF8F1] text-success font-caption text-caption font-semibold">
+                Selesai
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface">Siti Rahma</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="inline-flex items-center gap-xs justify-end">
+<button class="px-space-md py-xs rounded-md bg-surface text-on-surface font-label-md text-label-md shadow-sm hover:bg-secondary-fixed transition-colors" type="button">
+                  Detail
+                </button>
+<button class="px-space-md py-xs rounded-md bg-error-container text-error font-label-md text-label-md hover:bg-error hover:text-on-error transition-colors" type="button">
+                  Void
+                </button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-lg font-label-md text-label-md text-primary-container font-semibold">
+<a class="hover:underline flex items-center gap-xs" href="#">
+<span>GF-982312</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-muted">open_in_new</span>
+</a>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-variant tabular-nums">14:15 WIB</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#E5F7FD] text-[#0284C7] font-caption text-caption font-semibold">
+                GoFood
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface font-mono">GF-98231201</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-muted">account_balance_wallet</span>
+<span>GoPay / Online</span>
+</td>
+<td class="py-space-md px-space-md font-label-md text-label-md text-on-surface text-right tabular-nums font-semibold">Rp49.600</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#EAF8F1] text-success font-caption text-caption font-semibold">
+                Selesai
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-muted flex items-center gap-xs">
+<span class="material-symbols-outlined text-[15px] text-primary-container">smart_toy</span>
+<span>Otomatis (AI)</span>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="inline-flex items-center gap-xs justify-end">
+<button class="px-space-md py-xs rounded-md bg-surface text-on-surface font-label-md text-label-md shadow-sm hover:bg-secondary-fixed transition-colors" type="button">
+                  Detail
+                </button>
+<button class="px-space-md py-xs rounded-md bg-error-container text-error font-label-md text-label-md hover:bg-error hover:text-on-error transition-colors" type="button">
+                  Void
+                </button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-lg font-label-md text-label-md text-primary-container font-semibold">
+<a class="hover:underline flex items-center gap-xs" href="#">
+<span>TRX-20261105-0011</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-muted">open_in_new</span>
+</a>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-variant tabular-nums">13:50 WIB</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#E8F8F0] text-[#1D8348] font-caption text-caption font-semibold">
+                Offline POS
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-muted">-</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-muted">qr_code_scanner</span>
+<span>QRIS (BCA)</span>
+</td>
+<td class="py-space-md px-space-md font-label-md text-label-md text-on-surface text-right tabular-nums font-semibold">Rp35.000</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#EAF8F1] text-success font-caption text-caption font-semibold">
+                Selesai
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface">Siti Rahma</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="inline-flex items-center gap-xs justify-end">
+<button class="px-space-md py-xs rounded-md bg-surface text-on-surface font-label-md text-label-md shadow-sm hover:bg-secondary-fixed transition-colors" type="button">
+                  Detail
+                </button>
+<button class="px-space-md py-xs rounded-md bg-error-container text-error font-label-md text-label-md hover:bg-error hover:text-on-error transition-colors" type="button">
+                  Void
+                </button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-lg font-label-md text-label-md text-primary-container font-semibold">
+<a class="hover:underline flex items-center gap-xs" href="#">
+<span>SF-441209</span>
+<span class="material-symbols-outlined text-[14px] text-on-surface-muted">open_in_new</span>
+</a>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-variant tabular-nums">13:22 WIB</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#FDF0E7] text-[#D97706] font-caption text-caption font-semibold">
+                ShopeeFood
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface font-mono">SF-44120911</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-muted">account_balance_wallet</span>
+<span>ShopeePay</span>
+</td>
+<td class="py-space-md px-space-md font-label-md text-label-md text-on-surface text-right tabular-nums font-semibold">Rp62.000</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#EAF8F1] text-success font-caption text-caption font-semibold">
+                Selesai
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-muted flex items-center gap-xs">
+<span class="material-symbols-outlined text-[15px] text-primary-container">smart_toy</span>
+<span>Otomatis (AI)</span>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="inline-flex items-center gap-xs justify-end">
+<button class="px-space-md py-xs rounded-md bg-surface text-on-surface font-label-md text-label-md shadow-sm hover:bg-secondary-fixed transition-colors" type="button">
+                  Detail
+                </button>
+<button class="px-space-md py-xs rounded-md bg-error-container text-error font-label-md text-label-md hover:bg-error hover:text-on-error transition-colors" type="button">
+                  Void
+                </button>
+</div>
+</td>
+</tr>
+<tr class="hover:bg-surface-bright transition-colors bg-error-container/20">
+<td class="py-space-md px-space-lg font-label-md text-label-md text-on-surface font-semibold">
+<div class="flex items-center gap-xs">
+<span class="line-through text-on-surface-muted">TRX-20261105-0010</span>
+<span class="material-symbols-outlined text-[14px] text-error">info</span>
+</div>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-muted tabular-nums">12:40 WIB</td>
+<td class="py-space-md px-space-md">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-caption text-caption font-semibold">
+                Offline POS
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-muted">-</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-muted flex items-center gap-xs">
+<span class="material-symbols-outlined text-[16px] text-on-surface-muted">payments</span>
+<span>Tunai</span>
+</td>
+<td class="py-space-md px-space-md font-label-md text-label-md text-on-surface-muted text-right tabular-nums line-through font-semibold">Rp120.000</td>
+<td class="py-space-md px-space-md text-center">
+<span class="inline-flex items-center px-sm py-xs rounded-full bg-[#FEE2E2] text-error font-caption text-caption font-semibold">
+                Void
+              </span>
+</td>
+<td class="py-space-md px-space-md font-body-md text-body-md text-on-surface-muted">Siti Rahma</td>
+<td class="py-space-md px-space-lg text-right">
+<div class="inline-flex items-center gap-xs justify-end">
+<button class="px-space-md py-xs rounded-md bg-surface text-on-surface font-label-md text-label-md shadow-sm hover:bg-secondary-fixed transition-colors" type="button">
+                  Detail
+                </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-space-lg py-space-md bg-surface flex flex-col sm:flex-row items-center justify-between gap-space-md">
+<div class="font-body-md text-body-md text-on-surface-muted">
+        Menampilkan <span class="font-semibold text-on-surface">1-5</span> dari <span class="font-semibold text-on-surface">48</span> transaksi
+      </div>
+<div class="inline-flex items-center gap-xs">
+<button class="w-8 h-8 rounded-lg bg-surface text-on-surface-muted flex items-center justify-center hover:bg-secondary-fixed hover:text-on-surface transition-colors disabled:opacity-50" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center shadow-sm" type="button">1</button>
+<button class="w-8 h-8 rounded-lg bg-surface text-on-surface-variant font-label-md text-label-md flex items-center justify-center hover:bg-secondary-fixed transition-colors" type="button">2</button>
+<button class="w-8 h-8 rounded-lg bg-surface text-on-surface-variant font-label-md text-label-md flex items-center justify-center hover:bg-secondary-fixed transition-colors" type="button">3</button>
+<span class="w-6 text-center text-on-surface-muted font-body-md">...</span>
+<button class="w-8 h-8 rounded-lg bg-surface text-on-surface-variant font-label-md text-label-md flex items-center justify-center hover:bg-secondary-fixed transition-colors" type="button">10</button>
+<button class="w-8 h-8 rounded-lg bg-surface text-on-surface-variant flex items-center justify-center hover:bg-secondary-fixed hover:text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-inverse-surface/40 backdrop-blur-sm hidden" id="void-dialog">
+<div class="bg-surface rounded-xl max-w-md w-full p-space-lg shadow-xl mx-space-md">
+<div class="w-12 h-12 rounded-xl bg-error-container text-error flex items-center justify-center mb-space-md">
+<span class="material-symbols-outlined text-[28px]">warning</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface mb-xs">Batalkan Transaksi (Void)</h3>
+<p class="font-body-md text-body-md text-on-surface-muted mb-space-lg">
+        Tindakan ini akan mengembalikan stok bahan baku terkait dan mengurangi total kas masuk pada pembukuan shift berjalan.
+      </p>
+<div class="bg-background rounded-lg p-space-md mb-space-lg">
+<div class="flex justify-between items-center mb-xs">
+<span class="font-caption text-caption text-on-surface-muted">Nomor Transaksi</span>
+<span class="font-label-md text-label-md text-on-surface font-mono" id="void-trx-id">TRX-0000</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="font-caption text-caption text-on-surface-muted">Alasan Pembatalan</span>
+<span class="font-caption text-caption text-error font-semibold">Kesalahan Input Kasir</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-space-sm">
+<button class="px-space-md py-sm rounded-lg bg-surface text-on-surface font-label-md text-label-md shadow-sm hover:bg-secondary-fixed transition-colors" onclick="closeVoidModal()" type="button">
+          Batal
+        </button>
+<button class="px-space-md py-sm rounded-lg bg-error text-on-error font-label-md text-label-md shadow-sm hover:opacity-90 transition-opacity" onclick="confirmVoidModal()" type="button">
+          Konfirmasi Void
+        </button>
+</div>
+</div>
+</div>
+<script>
+    function openVoidModal(trxId) {
+      const dialog = document.getElementById('void-dialog');
+      const label = document.getElementById('void-trx-id');
+      if (dialog && label) {
+        label.textContent = trxId;
+        dialog.classList.remove('hidden');
+      }
+    }
+
+    function closeVoidModal() {
+      const dialog = document.getElementById('void-dialog');
+      if (dialog) dialog.classList.add('hidden');
+    }
+
+    function confirmVoidModal() {
+      alert('Transaksi berhasil dibatalkan (Void). Rekapitulasi kas telah diperbarui.');
+      closeVoidModal();
+    }
+
+    document.querySelectorAll('tbody tr').forEach(row => {
+      const voidBtn = row.querySelector('button.text-error');
+      const trxIdElem = row.querySelector('td:first-child span:first-child');
+      if (voidBtn && trxIdElem) {
+        voidBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          openVoidModal(trxIdElem.textContent.trim());
+        });
+      }
+    });
+  </script>
+</div></main></div></body></html>

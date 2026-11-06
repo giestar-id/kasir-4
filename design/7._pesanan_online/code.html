@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"outline":"#ECEEF2","surface-container-high":"#e7e7f4","on-background":"#191b24","tertiary-container":"#b25c00","error":"#E5484D","tertiary-fixed":"#ffdcc5","on-error":"#ffffff","on-primary-fixed-variant":"#2e30b9","on-primary-fixed":"#04006d","on-tertiary":"#ffffff","secondary-fixed":"#e5e2d8","surface-container-low":"#f3f2ff","inverse-surface":"#2e3039","secondary-fixed-dim":"#c9c7bc","on-primary":"#ffffff","on-tertiary-container":"#fff9f7","on-tertiary-fixed-variant":"#703800","on-tertiary-fixed":"#301400","surface-tint":"#484cd2","on-secondary":"#ffffff","on-secondary-fixed-variant":"#48473f","inverse-primary":"#c0c1ff","primary-fixed":"#e1e0ff","surface-variant":"#e1e1ee","tertiary-fixed-dim":"#ffb782","secondary":"#605f56","outline-variant":"#c6c5d7","success":"#2EB872","primary":"#4448ce","surface-dim":"#d9d9e6","on-surface-variant":"#464554","surface-container-lowest":"#ffffff","inverse-on-surface":"#f0f0fc","surface":"#FFFFFF","on-primary-container":"#fcf9ff","primary-pressed":"#4D52D6","primary-container":"#5e63e8","on-surface-muted":"#8E92A4","on-error-container":"#93000a","on-secondary-container":"#64635a","surface-container":"#ededfa","surface-container-highest":"#e1e1ee","surface-bright":"#faf8ff","secondary-container":"#e2e0d5","error-container":"#ffdad6","background":"#F8F8FA","primary-fixed-dim":"#c0c1ff","on-surface":"#191b24","on-secondary-fixed":"#1c1c15","tertiary":"#8d4800"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","lg":"24px","sm":"8px","xs":"4px","md":"16px","gutter":"20px","xl":"32px","space-md":"1rem","space-xs":"0.25rem","margin":"28px","space-xl":"2rem","space-lg":"1.5rem"},"fontFamily":{"headline-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"caption":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["13px",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"caption":["11px",{"lineHeight":"1.35","letterSpacing":"0.01em","fontWeight":"500"}],"title-md":["15px",{"lineHeight":"1.35","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"1.25","letterSpacing":"0em","fontWeight":"600"}],"headline-lg-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[232px] bg-secondary-fixed z-50 flex flex-col justify-between py-space-lg"><div class="flex flex-col gap-space-md"><div class="px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">storefront</span></div><span class="font-title-md text-title-md text-on-surface tracking-tight font-bold">POS Kuliner</span></div><nav class="flex flex-col gap-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-label-md text-label-md">Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="kasir" href="#"><span class="material-symbols-outlined text-[20px]">point_of_sale</span><span class="font-label-md text-label-md">Kasir</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pesanan-online" href="#"><span class="material-symbols-outlined text-[20px]">delivery_dining</span><span class="font-label-md text-label-md">Pesanan Online</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="riwayat-transaksi" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-md text-label-md">Riwayat Transaksi</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="menu" href="#"><span class="material-symbols-outlined text-[20px]">restaurant_menu</span><span class="font-label-md text-label-md">Menu</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="kategori" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span class="font-label-md text-label-md">Kategori</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="bahan-baku" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="font-label-md text-label-md">Bahan Baku</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pembelian" href="#"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="font-label-md text-label-md">Pembelian</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="stok-opname" href="#"><span class="material-symbols-outlined text-[20px]">fact_check</span><span class="font-label-md text-label-md">Stok Opname</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="laporan" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span class="font-label-md text-label-md">Laporan</span></a></nav></div><div class="px-space-sm"><nav class="flex flex-col" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pengaturan" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-md text-label-md">Pengaturan</span></a></nav></div></aside><div class="pl-[232px]"><header class="fixed top-0 left-[232px] right-0 h-16 bg-background/90 backdrop-blur-md z-40 px-[36px] flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex items-center flex-1 max-w-md"><div class="flex items-center w-full bg-surface rounded-lg px-space-md py-sm gap-space-sm shadow-[0_1px_4px_rgba(0,0,0,0.03)]"><span class="material-symbols-outlined text-on-surface-muted text-[18px]">search</span><input class="w-full bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-on-surface-muted" placeholder="Cari transaksi atau menu..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-xs px-space-sm py-xs rounded-full bg-surface"><span class="w-2 h-2 rounded-full bg-success"></span><span class="font-caption text-caption text-success font-semibold">AI Terhubung</span></div><button class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-on-surface-variant hover:text-on-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background px-[36px] py-[28px]"><div class="flex flex-col w-full gap-space-lg">
+<!-- Interactive Modal: Upload Screenshot AI -->
+<div class="fixed inset-0 z-50 hidden items-center justify-center bg-on-surface/40 backdrop-blur-sm p-4" id="uploadModal">
+<div class="bg-surface rounded-xl shadow-xl w-full max-w-lg p-space-lg flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-8 h-8 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">document_scanner</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Unggah Tangkapan Layar Pesanan</h3>
+<p class="font-caption text-caption text-on-surface-muted">Ekstraksi data otomatis via Gemini Multimodal OCR</p>
+</div>
+</div>
+<button class="text-on-surface-muted hover:text-on-surface p-1 rounded-lg" onclick="toggleModal('uploadModal')">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<div class="border-dashed rounded-xl bg-surface-bright p-space-lg flex flex-col items-center justify-center text-center gap-space-sm cursor-pointer hover:bg-surface-container-low transition-colors">
+<div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[28px]">cloud_upload</span>
+</div>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface">Seret &amp; lepas file screenshot disini</span>
+<span class="font-caption text-caption text-on-surface-muted">Mendukung format PNG, JPG dari GoBiz atau Shopee Partner</span>
+</div>
+<button class="px-space-md py-xs rounded-lg bg-surface font-label-md text-label-md text-primary shadow-sm hover:bg-surface-container transition-colors">
+          Pilih dari Perangkat
+        </button>
+</div>
+<div class="flex items-center justify-end gap-space-sm pt-space-xs">
+<button class="px-space-md py-sm rounded-lg bg-surface-container font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high transition-colors" onclick="toggleModal('uploadModal')">
+          Batal
+        </button>
+<button class="px-space-md py-sm rounded-lg bg-primary-container font-label-md text-label-md text-on-primary hover:bg-primary-pressed transition-colors flex items-center gap-xs" onclick="toggleModal('uploadModal')">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+          Mulai Ekstraksi
+        </button>
+</div>
+</div>
+</div>
+<!-- Header Action Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Pesanan Online</h1>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-low text-primary-container font-caption text-caption font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">bolt</span> Real-time Sync
+        </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-muted">Kelola antrean ekstraksi screenshot AI dan pesanan GoFood &amp; ShopeeFood</p>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="px-space-md py-sm rounded-lg bg-surface shadow-sm text-on-surface hover:bg-surface-container transition-colors font-label-md text-label-md flex items-center gap-xs">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Input Manual</span>
+</button>
+<button class="px-space-md py-sm rounded-lg bg-primary-container text-on-primary hover:bg-primary-pressed shadow-sm transition-colors font-label-md text-label-md flex items-center gap-xs" onclick="toggleModal('uploadModal')">
+<span class="material-symbols-outlined text-[18px]">upload_file</span>
+<span>Unggah Screenshot</span>
+</button>
+</div>
+</div>
+<!-- Metric Overview Cards -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-space-md">
+<div class="p-space-md rounded-xl bg-surface shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-muted">Tingkat Akurasi AI</span>
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">96.4%</span>
+<span class="font-caption text-caption text-success flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">trending_up</span> +1.8% minggu ini
+        </span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[22px]">psychology</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-muted">Waktu Proses Rata-rata</span>
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">2.4 dtk</span>
+<span class="font-caption text-caption text-on-surface-muted">Multimodal V2.5</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[22px]">timer</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-muted">Perlu Verifikasi</span>
+<span class="font-headline-lg text-headline-lg text-tertiary font-bold">3 Pesanan</span>
+<span class="font-caption text-caption text-tertiary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[12px]">priority_high</span> Perlu aksi kasir
+        </span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-tertiary-fixed flex items-center justify-center text-tertiary-container">
+<span class="material-symbols-outlined text-[22px]">pending_actions</span>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface shadow-sm flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-caption text-caption text-on-surface-muted">Berhasil Hari Ini</span>
+<span class="font-headline-lg text-headline-lg text-success font-bold">48 Tiket</span>
+<span class="font-caption text-caption text-on-surface-muted">Rp 3.840.000 terdata</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container-low flex items-center justify-center text-success">
+<span class="material-symbols-outlined text-[22px]">task_alt</span>
+</div>
+</div>
+</div>
+<!-- Filter Status Tabs -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 bg-surface-container-low/50 p-1.5 rounded-xl">
+<button class="px-space-md py-sm rounded-lg bg-surface text-primary-container font-label-md text-label-md shadow-sm flex items-center gap-1.5 whitespace-nowrap">
+<span>Semua</span>
+<span class="px-1.5 py-0.5 rounded-full bg-primary-container text-on-primary font-caption text-caption">12</span>
+</button>
+<button class="px-space-md py-sm rounded-lg text-on-surface-muted hover:text-on-surface hover:bg-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span>Menunggu</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption text-caption">2</span>
+</button>
+<button class="px-space-md py-sm rounded-lg text-on-surface-muted hover:text-on-surface hover:bg-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+        Membaca
+      </span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption text-caption">1</span>
+</button>
+<button class="px-space-md py-sm rounded-lg text-on-surface-muted hover:text-on-surface hover:bg-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span>Perlu Dicek</span>
+<span class="px-1.5 py-0.5 rounded-full bg-tertiary-fixed text-tertiary font-caption text-caption">3</span>
+</button>
+<button class="px-space-md py-sm rounded-lg text-on-surface-muted hover:text-on-surface hover:bg-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span>Siap Disimpan</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-success font-caption text-caption">4</span>
+</button>
+<button class="px-space-md py-sm rounded-lg text-on-surface-muted hover:text-on-surface hover:bg-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span>Duplikat</span>
+<span class="px-1.5 py-0.5 rounded-full bg-error-container text-error font-caption text-caption">1</span>
+</button>
+<button class="px-space-md py-sm rounded-lg text-on-surface-muted hover:text-on-surface hover:bg-surface font-label-md text-label-md transition-colors flex items-center gap-1.5 whitespace-nowrap">
+<span>Gagal</span>
+<span class="px-1.5 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-caption text-caption">1</span>
+</button>
+</div>
+<!-- Queue Table Container -->
+<div class="bg-surface rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md overflow-hidden">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="font-title-md text-title-md text-on-surface">Antrean Validasi Pesanan</span>
+<span class="font-caption text-caption text-on-surface-muted">(Pembaruan otomatis tiap 10 detik)</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-sm py-xs rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">tune</span> Filter Kanal
+        </button>
+<button class="px-space-sm py-xs rounded-lg bg-surface-container-low text-on-surface-variant hover:text-on-surface font-caption text-caption flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">refresh</span> Muat Ulang
+        </button>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low/60 text-on-surface-muted font-caption text-caption uppercase tracking-wider">
+<th class="py-3 px-4 rounded-l-lg">Waktu Unggah</th>
+<th class="py-3 px-4">Kanal</th>
+<th class="py-3 px-4">Nomor Pesanan</th>
+<th class="py-3 px-4">Sumber Baca</th>
+<th class="py-3 px-4">Skor Keyakinan</th>
+<th class="py-3 px-4">Status</th>
+<th class="py-3 px-4 text-right rounded-r-lg">Aksi</th>
+</tr>
+</thead>
+<tbody class="font-body-md text-body-md divide-y divide-surface-container/50">
+<!-- Row 1: Ready to save -->
+<tr class="hover:bg-surface-bright/70 transition-colors">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">14:28</span>
+<span class="font-caption text-caption text-on-surface-muted">Hari ini</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+                GoFood
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">GF-982312</span>
+<button class="text-on-surface-muted hover:text-on-surface" title="Salin">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface-container-low text-primary-container font-caption text-caption font-semibold">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                AI (Gemini)
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-success h-full rounded-full" style="width: 98%;"></div>
+</div>
+<span class="font-label-md text-label-md text-success">98%</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low text-success font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                Siap Disimpan
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary-pressed font-label-md text-label-md shadow-sm transition-colors flex items-center gap-1">
+<span>Periksa &amp; Konfirmasi</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2: Need check -->
+<tr class="hover:bg-surface-bright/70 transition-colors">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">14:15</span>
+<span class="font-caption text-caption text-on-surface-muted">Hari ini</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+                ShopeeFood
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">SPF-441209</span>
+<button class="text-on-surface-muted hover:text-on-surface" title="Salin">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface-container-low text-primary-container font-caption text-caption font-semibold">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                AI (Gemini)
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 84%;"></div>
+</div>
+<span class="font-label-md text-label-md text-tertiary">84%</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-tertiary font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                Perlu Dicek
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary-pressed font-label-md text-label-md shadow-sm transition-colors flex items-center gap-1">
+<span>Periksa &amp; Konfirmasi</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3: OCR local engine -->
+<tr class="hover:bg-surface-bright/70 transition-colors">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">14:02</span>
+<span class="font-caption text-caption text-on-surface-muted">Hari ini</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+                GoFood
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">GF-982104</span>
+<button class="text-on-surface-muted hover:text-on-surface" title="Salin">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface-container text-on-surface-variant font-caption text-caption">
+<span class="material-symbols-outlined text-[14px]">memory</span>
+                Mesin Lokal (OCR)
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 72%;"></div>
+</div>
+<span class="font-label-md text-label-md text-tertiary">72%</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-tertiary font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                Perlu Dicek
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary hover:bg-primary-pressed font-label-md text-label-md shadow-sm transition-colors flex items-center gap-1">
+<span>Periksa &amp; Konfirmasi</span>
+<span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4: High confidence Ready -->
+<tr class="hover:bg-surface-bright/70 transition-colors">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">13:45</span>
+<span class="font-caption text-caption text-on-surface-muted">Hari ini</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim"></span>
+                ShopeeFood
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">SPF-440911</span>
+<button class="text-on-surface-muted hover:text-on-surface" title="Salin">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-surface-container-low text-primary-container font-caption text-caption font-semibold">
+<span class="material-symbols-outlined text-[14px]">auto_awesome</span>
+                AI (Gemini)
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-2">
+<div class="w-16 bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-success h-full rounded-full" style="width: 99%;"></div>
+</div>
+<span class="font-label-md text-label-md text-success">99%</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-surface-container-low text-success font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                Siap Disimpan
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-space-md py-1.5 rounded-lg bg-surface shadow-sm hover:bg-surface-container font-label-md text-label-md text-on-surface transition-colors">
+                  Detail
+                </button>
+</div>
+</td>
+</tr>
+<!-- Row 5: Duplicate -->
+<tr class="hover:bg-surface-bright/70 transition-colors">
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex flex-col">
+<span class="text-on-surface font-medium">13:20</span>
+<span class="font-caption text-caption text-on-surface-muted">Hari ini</span>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-low text-on-surface font-label-md text-label-md">
+<span class="w-2 h-2 rounded-full bg-surface-container-high"></span>
+                GoFood
+              </span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">GF-981882</span>
+<button class="text-on-surface-muted hover:text-on-surface" title="Salin">
+<span class="material-symbols-outlined text-[16px]">content_copy</span>
+</button>
+</div>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="text-on-surface-muted font-body-md text-body-md">-</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="text-on-surface-muted font-body-md text-body-md">-</span>
+</td>
+<td class="py-3.5 px-4 whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-error-container text-error font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                Duplikat (File Sama)
+              </span>
+</td>
+<td class="py-3.5 px-4 text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1.5">
+<button class="px-space-md py-1.5 rounded-lg bg-surface shadow-sm hover:bg-surface-container font-label-md text-label-md text-on-surface transition-colors">
+                  Lihat
+                </button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-xs text-on-surface-muted">
+<div class="font-body-md text-body-md">
+        Menampilkan <span class="font-semibold text-on-surface">1-5</span> dari <span class="font-semibold text-on-surface">12</span> pesanan
+      </div>
+<div class="flex items-center gap-1">
+<button class="w-8 h-8 rounded-lg bg-surface-container/50 text-on-surface-muted opacity-50 flex items-center justify-center cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center">
+          1
+        </button>
+<button class="w-8 h-8 rounded-lg bg-surface hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center transition-colors">
+          2
+        </button>
+<button class="w-8 h-8 rounded-lg bg-surface hover:bg-surface-container text-on-surface font-label-md text-label-md flex items-center justify-center transition-colors">
+          3
+        </button>
+<button class="w-8 h-8 rounded-lg bg-surface hover:bg-surface-container text-on-surface flex items-center justify-center transition-colors">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Auxiliary Operational Banner -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-space-md">
+<div class="lg:col-span-2 p-space-md rounded-xl bg-surface shadow-sm flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-primary-container shrink-0">
+<span class="material-symbols-outlined text-[24px]">receipt_long</span>
+</div>
+<div class="flex flex-col">
+<h4 class="font-title-md text-title-md text-on-surface">Mode Integrasi Otomatis Aktif</h4>
+<p class="font-body-md text-body-md text-on-surface-muted">Pesanan dengan skor keyakinan ≥95% dapat langsung dicetak ke dapur tanpa konfirmasi manual kasir.</p>
+</div>
+<div class="ml-auto shrink-0">
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-surface-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<div class="p-space-md rounded-xl bg-surface shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[20px]">help_outline</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface">Panduan Format Screenshot</span>
+<span class="font-caption text-caption text-on-surface-muted">Tips hasil akurasi 99%</span>
+</div>
+</div>
+<button class="text-primary-container hover:text-primary-pressed p-1 rounded-lg">
+<span class="material-symbols-outlined text-[20px]">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+<script>
+  function toggleModal(id) {
+    const modal = document.getElementById(id);
+    if (!modal) return;
+    if (modal.classList.contains('hidden')) {
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    } else {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+  }
+
+  // Highlight active sidebar navigation for "Pesanan Online"
+  document.addEventListener('DOMContentLoaded', () => {
+    const onlineOrderNav = document.querySelector('aside nav a[data-path="pesanan-online"]');
+    if (onlineOrderNav) {
+      onlineOrderNav.className = 'flex items-center gap-space-sm px-space-md py-sm rounded-lg bg-surface text-primary-container font-semibold shadow-sm transition-colors';
+    }
+  });
+</script></main></div></body></html>

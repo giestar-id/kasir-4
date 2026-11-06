@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_blank" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"outline":"#ECEEF2","surface-container-high":"#e7e7f4","on-background":"#191b24","tertiary-container":"#b25c00","error":"#E5484D","tertiary-fixed":"#ffdcc5","on-error":"#ffffff","on-primary-fixed-variant":"#2e30b9","on-primary-fixed":"#04006d","on-tertiary":"#ffffff","secondary-fixed":"#e5e2d8","surface-container-low":"#f3f2ff","inverse-surface":"#2e3039","secondary-fixed-dim":"#c9c7bc","on-primary":"#ffffff","on-tertiary-container":"#fff9f7","on-tertiary-fixed-variant":"#703800","on-tertiary-fixed":"#301400","surface-tint":"#484cd2","on-secondary":"#ffffff","on-secondary-fixed-variant":"#48473f","inverse-primary":"#c0c1ff","primary-fixed":"#e1e0ff","surface-variant":"#e1e1ee","tertiary-fixed-dim":"#ffb782","secondary":"#605f56","outline-variant":"#c6c5d7","success":"#2EB872","primary":"#4448ce","surface-dim":"#d9d9e6","on-surface-variant":"#464554","surface-container-lowest":"#ffffff","inverse-on-surface":"#f0f0fc","surface":"#FFFFFF","on-primary-container":"#fcf9ff","primary-pressed":"#4D52D6","primary-container":"#5e63e8","on-surface-muted":"#8E92A4","on-error-container":"#93000a","on-secondary-container":"#64635a","surface-container":"#ededfa","surface-container-highest":"#e1e1ee","surface-bright":"#faf8ff","secondary-container":"#e2e0d5","error-container":"#ffdad6","background":"#F8F8FA","primary-fixed-dim":"#c0c1ff","on-surface":"#191b24","on-secondary-fixed":"#1c1c15","tertiary":"#8d4800"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","lg":"24px","sm":"8px","xs":"4px","md":"16px","gutter":"20px","xl":"32px","space-md":"1rem","space-xs":"0.25rem","margin":"28px","space-xl":"2rem","space-lg":"1.5rem"},"fontFamily":{"headline-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"caption":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["13px",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"caption":["11px",{"lineHeight":"1.35","letterSpacing":"0.01em","fontWeight":"500"}],"title-md":["15px",{"lineHeight":"1.35","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"1.25","letterSpacing":"0em","fontWeight":"600"}],"headline-lg-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><main class="min-h-screen w-full flex items-center justify-center bg-background px-space-lg"><div class="flex flex-col w-full items-center justify-center py-space-xl">
+<!-- Subtle decorative ambient glows within viewport bounds -->
+<div class="relative w-full max-w-[420px] flex flex-col items-center">
+<div class="absolute -top-12 -left-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -right-10 w-52 h-52 bg-secondary-fixed/50 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Centered Login Card -->
+<div class="relative w-full bg-surface rounded-xl shadow-xl p-space-xl flex flex-col">
+<!-- Brand & Header -->
+<div class="flex flex-col items-center text-center mb-space-lg">
+<div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-surface-container-low text-primary mb-space-md shadow-sm">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">restaurant_menu</span>
+</div>
+<div class="flex items-center justify-center gap-1.5">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">POS Kuliner</h1>
+<span class="w-2 h-2 rounded-full bg-primary-container inline-block"></span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-muted mt-space-xs">
+          Masuk ke akun outlet Anda
+        </p>
+</div>
+<!-- Station Status Indicator Pill -->
+<div class="flex items-center justify-between px-space-md py-2.5 bg-surface-bright rounded-lg mb-space-lg">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-success animate-pulse"></span>
+<span class="font-caption text-caption text-secondary">Terminal Kasir Siap</span>
+</div>
+<span class="font-caption text-caption text-on-surface-muted tracking-wide uppercase">v2.4.0</span>
+</div>
+<!-- Authentication Form -->
+<form class="flex flex-col gap-space-md" id="loginForm" onsubmit="event.preventDefault(); handleLogin();">
+<!-- Input: Email atau Username -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md text-on-surface flex items-center justify-between" for="identifier">
+<span>Email atau Username</span>
+<span class="font-caption text-caption text-on-surface-muted">Wajib</span>
+</label>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-on-surface-muted material-symbols-outlined text-[20px] pointer-events-none">
+              person
+            </span>
+<input autocomplete="username" class="w-full bg-surface text-on-surface placeholder:text-on-surface-muted/60 pl-10 pr-space-md py-2.5 rounded-lg font-body-md text-body-md bg-surface-container-lowest focus:outline-none focus:bg-surface-container-low transition-colors duration-150" id="identifier" name="identifier" placeholder="kasir@outlet.id" required="" type="text"/>
+</div>
+</div>
+<!-- Input: Password with toggle -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<label class="font-label-md text-label-md text-on-surface" for="password">
+              Password
+            </label>
+<a class="font-caption text-caption text-primary hover:text-primary-pressed transition-colors" href="#" tabindex="-1">
+              Lupa sandi?
+            </a>
+</div>
+<div class="relative flex items-center">
+<span class="absolute left-3 text-on-surface-muted material-symbols-outlined text-[20px] pointer-events-none">
+              lock
+            </span>
+<input autocomplete="current-password" class="w-full bg-surface text-on-surface placeholder:text-on-surface-muted/60 pl-10 pr-11 py-2.5 rounded-lg font-body-md text-body-md bg-surface-container-lowest focus:outline-none focus:bg-surface-container-low transition-colors duration-150" id="password" name="password" placeholder="••••••••" required="" type="password"/>
+<button aria-label="Tampilkan atau sembunyikan password" class="absolute right-2 p-1.5 text-on-surface-muted hover:text-on-surface rounded-lg transition-colors flex items-center justify-center focus:outline-none" id="togglePasswordBtn" onclick="togglePasswordVisibility()" type="button">
+<span class="material-symbols-outlined text-[20px]" id="eyeIcon">
+                visibility
+              </span>
+</button>
+</div>
+</div>
+<!-- Shift / Outlet Info -->
+<div class="flex items-center gap-2 pt-1 pb-1">
+<label class="relative flex items-center gap-2.5 cursor-pointer select-none">
+<input checked="" class="w-4 h-4 rounded text-primary-container focus:ring-0 focus:outline-none cursor-pointer accent-primary" id="rememberShift" type="checkbox"/>
+<span class="font-body-md text-body-md text-secondary">Ingat terminal ini selama shift aktif</span>
+</label>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary-container text-on-primary font-label-md text-label-md py-3 px-space-md rounded-lg shadow-md hover:bg-primary-pressed active:bg-primary transition-all duration-150 flex items-center justify-center gap-2 group mt-space-xs" id="submitButton" type="submit">
+<span id="btnText">Masuk</span>
+<span class="material-symbols-outlined text-[18px] group-hover:translate-x-0.5 transition-transform" id="btnIcon">
+            arrow_forward
+          </span>
+</button>
+</form>
+<!-- Operational Metadata Footer -->
+<div class="mt-space-lg pt-space-md bg-surface-bright -mx-space-xl -mb-space-xl px-space-xl py-3 rounded-b-xl flex items-center justify-between text-on-surface-muted">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[15px]">storefront</span>
+<span class="font-caption text-caption">Mode Operasional Offline-Ready</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">shield</span>
+<span class="font-caption text-caption">Enkripsi PIN &amp; Sesi</span>
+</div>
+</div>
+</div>
+<!-- System Help Note -->
+<div class="mt-space-md flex items-center gap-2 text-center text-on-surface-muted">
+<span class="material-symbols-outlined text-[16px]">help_outline</span>
+<span class="font-caption text-caption">Kendala akses sistem? Hubungi Pengelola Resto Anda</span>
+</div>
+</div>
+</div>
+<script>
+  function togglePasswordVisibility() {
+    const pwdInput = document.getElementById('password');
+    const eyeIcon = document.getElementById('eyeIcon');
+    if (!pwdInput || !eyeIcon) return;
+
+    if (pwdInput.type === 'password') {
+      pwdInput.type = 'text';
+      eyeIcon.textContent = 'visibility_off';
+    } else {
+      pwdInput.type = 'password';
+      eyeIcon.textContent = 'visibility';
+    }
+  }
+
+  function handleLogin() {
+    const btn = document.getElementById('submitButton');
+    const btnText = document.getElementById('btnText');
+    const btnIcon = document.getElementById('btnIcon');
+    const identifier = document.getElementById('identifier').value.trim();
+    const password = document.getElementById('password').value;
+
+    if (!identifier || !password) return;
+
+    // Visual button feedback
+    btn.disabled = true;
+    btnText.textContent = 'Memverifikasi...';
+    btnIcon.textContent = 'sync';
+    btnIcon.classList.add('animate-spin');
+
+    setTimeout(() => {
+      btnText.textContent = 'Berhasil Masuk';
+      btnIcon.textContent = 'check_circle';
+      btnIcon.classList.remove('animate-spin');
+      btn.classList.remove('bg-primary-container');
+      btn.classList.add('bg-success');
+    }, 700);
+  }
+</script></main></body></html>

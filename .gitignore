@@ -1,0 +1,69 @@
+# --- Environments & Secrets ---
+.env
+.env.backup
+.env.production
+.env.*
+!.env.example
+/auth.json
+
+# --- Dependencies ---
+/node_modules
+/vendor
+
+# --- Build & Compiled Assets ---
+/public/build
+/public/hot
+/public/storage
+/public/fonts-manifest.dev.json
+
+# --- SQLite Databases ---
+*.sqlite
+*.sqlite-journal
+*.sqlite-shm
+*.sqlite-wal
+/database/*.sqlite
+/database/*.sqlite-journal
+/database/*.sqlite-shm
+/database/*.sqlite-wal
+
+# --- Storage & Caches ---
+/storage/*.key
+/storage/pail
+/storage/logs/*.log
+/storage/framework/cache/data/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/app/private/*
+!/storage/app/private/.gitignore
+/storage/app/public/*
+!/storage/app/public/.gitignore
+
+# --- Testing & Quality Tools ---
+.phpunit.result.cache
+/.phpunit.cache
+_ide_helper.php
+.phpactor.json
+
+# --- IDEs & System Files ---
+.DS_Store
+Thumbs.db
+Homestead.json
+Homestead.yaml
+/.idea
+/.vscode
+/.cursor/
+/.zed
+/.nova
+/.fleet
+/.codex
+
+# --- Agent & AI System Files ---
+/.agents
+/.ai
+
+# --- Package Manager Logs ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

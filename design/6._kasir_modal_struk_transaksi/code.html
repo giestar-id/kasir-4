@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"outline":"#ECEEF2","surface-container-high":"#e7e7f4","on-background":"#191b24","tertiary-container":"#b25c00","error":"#E5484D","tertiary-fixed":"#ffdcc5","on-error":"#ffffff","on-primary-fixed-variant":"#2e30b9","on-primary-fixed":"#04006d","on-tertiary":"#ffffff","secondary-fixed":"#e5e2d8","surface-container-low":"#f3f2ff","inverse-surface":"#2e3039","secondary-fixed-dim":"#c9c7bc","on-primary":"#ffffff","on-tertiary-container":"#fff9f7","on-tertiary-fixed-variant":"#703800","on-tertiary-fixed":"#301400","surface-tint":"#484cd2","on-secondary":"#ffffff","on-secondary-fixed-variant":"#48473f","inverse-primary":"#c0c1ff","primary-fixed":"#e1e0ff","surface-variant":"#e1e1ee","tertiary-fixed-dim":"#ffb782","secondary":"#605f56","outline-variant":"#c6c5d7","success":"#2EB872","primary":"#4448ce","surface-dim":"#d9d9e6","on-surface-variant":"#464554","surface-container-lowest":"#ffffff","inverse-on-surface":"#f0f0fc","surface":"#FFFFFF","on-primary-container":"#fcf9ff","primary-pressed":"#4D52D6","primary-container":"#5e63e8","on-surface-muted":"#8E92A4","on-error-container":"#93000a","on-secondary-container":"#64635a","surface-container":"#ededfa","surface-container-highest":"#e1e1ee","surface-bright":"#faf8ff","secondary-container":"#e2e0d5","error-container":"#ffdad6","background":"#F8F8FA","primary-fixed-dim":"#c0c1ff","on-surface":"#191b24","on-secondary-fixed":"#1c1c15","tertiary":"#8d4800"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","lg":"24px","sm":"8px","xs":"4px","md":"16px","gutter":"20px","xl":"32px","space-md":"1rem","space-xs":"0.25rem","margin":"28px","space-xl":"2rem","space-lg":"1.5rem"},"fontFamily":{"headline-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"caption":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["13px",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"caption":["11px",{"lineHeight":"1.35","letterSpacing":"0.01em","fontWeight":"500"}],"title-md":["15px",{"lineHeight":"1.35","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"1.25","letterSpacing":"0em","fontWeight":"600"}],"headline-lg-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[232px] bg-secondary-fixed z-50 flex flex-col justify-between py-space-lg"><div class="flex flex-col gap-space-md"><div class="px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">storefront</span></div><span class="font-title-md text-title-md text-on-surface tracking-tight font-bold">POS Kuliner</span></div><nav class="flex flex-col gap-xs px-space-sm" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="dashboard" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-label-md text-label-md">Dashboard</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="kasir" href="#"><span class="material-symbols-outlined text-[20px]">point_of_sale</span><span class="font-label-md text-label-md">Kasir</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pesanan-online" href="#"><span class="material-symbols-outlined text-[20px]">delivery_dining</span><span class="font-label-md text-label-md">Pesanan Online</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="riwayat-transaksi" href="#"><span class="material-symbols-outlined text-[20px]">receipt_long</span><span class="font-label-md text-label-md">Riwayat Transaksi</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="menu" href="#"><span class="material-symbols-outlined text-[20px]">restaurant_menu</span><span class="font-label-md text-label-md">Menu</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="kategori" href="#"><span class="material-symbols-outlined text-[20px]">category</span><span class="font-label-md text-label-md">Kategori</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="bahan-baku" href="#"><span class="material-symbols-outlined text-[20px]">inventory_2</span><span class="font-label-md text-label-md">Bahan Baku</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pembelian" href="#"><span class="material-symbols-outlined text-[20px]">shopping_bag</span><span class="font-label-md text-label-md">Pembelian</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="stok-opname" href="#"><span class="material-symbols-outlined text-[20px]">fact_check</span><span class="font-label-md text-label-md">Stok Opname</span></a><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="laporan" href="#"><span class="material-symbols-outlined text-[20px]">bar_chart</span><span class="font-label-md text-label-md">Laporan</span></a></nav></div><div class="px-space-sm"><nav class="flex flex-col" data-active-classes="bg-primary-container text-on-primary-container font-semibold rounded-lg"><a class="flex items-center gap-space-sm px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed-dim hover:text-on-surface transition-colors" data-path="pengaturan" href="#"><span class="material-symbols-outlined text-[20px]">settings</span><span class="font-label-md text-label-md">Pengaturan</span></a></nav></div></aside><div class="pl-[232px]"><header class="fixed top-0 left-[232px] right-0 h-16 bg-background/90 backdrop-blur-md z-40 px-[36px] flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex items-center flex-1 max-w-md"><div class="flex items-center w-full bg-surface rounded-lg px-space-md py-sm gap-space-sm shadow-[0_1px_4px_rgba(0,0,0,0.03)]"><span class="material-symbols-outlined text-on-surface-muted text-[18px]">search</span><input class="w-full bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-on-surface-muted" placeholder="Cari transaksi atau menu..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-xs px-space-sm py-xs rounded-full bg-surface"><span class="w-2 h-2 rounded-full bg-success"></span><span class="font-caption text-caption text-success font-semibold">AI Terhubung</span></div><button class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-on-surface-variant hover:text-on-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background px-[36px] py-[28px]"><div class="flex flex-col w-full">
+<div class="relative w-full pb-8">
+<div class="grid grid-cols-12 gap-gutter items-start filter blur-[2px] opacity-75 pointer-events-none select-none">
+<section class="col-span-8 flex flex-col gap-space-lg">
+<div class="flex items-center justify-between bg-surface rounded-xl p-space-md shadow-sm">
+<div class="flex items-center gap-space-sm overflow-x-auto py-xs">
+<span class="px-space-md py-sm rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md">Semua Menu</span>
+<span class="px-space-md py-sm rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md">Makanan Berat</span>
+<span class="px-space-md py-sm rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md">Minuman Segar</span>
+<span class="px-space-md py-sm rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md">Paket Hemat</span>
+<span class="px-space-md py-sm rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md">Camilan</span>
+</div>
+<div class="flex items-center gap-xs text-on-surface-muted">
+<span class="font-caption text-caption uppercase tracking-wider">Terminal Offline</span>
+<span class="w-2 h-2 rounded-full bg-success"></span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-gutter">
+<div class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-sm">
+<div class="h-32 w-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Close up plate of spicy Indonesian ayam geprek fried chicken topped with vibrant red and green sambal matah herbs, shallow depth of field, warm ambient culinary light, crisp restaurant plating" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCd5flKxtcX_L1MNfbcqlXLlRydiXyM8Laeed6wsYh8Mau__pvxkZY8U5WfW85CWwJhVTb7KEwafjXgW2UqjKZ2jiqHHrqO1-vFZQz12muOv_DCslj5kYpP9vbAMBekpho1T4kvZxcwghvIumm_useXOs9qHoiYWmNr9WQdA_rfWMZ53TbUvJ4R6sgVIte4pTbi_yU3KoH7kArCVGOBegBERVi-y4AgSHtpq1qszA"/>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-1">
+<div>
+<span class="font-caption text-caption text-on-surface-muted uppercase">Favorit Meja</span>
+<h4 class="font-title-md text-title-md text-on-surface mt-xs">Ayam Geprek Sambal Matah</h4>
+</div>
+<div class="flex items-center justify-between mt-space-md">
+<span class="font-label-md text-label-md text-primary font-bold">Rp 25.000</span>
+<span class="w-7 h-7 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-sm">
+<div class="h-32 w-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Traditional Indonesian combo meal on woven bamboo plate with fried chicken, rice, fresh cucumber slices and sambal paste, high contrast culinary food photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIxLdHqiT_pvi063CWghO1ZCJJqZDjDKflQnRB66E8vBtx2yQM97mIAMU6ShQPzxYMocuwNvoS2r4hudlmoKCBr_J6WJKNeB-FGwu4uoBOjm6Ochp1Dx_7uzF1ARNLn1YW9OgWTX5OJlhMauR_bfGtDBe8ixsZRhA_XxAMMlshCZB-uIwA0_0uqDU3XmZINuFNo0yCsU5RA1qZYuaqT21_BZkuyDTL_J6MXTavlQ"/>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-1">
+<div>
+<span class="font-caption text-caption text-on-surface-muted uppercase">Paket</span>
+<h4 class="font-title-md text-title-md text-on-surface mt-xs">Paket Hemat 1</h4>
+</div>
+<div class="flex items-center justify-between mt-space-md">
+<span class="font-label-md text-label-md text-primary font-bold">Rp 32.000</span>
+<span class="w-7 h-7 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col bg-surface rounded-xl overflow-hidden shadow-sm">
+<div class="h-32 w-full overflow-hidden bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Tall clear glass of iced Javanese Kampul tea with floating lime slice and condensation drops, bright daylight restaurant setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAknVNoAXWVLUqf0WpycXM2wK--TFucvrbU8Fa7CjARNRGvMj1yIgyyhE2LxxVuB4MpTp-qPRxmoKn6tz71VMSse06mCeR7jKBiSCaKR52pvq6LB5YR4D__JRIacWPdGDzd0q4gx7up-rMXAlbb0t0lv8J1gEnwCPTaPFDj1yEmo_Hoz6A8Y-MHtG-yeRi4gcA7aXerRCXJuJO-rTeqnyG3QwR71WOBtwgZKSb21Q"/>
+</div>
+<div class="p-space-md flex flex-col justify-between flex-1">
+<div>
+<span class="font-caption text-caption text-on-surface-muted uppercase">Minuman Dingin</span>
+<h4 class="font-title-md text-title-md text-on-surface mt-xs">Es Teh Kampul Segar</h4>
+</div>
+<div class="flex items-center justify-between mt-space-md">
+<span class="font-label-md text-label-md text-primary font-bold">Rp 6.000</span>
+<span class="w-7 h-7 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-[16px]">add</span>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[22px]">table_bar</span>
+</div>
+<div>
+<p class="font-title-md text-title-md text-on-surface">Meja Aktif: Meja 04</p>
+<p class="font-caption text-caption text-on-surface-muted">Tamu: 3 Orang · Buka 14:10 WIB</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<span class="px-space-md py-xs rounded-full bg-secondary-fixed text-on-secondary-fixed font-caption text-caption font-semibold">Tersimpan di Lokal</span>
+</div>
+</div>
+</section>
+<aside class="col-span-4 bg-surface rounded-xl p-space-lg shadow-sm flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-sm">
+<div>
+<h3 class="font-title-md text-title-md text-on-surface">Tiket Pesanan</h3>
+<span class="font-caption text-caption text-on-surface-muted">#TRX-20261105-0001</span>
+</div>
+<span class="px-space-sm py-xs rounded bg-surface-container-high text-primary font-caption text-caption font-bold">LUNAS</span>
+</div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between py-xs">
+<div class="min-w-0">
+<p class="font-body-md text-body-md text-on-surface truncate">2x Ayam Geprek Sambal Matah</p>
+<p class="font-caption text-caption text-on-surface-muted">Level Pedas: 3</p>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-semibold ml-space-sm">Rp50.000</span>
+</div>
+<div class="flex items-center justify-between py-xs">
+<div class="min-w-0">
+<p class="font-body-md text-body-md text-on-surface truncate">1x Paket Hemat 1</p>
+<p class="font-caption text-caption text-on-surface-muted">Nasi Uduk + Tahu</p>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-semibold ml-space-sm">Rp32.000</span>
+</div>
+<div class="flex items-center justify-between py-xs">
+<div class="min-w-0">
+<p class="font-body-md text-body-md text-on-surface truncate">1x Es Teh Kampul</p>
+<p class="font-caption text-caption text-on-surface-muted">Gula Normal</p>
+</div>
+<span class="font-body-md text-body-md text-on-surface font-semibold ml-space-sm">Rp6.000</span>
+</div>
+</div>
+<div class="bg-background rounded-lg p-space-md flex flex-col gap-xs mt-space-sm">
+<div class="flex justify-between font-caption text-caption text-on-surface-variant">
+<span>Subtotal</span>
+<span>Rp88.000</span>
+</div>
+<div class="flex justify-between font-caption text-caption text-on-surface-variant">
+<span>Pajak (0%)</span>
+<span>Rp0</span>
+</div>
+<div class="flex justify-between font-title-md text-title-md text-on-surface pt-xs">
+<span>Total Akhir</span>
+<span class="text-primary font-bold">Rp88.000</span>
+</div>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container py-sm rounded-lg font-label-md text-label-md flex items-center justify-center gap-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">done_all</span>
+          Transaksi Selesai
+        </button>
+</aside>
+</div>
+<div class="fixed inset-0 z-50 flex items-center justify-center p-space-md" style="background-color: rgba(30, 32, 41, 0.45); backdrop-filter: blur(2px);">
+<div class="w-full max-w-[400px] bg-surface rounded-xl shadow-[0_8px_24px_rgba(30,32,41,0.18)] p-space-lg flex flex-col gap-space-md animate-in fade-in zoom-in-95 duration-200" id="receipt-modal">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">receipt</span>
+</div>
+<h2 class="font-title-md text-title-md text-on-surface font-bold">Struk Transaksi</h2>
+</div>
+<button class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" id="close-modal-x" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="bg-background rounded-lg p-space-md flex flex-col font-mono text-on-surface relative shadow-[inset_0_1px_4px_rgba(0,0,0,0.02)]">
+<div class="text-center flex flex-col items-center">
+<span class="font-label-md text-label-md text-on-surface tracking-wider font-bold">POS KULINER NUSANTARA</span>
+<span class="font-caption text-caption text-on-surface-muted mt-space-xs">Jl. Kuliner No. 12, Jakarta</span>
+<span class="font-caption text-caption text-on-surface-muted">Telp: 0812-3456-7890</span>
+</div>
+<div class="my-space-sm text-center text-on-surface-muted select-none text-[10px] tracking-widest overflow-hidden whitespace-nowrap">
+            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+          </div>
+<div class="flex flex-col gap-space-xs font-caption text-caption text-on-surface-variant">
+<div class="flex justify-between">
+<span class="text-on-surface-muted">No:</span>
+<span class="font-medium text-on-surface">TRX-20261105-0001</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-muted">Waktu:</span>
+<span class="font-medium text-on-surface">05/11/2026 14:32</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-muted">Kasir:</span>
+<span class="font-medium text-on-surface">Siti Rahma</span>
+</div>
+<div class="flex justify-between">
+<span class="text-on-surface-muted">Meja:</span>
+<span class="font-bold text-on-surface">04</span>
+</div>
+</div>
+<div class="my-space-sm text-center text-on-surface-muted select-none text-[10px] tracking-widest overflow-hidden whitespace-nowrap">
+            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+          </div>
+<div class="flex flex-col gap-space-sm">
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-semibold">Ayam Geprek Sambal Matah</span>
+<div class="flex justify-between font-caption text-caption text-on-surface-variant mt-space-xs">
+<span>2x @ 25.000</span>
+<span class="font-medium text-on-surface">Rp50.000</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-semibold">Paket Hemat 1</span>
+<div class="flex justify-between font-caption text-caption text-on-surface-variant mt-space-xs">
+<span>1x @ 32.000</span>
+<span class="font-medium text-on-surface">Rp32.000</span>
+</div>
+</div>
+<div class="flex flex-col">
+<span class="font-body-md text-body-md text-on-surface font-semibold">Es Teh Kampul</span>
+<div class="flex justify-between font-caption text-caption text-on-surface-variant mt-space-xs">
+<span>1x @ 6.000</span>
+<span class="font-medium text-on-surface">Rp6.000</span>
+</div>
+</div>
+</div>
+<div class="my-space-sm text-center text-on-surface-muted select-none text-[10px] tracking-widest overflow-hidden whitespace-nowrap">
+            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+          </div>
+<div class="flex flex-col gap-space-xs font-caption text-caption">
+<div class="flex justify-between text-on-surface-variant">
+<span>Subtotal</span>
+<span class="font-medium text-on-surface">Rp88.000</span>
+</div>
+<div class="flex justify-between text-on-surface-variant">
+<span>Diskon</span>
+<span class="font-medium text-on-surface">Rp0</span>
+</div>
+<div class="flex justify-between font-label-md text-label-md text-on-surface pt-space-xs font-bold">
+<span>Total</span>
+<span>Rp88.000</span>
+</div>
+<div class="flex justify-between text-on-surface-variant pt-space-xs">
+<span>Tunai</span>
+<span class="font-medium text-on-surface">Rp100.000</span>
+</div>
+<div class="flex justify-between font-label-md text-label-md text-success font-semibold">
+<span>Kembalian</span>
+<span>Rp12.000</span>
+</div>
+</div>
+<div class="my-space-sm text-center text-on-surface-muted select-none text-[10px] tracking-widest overflow-hidden whitespace-nowrap">
+            - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+          </div>
+<div class="text-center flex flex-col items-center">
+<span class="font-caption text-caption text-on-surface-muted leading-tight">Terima kasih atas kunjungan Anda! Selamat menikmati hidangan.</span>
+<div class="mt-space-sm flex items-center justify-center gap-xs text-[10px] text-on-surface-muted">
+<span class="material-symbols-outlined text-[14px]">offline_pin</span>
+<span>Valid POS Thermal Print</span>
+</div>
+</div>
+</div>
+<div class="flex items-center justify-between gap-space-sm pt-space-xs">
+<button class="flex-1 bg-surface-container text-on-surface hover:bg-surface-container-high py-sm px-space-md rounded-lg font-label-md text-label-md transition-colors text-center" id="close-modal-btn" type="button">
+            Tutup (Esc)
+          </button>
+<button class="flex-1 bg-primary-container hover:bg-primary-pressed text-on-primary-container py-sm px-space-md rounded-lg font-label-md text-label-md flex items-center justify-center gap-xs shadow-sm transition-colors text-center font-bold" id="print-receipt-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">print</span>
+            Cetak Struk
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    const modal = document.getElementById('receipt-modal');
+    const closeBtn = document.getElementById('close-modal-btn');
+    const closeX = document.getElementById('close-modal-x');
+    const printBtn = document.getElementById('print-receipt-btn');
+
+    function dismissModal() {
+      if (!modal) return;
+      const overlay = modal.parentElement;
+      if (overlay) {
+        overlay.classList.add('transition-opacity', 'duration-150', 'opacity-0');
+        setTimeout(() => {
+          overlay.remove();
+        }, 150);
+      }
+    }
+
+    if (closeBtn) closeBtn.addEventListener('click', dismissModal);
+    if (closeX) closeX.addEventListener('click', dismissModal);
+
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        dismissModal();
+      }
+    });
+
+    if (printBtn) {
+      printBtn.addEventListener('click', function() {
+        const originalContent = printBtn.innerHTML;
+        printBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span> Mencetak...';
+        printBtn.disabled = true;
+        setTimeout(() => {
+          printBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check</span> Berhasil Dicetak';
+          setTimeout(() => {
+            printBtn.innerHTML = originalContent;
+            printBtn.disabled = false;
+          }, 1200);
+        }, 800);
+      });
+    }
+  })();
+</script></main></div></body></html>

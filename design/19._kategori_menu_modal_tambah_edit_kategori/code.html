@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"outline":"#ECEEF2","surface-container-high":"#e7e7f4","on-background":"#191b24","tertiary-container":"#b25c00","error":"#E5484D","tertiary-fixed":"#ffdcc5","on-error":"#ffffff","on-primary-fixed-variant":"#2e30b9","on-primary-fixed":"#04006d","on-tertiary":"#ffffff","secondary-fixed":"#e5e2d8","surface-container-low":"#f3f2ff","inverse-surface":"#2e3039","secondary-fixed-dim":"#c9c7bc","on-primary":"#ffffff","on-tertiary-container":"#fff9f7","on-tertiary-fixed-variant":"#703800","on-tertiary-fixed":"#301400","surface-tint":"#484cd2","on-secondary":"#ffffff","on-secondary-fixed-variant":"#48473f","inverse-primary":"#c0c1ff","primary-fixed":"#e1e0ff","surface-variant":"#e1e1ee","tertiary-fixed-dim":"#ffb782","secondary":"#605f56","outline-variant":"#c6c5d7","success":"#2EB872","primary":"#4448ce","surface-dim":"#d9d9e6","on-surface-variant":"#464554","surface-container-lowest":"#ffffff","inverse-on-surface":"#f0f0fc","surface":"#FFFFFF","on-primary-container":"#fcf9ff","primary-pressed":"#4D52D6","primary-container":"#5e63e8","on-surface-muted":"#8E92A4","on-error-container":"#93000a","on-secondary-container":"#64635a","surface-container":"#ededfa","surface-container-highest":"#e1e1ee","surface-bright":"#faf8ff","secondary-container":"#e2e0d5","error-container":"#ffdad6","background":"#F8F8FA","primary-fixed-dim":"#c0c1ff","on-surface":"#191b24","on-secondary-fixed":"#1c1c15","tertiary":"#8d4800"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","lg":"24px","sm":"8px","xs":"4px","md":"16px","gutter":"20px","xl":"32px","space-md":"1rem","space-xs":"0.25rem","margin":"28px","space-xl":"2rem","space-lg":"1.5rem"},"fontFamily":{"headline-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"caption":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["13px",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"caption":["11px",{"lineHeight":"1.35","letterSpacing":"0.01em","fontWeight":"500"}],"title-md":["15px",{"lineHeight":"1.35","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"1.25","letterSpacing":"0em","fontWeight":"600"}],"headline-lg-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[232px] bg-[#EFECE1] z-50 flex flex-col justify-between py-space-lg"><div class="flex flex-col gap-space-md"><div class="px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-surface shadow-sm"><span class="material-symbols-outlined text-[18px]">storefront</span></div><span class="font-title-md text-title-md text-on-surface tracking-tight font-bold">POS Kuliner</span></div><nav class="flex flex-col gap-xs px-space-sm" data-active-classes="bg-surface text-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="kasir" href="#">Kasir</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pesanan-online" href="#">Pesanan Online</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="riwayat-transaksi" href="#">Riwayat Transaksi</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="menu" href="#">Menu</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="kategori" href="#">Kategori</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="bahan-baku" href="#">Bahan Baku</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pembelian" href="#">Pembelian</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="stok-opname" href="#">Stok Opname</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="laporan" href="#">Laporan</a></nav></div><div class="px-space-sm"><nav class="flex flex-col" data-active-classes="bg-surface text-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pengaturan" href="#">Pengaturan</a></nav></div></aside><div class="pl-[232px]"><header class="fixed top-0 left-[232px] right-0 h-16 bg-background/90 backdrop-blur-md z-40 px-[36px] flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex items-center flex-1 max-w-md"><div class="flex items-center w-full bg-surface rounded-lg px-space-md py-sm gap-space-sm shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline"><span class="material-symbols-outlined text-on-surface-muted text-[18px]">search</span><input class="w-full bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-on-surface-muted" placeholder="Cari transaksi atau menu..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-xs px-space-sm py-xs rounded-full bg-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline"><span class="w-2 h-2 rounded-full bg-success"></span><span class="font-caption text-caption text-success font-semibold">AI Terhubung</span></div><button class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-on-surface-variant hover:text-on-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background px-[36px] py-[28px]"><div class="flex flex-col w-full relative">
+<!-- Interactive Active Sidebar Sync via script -->
+<script>
+    (function() {
+      const navLinks = document.querySelectorAll('aside nav a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('data-path') === 'kategori') {
+          link.className = "flex items-center px-space-md py-sm rounded-lg bg-surface text-primary-container font-semibold shadow-sm font-label-md text-label-md transition-colors";
+        } else {
+          link.className = "flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md";
+        }
+      });
+    })();
+  </script>
+<!-- SCREEN 18 UNDERLAY (Background Content behind Scrim) -->
+<div class="flex flex-col gap-space-lg select-none pointer-events-none filter blur-[1px]">
+<!-- Top Bar / Action Stats -->
+<div class="flex items-center justify-between">
+<div>
+<div class="flex items-center gap-space-xs text-on-surface-muted font-caption text-caption uppercase tracking-wider mb-xs">
+<span>Katalog Produk</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+<span class="text-primary font-semibold">Kategori Menu</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface">Manajemen Kategori</h1>
+<p class="font-body-md text-body-md text-on-surface-muted mt-space-xs">Atur hierarki, urutan visual, dan visibilitas tab kasir POS secara real-time</p>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="flex items-center gap-space-xs px-space-md py-sm bg-surface rounded-lg text-on-surface font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[18px]">swap_vert</span>
+<span>Ubah Urutan Masal</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-sm bg-primary-container text-on-primary rounded-lg font-label-md text-label-md shadow-sm">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span>Tambah Kategori</span>
+</button>
+</div>
+</div>
+<!-- Quick Metrics Strip -->
+<div class="grid grid-cols-4 gap-gutter">
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex items-center justify-between">
+<div>
+<span class="font-caption text-caption text-on-surface-muted uppercase">Total Kategori</span>
+<div class="font-headline-lg text-headline-lg text-on-surface mt-xs">8</div>
+<span class="font-caption text-caption text-success font-semibold flex items-center gap-xs mt-xs">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+            Semua sinkron POS
+          </span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[24px]">category</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex items-center justify-between">
+<div>
+<span class="font-caption text-caption text-on-surface-muted uppercase">Aktif di Kasir</span>
+<div class="font-headline-lg text-headline-lg text-on-surface mt-xs">7</div>
+<span class="font-caption text-caption text-on-surface-muted mt-xs">1 Disembunyikan</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[24px]">point_of_sale</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex items-center justify-between">
+<div>
+<span class="font-caption text-caption text-on-surface-muted uppercase">Total Item Menu</span>
+<div class="font-headline-lg text-headline-lg text-on-surface mt-xs">64</div>
+<span class="font-caption text-caption text-on-surface-muted mt-xs">Rata-rata 8 item / kategori</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[24px]">restaurant_menu</span>
+</div>
+</div>
+<div class="bg-surface rounded-xl p-space-lg shadow-sm flex items-center justify-between">
+<div>
+<span class="font-caption text-caption text-on-surface-muted uppercase">Terpopuler Hari Ini</span>
+<div class="font-title-md text-title-md text-on-surface mt-xs truncate max-w-[140px]">Makanan Utama</div>
+<span class="font-caption text-caption text-success font-semibold mt-xs">218 porsi terjual</span>
+</div>
+<div class="w-12 h-12 rounded-xl bg-surface-container-low flex items-center justify-center text-success">
+<span class="material-symbols-outlined text-[24px]">local_fire_department</span>
+</div>
+</div>
+</div>
+<!-- Data Table Container (Screen 18 Representation) -->
+<div class="bg-surface rounded-xl shadow-sm overflow-hidden flex flex-col">
+<div class="p-space-lg flex items-center justify-between bg-surface">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center bg-background rounded-lg px-space-md py-xs gap-space-sm w-72">
+<span class="material-symbols-outlined text-on-surface-muted text-[18px]">search</span>
+<input class="w-full bg-transparent font-body-md text-body-md text-on-surface placeholder:text-on-surface-muted outline-none" placeholder="Cari nama kategori..." type="text" value=""/>
+</div>
+<div class="flex items-center gap-xs px-space-md py-xs rounded-lg bg-background text-on-surface-variant font-label-md text-label-md">
+<span>Status:</span>
+<span class="font-semibold text-on-surface">Semua (8)</span>
+<span class="material-symbols-outlined text-[16px]">expand_more</span>
+</div>
+</div>
+<div class="flex items-center gap-xs text-caption font-caption text-on-surface-muted">
+<span>Menampilkan 8 dari 8 kategori aktif</span>
+</div>
+</div>
+<!-- Table Structure -->
+<table class="w-full text-left">
+<thead>
+<tr class="bg-background/60 text-on-surface-muted font-caption text-caption uppercase tracking-wider">
+<th class="py-space-md px-space-lg w-16 text-center">Urutan</th>
+<th class="py-space-md px-space-lg">Kategori &amp; Ringkasan</th>
+<th class="py-space-md px-space-lg w-36">Total Item</th>
+<th class="py-space-md px-space-lg w-44">Tampilan Kasir</th>
+<th class="py-space-md px-space-lg w-28 text-right">Aksi</th>
+</tr>
+</thead>
+<tbody class="divide-none text-on-surface font-body-md text-body-md">
+<!-- Row 1: Active item being edited -->
+<tr class="bg-surface-container-low/70 transition-colors">
+<td class="py-space-md px-space-lg text-center font-bold text-primary">#1</td>
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">lunch_dining</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface font-bold">Makanan Utama</div>
+<div class="font-caption text-caption text-on-surface-muted">Nasi, olahan ayam, bebek, dan lauk utama porsi kenyang.</div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-lg font-semibold">18 Menu</td>
+<td class="py-space-md px-space-lg">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/10 text-success font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                Tampil di Kasir
+              </span>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-primary-container">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-lg text-center font-semibold text-on-surface-muted">#2</td>
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[20px]">local_cafe</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface font-bold">Minuman Segar &amp; Kopi</div>
+<div class="font-caption text-caption text-on-surface-muted">Aneka racikan kopi espresso, teh buah, dan soda dingin.</div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-lg font-semibold">14 Menu</td>
+<td class="py-space-md px-space-lg">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/10 text-success font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                Tampil di Kasir
+              </span>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-lg text-center font-semibold text-on-surface-muted">#3</td>
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-tertiary">
+<span class="material-symbols-outlined text-[20px]">bakery_dining</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface font-bold">Camilan &amp; Side Dish</div>
+<div class="font-caption text-caption text-on-surface-muted">Kentang goreng, tempe mendoan, dan gorengan pembuka.</div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-lg font-semibold">12 Menu</td>
+<td class="py-space-md px-space-lg">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/10 text-success font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                Tampil di Kasir
+              </span>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-lg text-center font-semibold text-on-surface-muted">#4</td>
+<td class="py-space-md px-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[20px]">icecream</span>
+</div>
+<div>
+<div class="font-title-md text-title-md text-on-surface font-bold">Dessert &amp; Es Krim</div>
+<div class="font-caption text-caption text-on-surface-muted">Hidangan penutup manis, puding karamel, dan es teler.</div>
+</div>
+</div>
+</td>
+<td class="py-space-md px-space-lg font-semibold">8 Menu</td>
+<td class="py-space-md px-space-lg">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-success/10 text-success font-caption text-caption font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-success"></span>
+                Tampil di Kasir
+              </span>
+</td>
+<td class="py-space-md px-space-lg text-right">
+<button class="p-1.5 rounded-md hover:bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- SCRIM OVERLAY -->
+<div class="fixed inset-0 top-16 left-[232px] bg-[#1E2029]/45 backdrop-blur-[2px] z-50 flex items-center justify-center p-space-lg transition-opacity duration-200">
+<!-- MODAL DIALOG: 520px Width -->
+<div class="w-full max-w-[520px] bg-surface rounded-[16px] p-6 shadow-2xl flex flex-col gap-5 relative animate-in fade-in zoom-in-95 duration-150">
+<!-- Header -->
+<div class="flex items-start justify-between">
+<div class="flex flex-col gap-0.5">
+<div class="flex items-center gap-2">
+<div class="w-2 h-2 rounded-full bg-primary-container"></div>
+<h2 class="text-[16px] font-bold text-[#1E2029] leading-tight">Edit Kategori Menu</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-muted">Sesuaikan nama dan urutan kategori pada tampilan Kasir POS</p>
+</div>
+<button aria-label="Tutup dialog" class="w-8 h-8 -mr-1 -mt-1 rounded-lg flex items-center justify-center text-on-surface-muted hover:text-on-surface hover:bg-surface-container-high transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Body / Form Fields -->
+<form class="space-y-4" onsubmit="event.preventDefault();">
+<!-- Field 1: Nama Kategori -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="category-name">
+            Nama Kategori <span class="text-error font-bold">*</span>
+</label>
+<div class="relative">
+<input class="w-full bg-surface text-[#1E2029] font-body-md text-body-md px-[14px] py-[10px] rounded-lg bg-surface-container-lowest outline outline-1 outline-outline focus:outline-primary-container transition-all" id="category-name" placeholder="Contoh: Makanan Utama, Minuman" required="" type="text" value="Makanan Utama"/>
+</div>
+</div>
+<!-- Field 2: Urutan Tampil -->
+<div class="space-y-1.5">
+<label class="block font-label-md text-label-md text-on-surface" for="category-order">
+            Urutan Tampil <span class="text-error font-bold">*</span>
+</label>
+<div class="relative flex items-center">
+<input class="w-full bg-surface text-[#1E2029] font-body-md text-body-md px-[14px] py-[10px] rounded-lg outline outline-1 outline-outline focus:outline-primary-container transition-all" id="category-order" min="1" type="number" value="1"/>
+<div class="absolute right-3 text-on-surface-muted flex items-center gap-1 pointer-events-none">
+<span class="font-caption text-caption font-semibold uppercase">Posisi Tab</span>
+</div>
+</div>
+<p class="font-caption text-caption text-on-surface-muted leading-relaxed">
+            Menentukan posisi tab pada katalog kasir POS (angka terkecil tampil paling kiri)
+          </p>
+</div>
+<!-- Field 3: Deskripsi Singkat -->
+<div class="space-y-1.5">
+<div class="flex items-center justify-between">
+<label class="block font-label-md text-label-md text-on-surface" for="category-desc">
+              Deskripsi Singkat (Opsional)
+            </label>
+<span class="font-caption text-caption text-on-surface-muted">Maks. 120 karakter</span>
+</div>
+<textarea class="w-full bg-surface text-[#1E2029] font-body-md text-body-md px-[14px] py-[10px] rounded-lg outline outline-1 outline-outline focus:outline-primary-container transition-all resize-none" id="category-desc" placeholder="Tambahkan catatan kelompok menu..." rows="2">Nasi, olahan ayam, bebek, dan lauk utama porsi kenyang.</textarea>
+</div>
+<!-- Field 4: Toggle Switch Visibilitas Kasir -->
+<div class="pt-1">
+<div class="flex items-center justify-between p-3.5 rounded-xl bg-surface-container-low transition-colors">
+<div class="flex flex-col gap-0.5 pr-3">
+<span class="font-label-md text-label-md text-on-surface">Tampilkan di Kasir POS</span>
+<span class="font-caption text-caption text-on-surface-muted">Kategori aktif dan muncul pada tab menu kasir</span>
+</div>
+<!-- Toggle Component -->
+<label class="relative inline-flex items-center cursor-pointer shrink-0">
+<input checked="" class="sr-only peer" id="toggle-pos" type="checkbox"/>
+<div class="w-11 h-6 bg-secondary-container peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary-container"></div>
+</label>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="flex items-center justify-end gap-3 pt-4 border-t border-[#ECEEF2] mt-6">
+<button class="px-4 py-2.5 rounded-lg bg-surface border border-[#ECEEF2] text-[#1E2029] font-label-md text-label-md hover:bg-surface-container-low transition-colors shadow-sm" type="button">
+            Batal
+          </button>
+<button class="px-4 py-2.5 rounded-lg bg-primary-container text-on-primary font-semibold font-label-md text-label-md hover:bg-primary-pressed shadow-sm transition-colors flex items-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[18px]">check</span>
+<span>Simpan Kategori</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+</div></main></div></body></html>

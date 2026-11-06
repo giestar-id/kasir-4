@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html lang="id"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"outline":"#ECEEF2","surface-container-high":"#e7e7f4","on-background":"#191b24","tertiary-container":"#b25c00","error":"#E5484D","tertiary-fixed":"#ffdcc5","on-error":"#ffffff","on-primary-fixed-variant":"#2e30b9","on-primary-fixed":"#04006d","on-tertiary":"#ffffff","secondary-fixed":"#e5e2d8","surface-container-low":"#f3f2ff","inverse-surface":"#2e3039","secondary-fixed-dim":"#c9c7bc","on-primary":"#ffffff","on-tertiary-container":"#fff9f7","on-tertiary-fixed-variant":"#703800","on-tertiary-fixed":"#301400","surface-tint":"#484cd2","on-secondary":"#ffffff","on-secondary-fixed-variant":"#48473f","inverse-primary":"#c0c1ff","primary-fixed":"#e1e0ff","surface-variant":"#e1e1ee","tertiary-fixed-dim":"#ffb782","secondary":"#605f56","outline-variant":"#c6c5d7","success":"#2EB872","primary":"#4448ce","surface-dim":"#d9d9e6","on-surface-variant":"#464554","surface-container-lowest":"#ffffff","inverse-on-surface":"#f0f0fc","surface":"#FFFFFF","on-primary-container":"#fcf9ff","primary-pressed":"#4D52D6","primary-container":"#5e63e8","on-surface-muted":"#8E92A4","on-error-container":"#93000a","on-secondary-container":"#64635a","surface-container":"#ededfa","surface-container-highest":"#e1e1ee","surface-bright":"#faf8ff","secondary-container":"#e2e0d5","error-container":"#ffdad6","background":"#F8F8FA","primary-fixed-dim":"#c0c1ff","on-surface":"#191b24","on-secondary-fixed":"#1c1c15","tertiary":"#8d4800"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-sm":"0.5rem","lg":"24px","sm":"8px","xs":"4px","md":"16px","gutter":"20px","xl":"32px","space-md":"1rem","space-xs":"0.25rem","margin":"28px","space-xl":"2rem","space-lg":"1.5rem"},"fontFamily":{"headline-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"caption":["Plus Jakarta Sans"],"title-md":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"]},"fontSize":{"headline-lg":["24px",{"lineHeight":"1.25","letterSpacing":"-0.01em","fontWeight":"700"}],"body-md":["13px",{"lineHeight":"1.5","letterSpacing":"0em","fontWeight":"500"}],"caption":["11px",{"lineHeight":"1.35","letterSpacing":"0.01em","fontWeight":"500"}],"title-md":["15px",{"lineHeight":"1.35","letterSpacing":"-0.005em","fontWeight":"600"}],"label-md":["13px",{"lineHeight":"1.25","letterSpacing":"0em","fontWeight":"600"}],"headline-lg-mobile":["20px",{"lineHeight":"26px","letterSpacing":"-0.01em","fontWeight":"700"}]}}}};</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased"><aside class="fixed left-0 top-0 h-screen w-[232px] bg-[#EFECE1] z-50 flex flex-col justify-between py-space-lg"><div class="flex flex-col gap-space-md"><div class="px-space-lg flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-surface shadow-sm"><span class="material-symbols-outlined text-[18px]">storefront</span></div><span class="font-title-md text-title-md text-on-surface tracking-tight font-bold">POS Kuliner</span></div><nav class="flex flex-col gap-xs px-space-sm" data-active-classes="bg-surface text-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="dashboard" href="#">Dashboard</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="kasir" href="#">Kasir</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pesanan-online" href="#">Pesanan Online</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="riwayat-transaksi" href="#">Riwayat Transaksi</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="menu" href="#">Menu</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="kategori" href="#">Kategori</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="bahan-baku" href="#">Bahan Baku</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pembelian" href="#">Pembelian</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="stok-opname" href="#">Stok Opname</a><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="laporan" href="#">Laporan</a></nav></div><div class="px-space-sm"><nav class="flex flex-col" data-active-classes="bg-surface text-primary-container font-semibold rounded-lg shadow-sm"><a class="flex items-center px-space-md py-sm rounded-lg text-on-surface-variant hover:bg-secondary-fixed hover:text-on-surface transition-colors font-label-md text-label-md" data-path="pengaturan" href="#">Pengaturan</a></nav></div></aside><div class="pl-[232px]"><header class="fixed top-0 left-[232px] right-0 h-16 bg-background/90 backdrop-blur-md z-40 px-[36px] flex items-center justify-between shadow-[0_1px_8px_rgba(0,0,0,0.02)]"><div class="flex items-center flex-1 max-w-md"><div class="flex items-center w-full bg-surface rounded-lg px-space-md py-sm gap-space-sm shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline"><span class="material-symbols-outlined text-on-surface-muted text-[18px]">search</span><input class="w-full bg-transparent border-none outline-none font-body-md text-body-md text-on-surface placeholder:text-on-surface-muted" placeholder="Cari transaksi atau menu..." type="text"/></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-xs px-space-sm py-xs rounded-full bg-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline"><span class="w-2 h-2 rounded-full bg-success"></span><span class="font-caption text-caption text-success font-semibold">AI Terhubung</span></div><button class="w-8 h-8 rounded-lg bg-surface flex items-center justify-center text-on-surface-variant hover:text-on-surface shadow-[0_1px_4px_rgba(0,0,0,0.03)] outline outline-1 outline-outline transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center shadow-sm"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="relative pt-16 w-full min-h-screen bg-background px-[36px] py-[28px]"><div class="flex flex-col w-full relative">
+<!-- BACKGROUND CONTEXT: Menu & Resep Management (Screen 14 Viewport behind Scrim) -->
+<div aria-hidden="true" class="flex flex-col gap-space-lg select-none filter blur-[1.5px] opacity-75 pointer-events-none transition-all">
+<!-- Top Action Banner & Stats -->
+<div class="flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Katalog Menu &amp; Resep</span>
+<span class="font-body-md text-body-md text-on-surface-muted">Kelola penetapan harga pokok penjualan (HPP), takaran resep, dan ketersediaan etalase.</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="flex items-center gap-xs bg-surface px-space-md py-[10px] rounded-lg shadow-sm text-on-surface font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-on-surface-muted">file_upload</span>
+          Ekspor CSV
+        </button>
+<button class="flex items-center gap-xs bg-primary-container text-on-primary px-space-md py-[10px] rounded-lg shadow-sm font-label-md text-label-md" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+          Tambah Menu Baru
+        </button>
+</div>
+</div>
+<!-- Quick Analytic Highlights -->
+<div class="grid grid-cols-4 gap-gutter">
+<div class="bg-surface p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-muted font-caption text-caption uppercase tracking-wider">
+<span>Total Menu Aktif</span>
+<span class="material-symbols-outlined text-primary-container text-[20px]">restaurant_menu</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">48</span>
+<span class="font-caption text-caption text-success font-semibold flex items-center">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> 100% siap
+          </span>
+</div>
+</div>
+<div class="bg-surface p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-muted font-caption text-caption uppercase tracking-wider">
+<span>Menu Terlaris</span>
+<span class="material-symbols-outlined text-tertiary text-[20px]">star</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-title-md text-title-md text-on-surface truncate">Ayam Geprek Sambal Korek</span>
+<span class="font-caption text-caption text-on-surface-muted">342 porsi</span>
+</div>
+</div>
+<div class="bg-surface p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-muted font-caption text-caption uppercase tracking-wider">
+<span>Bahan Kritis/Habis</span>
+<span class="material-symbols-outlined text-error text-[20px]">inventory_2</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg text-error font-bold">2 Item</span>
+<span class="font-caption text-caption text-error font-medium">Perlu re-stock</span>
+</div>
+</div>
+<div class="bg-surface p-space-lg rounded-xl shadow-sm flex flex-col justify-between">
+<div class="flex items-center justify-between text-on-surface-muted font-caption text-caption uppercase tracking-wider">
+<span>Rata-Rata Margin HPP</span>
+<span class="material-symbols-outlined text-success text-[20px]">donut_small</span>
+</div>
+<div class="mt-space-md flex items-baseline justify-between">
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold">64.2%</span>
+<span class="font-caption text-caption text-success font-semibold">+1.8% bln ini</span>
+</div>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface rounded-xl shadow-sm p-space-lg flex flex-col gap-space-md">
+<!-- Search, Categories, & Filters -->
+<div class="flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="px-space-md py-xs bg-primary-container text-on-primary rounded-full font-label-md text-label-md">Semua (48)</span>
+<span class="px-space-md py-xs bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md">Makanan Berat (24)</span>
+<span class="px-space-md py-xs bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md">Camilan (12)</span>
+<span class="px-space-md py-xs bg-surface-container-low text-on-surface-variant rounded-full font-label-md text-label-md">Minuman (12)</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="bg-surface-container-low px-space-md py-xs rounded-lg flex items-center gap-xs">
+<span class="material-symbols-outlined text-on-surface-muted text-[18px]">search</span>
+<span class="font-body-md text-body-md text-on-surface">Tahu Krispi</span>
+</div>
+<button class="bg-surface-container-low p-xs rounded-lg text-on-surface-muted" type="button">
+<span class="material-symbols-outlined text-[20px]">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Menu Table Sample Rows -->
+<div class="w-full overflow-hidden rounded-lg">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-muted font-caption text-caption uppercase tracking-wider">
+<th class="py-space-sm px-space-md font-semibold">Foto &amp; Nama Menu</th>
+<th class="py-space-sm px-space-md font-semibold">Kategori</th>
+<th class="py-space-sm px-space-md font-semibold text-right">Harga Jual</th>
+<th class="py-space-sm px-space-md font-semibold text-right">HPP Resep</th>
+<th class="py-space-sm px-space-md font-semibold text-center">Status</th>
+<th class="py-space-sm px-space-md font-semibold text-right">Tindakan</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container font-body-md text-body-md text-on-surface">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-md">
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container-high" data-alt="Golden crisp deep fried spicy seasoned tofu cubes garnished with chili flakes and fresh scallions served in modern white ceramic bowl." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCO7NlTwxTcpAH0wm-oWB9Pruv5Ts9asni0rlIAoqQwSmYIljGOH35yyQdiXFJxRGfW1-l_b-I7j446pMMdRlYd5EksxxgFUXKTNA_a4csNcrCKmvqm1-UGkFeu5i98spmTOiL48l-XUcizssvyUka43DP93l28CuKv_SS6FXMjWIZkVbscFhxkMbx9FZq7eVLIn1l0UewtxtCsGUuDu424pmPH5FHKxcFuhmG_QA"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Tahu Krispi Cabai Garam</span>
+<span class="font-caption text-caption text-on-surface-muted">ID: SKU-THU-009 • Dibuat 2 jam lalu</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-sm py-xs bg-surface-container rounded-sm font-caption text-caption text-on-surface-variant">Camilan</span>
+</td>
+<td class="py-space-md px-space-md text-right font-medium">Rp 18.000</td>
+<td class="py-space-md px-space-md text-right text-on-surface-muted">Rp 5.250</td>
+<td class="py-space-md px-space-md text-center">
+<span class="px-space-sm py-xs bg-surface-container text-on-surface-variant font-caption text-caption rounded-sm">Draft Baru</span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-xs text-on-surface-muted">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span class="material-symbols-outlined text-[18px] text-error">delete</span>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-md">
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container-high" data-alt="Sizzling crispy fried chicken smashed with vibrant red chili sambal and fresh lime slices on slate platter." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBm3_FQCKmj4okIR3aq8e16gyODJ-kNQVNTOafEmXWA8bn8lxQWdkFRAsXqF4Iuic_X7RAvioV22CBPjF0eSL7R5IR46HbgPufKijpF0V9BqiKOCuEs5Ht3KllKpKnmFnXiq-3B9Rq-5HbKcdGWinebNEdH_W62VfMkm0RVasVCq7U9haR3U9mjFrI1k8UIYWZiMDtPE61Z7WUvOhpdrnbyMhhrUSq1TtVr5w4Vlw"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Ayam Geprek Sambal Korek</span>
+<span class="font-caption text-caption text-on-surface-muted">ID: SKU-AYM-001 • 8 Komponen Resep</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-sm py-xs bg-surface-container rounded-sm font-caption text-caption text-on-surface-variant">Makanan Berat</span>
+</td>
+<td class="py-space-md px-space-md text-right font-medium">Rp 26.000</td>
+<td class="py-space-md px-space-md text-right text-on-surface-muted">Rp 9.800</td>
+<td class="py-space-md px-space-md text-center">
+<span class="px-space-sm py-xs bg-surface-container-low text-success font-caption text-caption rounded-sm font-semibold">Tersedia</span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-xs text-on-surface-muted">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span class="material-symbols-outlined text-[18px]">toggle_on</span>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-bright transition-colors">
+<td class="py-space-md px-space-md flex items-center gap-space-md">
+<img class="w-12 h-12 rounded-lg object-cover bg-surface-container-high" data-alt="Chilled iced lychee tea beverage served in tall frosted glass cup with fresh mint leaves and whole lychee fruits." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBz4KAFhMZovNq5VfM95AMCgzn5zCeRq5EUOxPt1802u5KC-RRtt-Rha6vMiP1ZUPtJzMmUgCAn18TrsaTtDRSr6AIJg3abfsyVNw08-WzxCQzxGtvgllwQ_Fhp2caDtZmRikOv0m9eTPUvoLIu8UshjO31DG5rox29U-SWdeXpQ_UKvaJlCGAowA5qpm2OslwDSG6PC5-QHY0CRYb9AN-EYcm5-dU7s8nekcing"/>
+<div class="flex flex-col">
+<span class="font-title-md text-title-md text-on-surface font-semibold">Es Teh Leci Premium</span>
+<span class="font-caption text-caption text-on-surface-muted">ID: SKU-MNM-004 • 4 Komponen Resep</span>
+</div>
+</td>
+<td class="py-space-md px-space-md">
+<span class="px-space-sm py-xs bg-surface-container rounded-sm font-caption text-caption text-on-surface-variant">Minuman</span>
+</td>
+<td class="py-space-md px-space-md text-right font-medium">Rp 15.000</td>
+<td class="py-space-md px-space-md text-right text-on-surface-muted">Rp 4.100</td>
+<td class="py-space-md px-space-md text-center">
+<span class="px-space-sm py-xs bg-surface-container-low text-success font-caption text-caption rounded-sm font-semibold">Tersedia</span>
+</td>
+<td class="py-space-md px-space-md text-right">
+<div class="flex items-center justify-end gap-xs text-on-surface-muted">
+<span class="material-symbols-outlined text-[18px]">edit</span>
+<span class="material-symbols-outlined text-[18px]">toggle_on</span>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- SCRIM OVERLAY (rgba(30, 32, 41, 0.45)) -->
+<div class="fixed inset-0 z-50 bg-[#1E2029]/45 backdrop-blur-[2px] flex items-center justify-center p-space-md transition-opacity duration-200" id="modal-scrim">
+<!-- CONFIRMATION DIALOG CONTAINER: Exactly 400px wide, White #FFFFFF, rounded-16px, p-6, shadow-2xl -->
+<div aria-labelledby="modal-title" aria-modal="true" class="w-[400px] bg-surface rounded-[16px] p-6 shadow-2xl flex flex-col relative transform transition-all animate-in fade-in zoom-in-95 duration-150" role="dialog">
+<!-- Top Alert Graphic -->
+<div class="flex items-center justify-between mb-4">
+<!-- Visual alert icon: Soft red circle badge (#FEE2E2) with red alert triangle icon (#E5484D) -->
+<div class="w-12 h-12 rounded-full bg-[#FEE2E2] flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[#E5484D] text-[26px]">warning</span>
+</div>
+<button class="w-8 h-8 rounded-lg flex items-center justify-center text-on-surface-muted hover:text-on-surface hover:bg-surface-container transition-colors" onclick="document.getElementById('modal-scrim').style.display='none'" title="Tutup Modal" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+</div>
+<!-- Header & Title -->
+<h2 class="font-title-md text-[16px] leading-[1.3] font-bold text-[#1E2029]" id="modal-title">
+        Hapus Menu Permanen?
+      </h2>
+<!-- Description Body Text -->
+<p class="font-body-md text-body-md text-on-surface-variant mt-2 leading-relaxed">
+        Menu <span class="font-semibold text-on-surface">“Tahu Krispi Cabai Garam”</span> belum memiliki riwayat transaksi dan akan dihapus permanen dari sistem beserta data resep terkait. Tindakan ini tidak dapat dibatalkan.
+      </p>
+<!-- Warning Callout Note -->
+<div class="mt-4 bg-[#FFFBEB] rounded-[8px] p-3 flex items-start gap-2 shadow-xs">
+<span class="material-symbols-outlined text-[#92400E] text-[18px] flex-shrink-0 mt-0.5">lightbulb</span>
+<p class="font-caption text-[11px] leading-[1.45] text-[#92400E]">
+<strong class="font-semibold">Tips:</strong> Untuk menu yang sudah pernah terjual, gunakan toggle <span class="underline decoration-[#92400E]/40 font-medium">Nonaktifkan Menu</span> agar riwayat penjualan tetap utuh.
+        </p>
+</div>
+<!-- Action Footer -->
+<div class="flex items-center justify-end gap-3 mt-6">
+<!-- Button Secondary: Batal -->
+<button class="bg-surface text-[#1E2029] hover:bg-surface-bright active:bg-surface-container font-label-md text-label-md px-4 py-2.5 rounded-lg shadow-sm transition-colors cursor-pointer" onclick="document.getElementById('modal-scrim').style.display='none'" type="button">
+          Batal
+        </button>
+<!-- Button Danger: Hapus Menu -->
+<button class="bg-[#E5484D] hover:bg-[#c93b40] active:bg-[#ad3034] text-[#FFFFFF] font-label-md text-label-md font-semibold px-4 py-2.5 rounded-lg shadow-sm flex items-center gap-xs transition-colors cursor-pointer" id="btn-delete-menu" onclick="handleDeleteMenu()" type="button">
+<span class="material-symbols-outlined text-[18px]">delete_forever</span>
+          Hapus Menu
+        </button>
+</div>
+</div>
+</div>
+</div>
+<script>
+  function handleDeleteMenu() {
+    const btn = document.getElementById('btn-delete-menu');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-[18px]">progress_activity</span> Menghapus...';
+    setTimeout(() => {
+      const scrim = document.getElementById('modal-scrim');
+      if (scrim) {
+        scrim.style.opacity = '0';
+        setTimeout(() => {
+          scrim.style.display = 'none';
+        }, 200);
+      }
+    }, 600);
+  }
+</script></main></div></body></html>
