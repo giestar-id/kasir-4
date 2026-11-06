@@ -1,4 +1,4 @@
-<div
+﻿<div
     x-data="{
         toasts: [],
         add(rawToast) {
@@ -105,7 +105,7 @@
             <button
                 type="button"
                 @click="remove(t.id)"
-                class="shrink-0 text-[#8E92A4] hover:text-[#1E2029] p-1 rounded-lg transition-colors cursor-pointer"
+                class="shrink-0 text-[#4E5262] hover:text-[#1E2029] p-1 rounded-lg transition-colors cursor-pointer"
             >
                 <svg class="w-4 h-4 stroke-current stroke-2 fill-none" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="18" y1="6" x2="6" y2="18"></line>

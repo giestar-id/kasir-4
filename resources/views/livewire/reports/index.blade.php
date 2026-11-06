@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header & Period Filter Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Laporan Penjualan & Laba</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">Analisis akurat omzet bersih, realisasi HPP, margin kotor, dan valuasi aset stok</p>
+            <p class="text-xs text-[#4E5262] mt-0.5">Analisis akurat omzet bersih, realisasi HPP, margin kotor, dan valuasi aset stok</p>
         </div>
 
         <div class="flex items-center gap-2.5 flex-wrap">
@@ -67,7 +67,7 @@
                 <div class="text-2xl font-bold text-[#1E2029] tracking-tight tabular-nums">
                     Rp{{ number_format($totalOmzet, 0, ',', '.') }}
                 </div>
-                <span class="text-xs text-[#8E92A4] mt-1 block">Semua kanal non-void</span>
+                <span class="text-xs text-[#4E5262] mt-1 block">Semua kanal non-void</span>
             </div>
         </div>
 
@@ -83,7 +83,7 @@
                 <div class="text-2xl font-bold text-[#1E2029] tracking-tight tabular-nums">
                     Rp{{ number_format($totalHpp, 0, ',', '.') }}
                 </div>
-                <span class="text-xs text-[#8E92A4] mt-1 block">Snapshot modal bahan terjual</span>
+                <span class="text-xs text-[#4E5262] mt-1 block">Snapshot modal bahan terjual</span>
             </div>
         </div>
 
@@ -101,7 +101,7 @@
                 <div class="text-2xl font-bold text-[#2EB872] tracking-tight tabular-nums">
                     Rp{{ number_format($grossProfit, 0, ',', '.') }}
                 </div>
-                <div class="flex items-center gap-1.5 mt-1 text-xs text-[#8E92A4]">
+                <div class="flex items-center gap-1.5 mt-1 text-xs text-[#4E5262]">
                     <span>Margin keuntungan bersih: <strong class="text-[#1E2029] font-bold">{{ $profitMarginPct }}%</strong></span>
                 </div>
             </div>
@@ -148,7 +148,7 @@
             @if($activeTab === 'per_menu')
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                        <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                             <th class="py-3 px-4">Nama Menu</th>
                             <th class="py-3 px-4 text-center">Terjual (Qty)</th>
                             <th class="py-3 px-4 text-right">Omzet (Rp)</th>
@@ -167,13 +167,13 @@
                                 <td class="py-3.5 px-4 font-bold text-[#1E2029]">{{ $m->menu_name_snapshot }}</td>
                                 <td class="py-3.5 px-4 text-center font-bold tabular-nums">{{ $m->total_qty }} porsi</td>
                                 <td class="py-3.5 px-4 text-right font-bold text-[#1E2029] tabular-nums">Rp{{ number_format($m->total_omzet, 0, ',', '.') }}</td>
-                                <td class="py-3.5 px-4 text-right text-[#8E92A4] tabular-nums">Rp{{ number_format($m->total_hpp, 0, ',', '.') }}</td>
+                                <td class="py-3.5 px-4 text-right text-[#4E5262] tabular-nums">Rp{{ number_format($m->total_hpp, 0, ',', '.') }}</td>
                                 <td class="py-3.5 px-4 text-right font-bold text-[#2EB872] tabular-nums">Rp{{ number_format($profit, 0, ',', '.') }}</td>
                                 <td class="py-3.5 px-4 text-right font-bold text-[#5E63E8] tabular-nums">{{ $margin }}%</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="py-12 text-center text-[#8E92A4]">
+                                <td colspan="6" class="py-12 text-center text-[#4E5262]">
                                     Belum ada transaksi menu pada periode ini.
                                 </td>
                             </tr>
@@ -184,7 +184,7 @@
             @elseif($activeTab === 'per_period')
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                        <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                             <th class="py-3 px-4">Tanggal</th>
                             <th class="py-3 px-4 text-center">Jumlah Transaksi</th>
                             <th class="py-3 px-4 text-right">Total Diskon (Rp)</th>
@@ -201,7 +201,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="py-12 text-center text-[#8E92A4]">
+                                <td colspan="4" class="py-12 text-center text-[#4E5262]">
                                     Belum ada transaksi pada periode ini.
                                 </td>
                             </tr>
@@ -212,7 +212,7 @@
             @elseif($activeTab === 'per_channel')
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                        <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                             <th class="py-3 px-4">Kanal Penjualan</th>
                             <th class="py-3 px-4 text-center">Jumlah Transaksi</th>
                             <th class="py-3 px-4 text-right">Penyesuaian Platform (Rp)</th>
@@ -224,12 +224,12 @@
                             <tr class="hover:bg-white/50 transition-colors">
                                 <td class="py-3.5 px-4 font-bold uppercase text-[#1E2029]">{{ $c->channel }}</td>
                                 <td class="py-3.5 px-4 text-center font-bold tabular-nums">{{ $c->count }} Transaksi</td>
-                                <td class="py-3.5 px-4 text-right tabular-nums text-[#8E92A4]">Rp{{ number_format($c->adjustment, 0, ',', '.') }}</td>
+                                <td class="py-3.5 px-4 text-right tabular-nums text-[#4E5262]">Rp{{ number_format($c->adjustment, 0, ',', '.') }}</td>
                                 <td class="py-3.5 px-4 text-right font-bold text-[#5E63E8] tabular-nums">Rp{{ number_format($c->omzet, 0, ',', '.') }}</td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="py-12 text-center text-[#8E92A4]">
+                                <td colspan="4" class="py-12 text-center text-[#4E5262]">
                                     Belum ada transaksi kanal pada periode ini.
                                 </td>
                             </tr>
@@ -240,7 +240,7 @@
             @else
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                        <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                             <th class="py-3 px-4">Nama Bahan</th>
                             <th class="py-3 px-4 text-right">Stok Fisik Saat Ini</th>
                             <th class="py-3 px-4 text-right">Harga Pokok Rata-rata</th>
@@ -257,7 +257,7 @@
                                 <td class="py-3.5 px-4 text-right font-semibold text-[#5A5D6C] tabular-nums">
                                     {{ number_format($ing->current_stock, 1, ',', '.') }} {{ $ing->base_unit }}
                                 </td>
-                                <td class="py-3.5 px-4 text-right text-[#8E92A4] tabular-nums">
+                                <td class="py-3.5 px-4 text-right text-[#4E5262] tabular-nums">
                                     Rp{{ number_format($ing->avg_cost_per_base, 0, ',', '.') }} / {{ $ing->base_unit }}
                                 </td>
                                 <td class="py-3.5 px-4 text-right font-bold text-[#5E63E8] tabular-nums">

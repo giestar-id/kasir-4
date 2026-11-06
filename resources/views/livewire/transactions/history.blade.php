@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Riwayat Transaksi</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">
+            <p class="text-xs text-[#4E5262] mt-0.5">
                 @if(auth()->user()?->isCashier())
                     Menampilkan transaksi shift aktif hari ini
                 @else
@@ -31,7 +31,7 @@
                     wire:model.live="startDate"
                     class="bg-white/80 border border-[#ECEEF2] text-xs rounded-xl px-3 py-2 text-[#5A5D6C] focus:outline-none focus:border-[#5E63E8]"
                 />
-                <span class="text-xs text-[#8E92A4]">s/d</span>
+                <span class="text-xs text-[#4E5262]">s/d</span>
                 <input
                     type="date"
                     wire:model.live="endDate"
@@ -65,7 +65,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                         <th class="py-3 px-4">No. Transaksi</th>
                         <th class="py-3 px-4">Waktu</th>
                         <th class="py-3 px-4">Kanal</th>
@@ -83,7 +83,7 @@
                             <td class="py-3.5 px-4 font-bold text-[#1E2029]">
                                 {{ $sale->number }}
                             </td>
-                            <td class="py-3.5 px-4 text-[#8E92A4]">
+                            <td class="py-3.5 px-4 text-[#4E5262]">
                                 {{ $sale->ordered_at->format('d/m/Y, H:i') }}
                             </td>
                             <td class="py-3.5 px-4">
@@ -165,27 +165,27 @@
                 <!-- Status & Meta Grid -->
                 <div class="p-4 rounded-xl bg-white/70 border border-[#ECEEF2] grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
                     <div>
-                        <span class="text-[#8E92A4]">Nomor Transaksi</span>
+                        <span class="text-[#4E5262]">Nomor Transaksi</span>
                         <div class="font-bold text-[#1E2029] mt-0.5">{{ $selectedSale->number }}</div>
                     </div>
                     <div>
-                        <span class="text-[#8E92A4]">Waktu Pesanan</span>
+                        <span class="text-[#4E5262]">Waktu Pesanan</span>
                         <div class="font-bold text-[#1E2029] mt-0.5">{{ $selectedSale->ordered_at->format('d M Y, H:i') }}</div>
                     </div>
                     <div>
-                        <span class="text-[#8E92A4]">Kanal</span>
+                        <span class="text-[#4E5262]">Kanal</span>
                         <div class="font-bold text-[#1E2029] uppercase mt-0.5">{{ $selectedSale->channel }}</div>
                     </div>
                     <div>
-                        <span class="text-[#8E92A4]">Nomor Eksternal</span>
+                        <span class="text-[#4E5262]">Nomor Eksternal</span>
                         <div class="font-bold text-[#1E2029] mt-0.5">{{ $selectedSale->external_order_id ?? '-' }}</div>
                     </div>
                     <div>
-                        <span class="text-[#8E92A4]">Kasir</span>
+                        <span class="text-[#4E5262]">Kasir</span>
                         <div class="font-bold text-[#1E2029] mt-0.5">{{ $selectedSale->user?->name ?? 'Kasir' }}</div>
                     </div>
                     <div>
-                        <span class="text-[#8E92A4]">Status</span>
+                        <span class="text-[#4E5262]">Status</span>
                         <div class="mt-0.5">
                             @if($selectedSale->isVoid())
                                 <x-ui.badge variant="error" size="sm">Void</x-ui.badge>
@@ -207,7 +207,7 @@
                 <!-- Item snapshot table -->
                 <div class="border border-[#ECEEF2] rounded-xl overflow-x-auto">
                     <table class="w-full text-left text-xs">
-                        <thead class="bg-white/60 text-[#8E92A4] border-b border-[#ECEEF2]">
+                        <thead class="bg-white/60 text-[#4E5262] border-b border-[#ECEEF2]">
                             <tr>
                                 <th class="py-2.5 px-3">Menu</th>
                                 <th class="py-2.5 px-3 text-center">Qty</th>
@@ -224,13 +224,13 @@
                                     <td class="py-2.5 px-3 font-semibold text-[#1E2029]">
                                         {{ $item->menu_name_snapshot }}
                                         @if($item->note)
-                                            <span class="block text-[11px] text-[#8E92A4] font-normal">Catatan: {{ $item->note }}</span>
+                                            <span class="block text-[11px] text-[#4E5262] font-normal">Catatan: {{ $item->note }}</span>
                                         @endif
                                     </td>
                                     <td class="py-2.5 px-3 text-center tabular-nums">{{ $item->qty }}</td>
                                     <td class="py-2.5 px-3 text-right tabular-nums">Rp{{ number_format($item->unit_price, 0, ',', '.') }}</td>
                                     @if(auth()->user()?->isOwner())
-                                        <td class="py-2.5 px-3 text-right tabular-nums text-[#8E92A4]">
+                                        <td class="py-2.5 px-3 text-right tabular-nums text-[#4E5262]">
                                             Rp{{ number_format($item->unit_hpp, 0, ',', '.') }}
                                         </td>
                                     @endif
@@ -256,7 +256,7 @@
                         </div>
                     @endif
                     @if($selectedSale->platform_adjustment != 0)
-                        <div class="flex justify-between text-[#8E92A4]">
+                        <div class="flex justify-between text-[#4E5262]">
                             <span>Penyesuaian Platform:</span>
                             <span class="font-bold tabular-nums">Rp{{ number_format($selectedSale->platform_adjustment, 0, ',', '.') }}</span>
                         </div>

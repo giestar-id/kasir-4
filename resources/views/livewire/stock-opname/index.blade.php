@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Stok Opname & Penyesuaian</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">Sinkronkan perhitungan fisik dapur dengan sistem dan catat bahan terbuang (waste)</p>
+            <p class="text-xs text-[#4E5262] mt-0.5">Sinkronkan perhitungan fisik dapur dengan sistem dan catat bahan terbuang (waste)</p>
         </div>
 
         <x-ui.button
@@ -34,7 +34,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                         <th class="py-3 px-4">Waktu</th>
                         <th class="py-3 px-4">Nama Bahan</th>
                         <th class="py-3 px-4">Jenis</th>
@@ -46,7 +46,7 @@
                 <tbody class="divide-y divide-[#ECEEF2]/70 text-xs">
                     @forelse($adjustments as $adj)
                         <tr wire:key="adj-{{ $adj->id }}" class="hover:bg-white/50 transition-colors">
-                            <td class="py-3.5 px-4 text-[#8E92A4]">
+                            <td class="py-3.5 px-4 text-[#4E5262]">
                                 {{ $adj->created_at->format('d M Y, H:i') }}
                             </td>
                             <td class="py-3.5 px-4 font-bold text-[#1E2029]">
@@ -65,7 +65,7 @@
                             <td class="py-3.5 px-4 text-[#5A5D6C] max-w-xs">
                                 {{ $adj->reason }}
                             </td>
-                            <td class="py-3.5 px-4 text-[#8E92A4]">
+                            <td class="py-3.5 px-4 text-[#4E5262]">
                                 {{ $adj->user?->name ?? 'Admin' }}
                             </td>
                         </tr>

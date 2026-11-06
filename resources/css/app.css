@@ -1,4 +1,4 @@
-@import 'tailwindcss';
+﻿@import 'tailwindcss';
 
 [x-cloak] {
     display: none !important;
@@ -14,7 +14,7 @@
         --background: #F8F8FA;
         --surface: #FFFFFF;
         --on-surface: #1E2029;
-        --on-surface-muted: #8E92A4;
+        --on-surface-muted: #4E5262;
         --outline: #ECEEF2;
         --success: #2EB872;
         --error: #E5484D;

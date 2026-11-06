@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-6">
+﻿<div class="flex flex-col gap-6">
 
     <!-- Top Action & Period Filter Bar -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -70,7 +70,7 @@
                         <div class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight tabular-nums">
                             Rp{{ number_format($totalOmzet, 0, ',', '.') }}
                         </div>
-                        <div class="flex items-center gap-1.5 mt-1 text-xs text-[#8E92A4]">
+                        <div class="flex items-center gap-1.5 mt-1 text-xs text-[#4E5262]">
                             <x-ui.icon name="receipt" class="w-3.5 h-3.5" />
                             <span>{{ $totalTransactions }} Transaksi selesai</span>
                         </div>
@@ -89,7 +89,7 @@
                         <div class="text-xl sm:text-2xl font-bold text-[#2EB872] tracking-tight tabular-nums">
                             Rp{{ number_format($grossProfit, 0, ',', '.') }}
                         </div>
-                        <div class="flex items-center gap-1.5 mt-1 text-xs text-[#8E92A4]">
+                        <div class="flex items-center gap-1.5 mt-1 text-xs text-[#4E5262]">
                             <x-ui.icon name="pie-chart" class="w-3.5 h-3.5" />
                             <span>Margin keuntungan <strong class="text-[#1E2029] font-bold">{{ $profitMarginPct }}%</strong></span>
                         </div>
@@ -122,21 +122,21 @@
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
                     <div>
                         <h2 class="text-base font-bold text-[#1E2029] tracking-tight">Tren Performa Penjualan</h2>
-                        <p class="text-xs text-[#8E92A4] mt-0.5">Monitoring omzet dan estimasi laba bersih outlet</p>
+                        <p class="text-xs text-[#4E5262] mt-0.5">Monitoring omzet dan estimasi laba bersih outlet</p>
                     </div>
 
                     <div class="flex items-center bg-[#F8F8FA] border border-[#ECEEF2] p-1 rounded-xl shadow-2xs self-start sm:self-auto">
                         <button
                             type="button"
                             wire:click="$set('chartMetric', 'omzet')"
-                            class="px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $chartMetric === 'omzet' ? 'bg-white text-[#5E63E8] shadow-xs' : 'text-[#8E92A4] hover:text-[#1E2029]' }}"
+                            class="px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $chartMetric === 'omzet' ? 'bg-white text-[#5E63E8] shadow-xs' : 'text-[#4E5262] hover:text-[#1E2029]' }}"
                         >
                             Omzet
                         </button>
                         <button
                             type="button"
                             wire:click="$set('chartMetric', 'profit')"
-                            class="px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $chartMetric === 'profit' ? 'bg-white text-[#5E63E8] shadow-xs' : 'text-[#8E92A4] hover:text-[#1E2029]' }}"
+                            class="px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $chartMetric === 'profit' ? 'bg-white text-[#5E63E8] shadow-xs' : 'text-[#4E5262] hover:text-[#1E2029]' }}"
                         >
                             Laba Bersih
                         </button>
@@ -145,7 +145,7 @@
 
                 <!-- Visual Chart Display -->
                 <div class="w-full h-56 rounded-xl bg-white/50 border border-[#ECEEF2] p-4 flex flex-col justify-between">
-                    <div class="flex items-center justify-between text-xs text-[#8E92A4]">
+                    <div class="flex items-center justify-between text-xs text-[#4E5262]">
                         <span class="flex items-center gap-1.5">
                             <span class="w-3 h-1 rounded-full {{ $chartMetric === 'omzet' ? 'bg-[#5E63E8]' : 'bg-[#2EB872]' }}"></span>
                             <span>{{ $chartMetric === 'omzet' ? 'Total Omzet (Rp' . number_format($totalOmzet, 0, ',', '.') . ')' : 'Estimasi Laba (Rp' . number_format($grossProfit, 0, ',', '.') . ')' }}</span>
@@ -168,14 +168,14 @@
                                 <circle cx="320" cy="20" r="4" fill="{{ $chartMetric === 'omzet' ? '#5E63E8' : '#2EB872' }}" />
                             </svg>
                         @else
-                            <div class="flex flex-col items-center justify-center text-center text-[#8E92A4]">
-                                <x-ui.icon name="bar-chart-2" class="w-8 h-8 stroke-1 text-[#8E92A4]/50 mb-1" />
+                            <div class="flex flex-col items-center justify-center text-center text-[#4E5262]">
+                                <x-ui.icon name="bar-chart-2" class="w-8 h-8 stroke-1 text-[#4E5262]/50 mb-1" />
                                 <span class="text-xs">Belum ada transaksi pada periode ini</span>
                             </div>
                         @endif
                     </div>
 
-                    <div class="flex items-center justify-between text-[11px] text-[#8E92A4] border-t border-[#ECEEF2] pt-2">
+                    <div class="flex items-center justify-between text-[11px] text-[#4E5262] border-t border-[#ECEEF2] pt-2">
                         <span>Awal Periode</span>
                         <span>Pertengahan</span>
                         <span>Akhir Periode</span>
@@ -208,7 +208,7 @@
                                         <span class="font-semibold text-[#1E2029]">{{ $menu->menu_name_snapshot }}</span>
                                     </div>
                                     <div class="flex items-center gap-3">
-                                        <span class="text-[#8E92A4]">{{ $menu->total_qty }} porsi</span>
+                                        <span class="text-[#4E5262]">{{ $menu->total_qty }} porsi</span>
                                         <span class="font-bold text-[#1E2029] tabular-nums">Rp{{ number_format($menu->total_revenue, 0, ',', '.') }}</span>
                                     </div>
                                 </div>
@@ -236,7 +236,7 @@
             <div class="glass-card rounded-2xl p-5 flex flex-col">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="text-sm sm:text-base font-bold text-[#1E2029]">Pembagian Kanal</h3>
-                    <span class="text-xs text-[#8E92A4]">{{ $totalTransactions }} Pesanan</span>
+                    <span class="text-xs text-[#4E5262]">{{ $totalTransactions }} Pesanan</span>
                 </div>
 
                 <div class="flex flex-col gap-3">
@@ -252,7 +252,7 @@
                                 </div>
                                 <span class="text-xs font-bold tabular-nums" style="color: {{ $c['color'] }}">{{ $channelPct }}%</span>
                             </div>
-                            <div class="flex items-center justify-between text-xs text-[#8E92A4]">
+                            <div class="flex items-center justify-between text-xs text-[#4E5262]">
                                 <span>{{ $c['count'] }} Transaksi</span>
                                 <span class="font-bold text-[#1E2029] tabular-nums">Rp{{ number_format($c['omzet'], 0, ',', '.') }}</span>
                             </div>
@@ -270,14 +270,14 @@
                     <button
                         type="button"
                         wire:click="$set('rightTab', 'critical_stock')"
-                        class="text-xs font-bold pb-1 transition-all border-b-2 cursor-pointer {{ $rightTab === 'critical_stock' ? 'border-[#5E63E8] text-[#5E63E8]' : 'border-transparent text-[#8E92A4] hover:text-[#1E2029]' }}"
+                        class="text-xs font-bold pb-1 transition-all border-b-2 cursor-pointer {{ $rightTab === 'critical_stock' ? 'border-[#5E63E8] text-[#5E63E8]' : 'border-transparent text-[#4E5262] hover:text-[#1E2029]' }}"
                     >
                         Bahan Stok Kritis ({{ $criticalStock->count() }})
                     </button>
                     <button
                         type="button"
                         wire:click="$set('rightTab', 'pending_orders')"
-                        class="text-xs font-bold pb-1 transition-all border-b-2 cursor-pointer {{ $rightTab === 'pending_orders' ? 'border-[#5E63E8] text-[#5E63E8]' : 'border-transparent text-[#8E92A4] hover:text-[#1E2029]' }}"
+                        class="text-xs font-bold pb-1 transition-all border-b-2 cursor-pointer {{ $rightTab === 'pending_orders' ? 'border-[#5E63E8] text-[#5E63E8]' : 'border-transparent text-[#4E5262] hover:text-[#1E2029]' }}"
                     >
                         Pesanan Menunggu ({{ $pendingImports->count() }})
                     </button>
@@ -290,7 +290,7 @@
                                 <div class="p-2.5 rounded-xl bg-white/60 border border-[#ECEEF2] flex items-center justify-between">
                                     <div class="flex flex-col">
                                         <span class="text-xs font-bold text-[#1E2029]">{{ $ing->name }}</span>
-                                        <span class="text-[11px] text-[#8E92A4]">Min: {{ number_format($ing->min_stock, 0, ',', '.') }} {{ $ing->base_unit }}</span>
+                                        <span class="text-[11px] text-[#4E5262]">Min: {{ number_format($ing->min_stock, 0, ',', '.') }} {{ $ing->base_unit }}</span>
                                     </div>
                                     <div class="text-right">
                                         <div class="text-xs font-bold text-[#E5484D] tabular-nums">
@@ -305,10 +305,10 @@
                             </a>
                         </div>
                     @else
-                        <div class="py-6 flex flex-col items-center justify-center text-center text-[#8E92A4]">
+                        <div class="py-6 flex flex-col items-center justify-center text-center text-[#4E5262]">
                             <x-ui.icon name="check-circle" class="w-8 h-8 text-[#2EB872] mb-1" />
                             <span class="text-xs font-semibold text-[#1E2029]">Semua Stok Bahan Aman</span>
-                            <span class="text-[11px] text-[#8E92A4]">Tidak ada bahan di bawah batas minimum.</span>
+                            <span class="text-[11px] text-[#4E5262]">Tidak ada bahan di bawah batas minimum.</span>
                         </div>
                     @endif
                 @else
@@ -322,7 +322,7 @@
                                         </x-ui.badge>
                                         <div class="flex flex-col">
                                             <span class="text-xs font-bold text-[#1E2029]">{{ $imp->raw_result['external_order_id'] ?? 'Pesanan #' . $imp->id }}</span>
-                                            <span class="text-[10px] text-[#8E92A4]">{{ $imp->created_at->diffForHumans() }}</span>
+                                            <span class="text-[10px] text-[#4E5262]">{{ $imp->created_at->diffForHumans() }}</span>
                                         </div>
                                     </div>
                                     <a href="{{ route('online-orders') }}" wire:navigate>
@@ -332,10 +332,10 @@
                             @endforeach
                         </div>
                     @else
-                        <div class="py-6 flex flex-col items-center justify-center text-center text-[#8E92A4]">
+                        <div class="py-6 flex flex-col items-center justify-center text-center text-[#4E5262]">
                             <x-ui.icon name="check" class="w-8 h-8 text-[#5E63E8] mb-1" />
                             <span class="text-xs font-semibold text-[#1E2029]">Tidak Ada Antrian</span>
-                            <span class="text-[11px] text-[#8E92A4]">Semua screenshot pesanan online sudah selesai diproses.</span>
+                            <span class="text-[11px] text-[#4E5262]">Semua screenshot pesanan online sudah selesai diproses.</span>
                         </div>
                     @endif
                 @endif

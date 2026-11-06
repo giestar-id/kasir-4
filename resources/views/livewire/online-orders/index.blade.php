@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header & Action Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Pesanan Online</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">Integrasi pesanan GoFood & ShopeeFood dengan ekstraksi AI hybrid</p>
+            <p class="text-xs text-[#4E5262] mt-0.5">Integrasi pesanan GoFood & ShopeeFood dengan ekstraksi AI hybrid</p>
         </div>
 
         <div class="flex items-center gap-2.5">
@@ -55,7 +55,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                         <th class="py-3 px-4">Waktu Unggah</th>
                         <th class="py-3 px-4">Kanal</th>
                         <th class="py-3 px-4">Nomor Pesanan</th>
@@ -69,7 +69,7 @@
                 <tbody class="divide-y divide-[#ECEEF2]/70 text-xs">
                     @forelse($imports as $imp)
                         <tr wire:key="import-{{ $imp->id }}" class="hover:bg-white/50 transition-colors">
-                            <td class="py-3.5 px-4 text-[#8E92A4]">
+                            <td class="py-3.5 px-4 text-[#4E5262]">
                                 {{ $imp->created_at->format('d M Y, H:i') }}
                             </td>
                             <td class="py-3.5 px-4">
@@ -81,7 +81,7 @@
                                 <div class="flex flex-col">
                                     <span>{{ $imp->raw_result['external_order_id'] ?? 'Pesanan #' . $imp->id }}</span>
                                     @if(!empty($imp->raw_result['order_time']))
-                                        <span class="text-[10px] text-[#8E92A4] font-normal">
+                                        <span class="text-[10px] text-[#4E5262] font-normal">
                                             Waktu: {{ \Carbon\Carbon::parse($imp->raw_result['order_time'])->format('d M Y, H:i') }}
                                         </span>
                                     @endif
@@ -94,15 +94,15 @@
                                     $firstItem = $imp->raw_result['items'][0]['raw_name'] ?? ($imp->raw_result['items'][0]['name'] ?? null);
                                 @endphp
                                 <div class="flex flex-col">
-                                    <span class="font-bold text-xs sm:text-sm tabular-nums {{ $rowTotal > 0 ? 'text-[#2EB872]' : 'text-[#8E92A4]' }}">
+                                    <span class="font-bold text-xs sm:text-sm tabular-nums {{ $rowTotal > 0 ? 'text-[#2EB872]' : 'text-[#4E5262]' }}">
                                         Rp{{ number_format($rowTotal, 0, ',', '.') }}
                                     </span>
                                     @if($itemCount > 0)
-                                        <span class="text-[11px] text-[#8E92A4] truncate max-w-[200px]" title="{{ $firstItem }}">
+                                        <span class="text-[11px] text-[#4E5262] truncate max-w-[200px]" title="{{ $firstItem }}">
                                             {{ $itemCount }} item · {{ $firstItem }}
                                         </span>
                                     @else
-                                        <span class="text-[10px] text-[#8E92A4]">Item belum ditentukan</span>
+                                        <span class="text-[10px] text-[#4E5262]">Item belum ditentukan</span>
                                     @endif
                                 </div>
                             </td>
@@ -242,7 +242,7 @@
                     <x-ui.icon name="image" class="w-6 h-6" />
                 </div>
                 <h4 class="text-xs sm:text-sm font-bold text-[#1E2029]">Seret dan lepas file di sini</h4>
-                <p class="text-xs text-[#8E92A4] mt-0.5">atau klik tombol telusuri (Maksimal 8 MB per file)</p>
+                <p class="text-xs text-[#4E5262] mt-0.5">atau klik tombol telusuri (Maksimal 8 MB per file)</p>
 
                 <input
                     type="file"
@@ -317,14 +317,14 @@
                             @if(is_object($f) && method_exists($f, 'getClientOriginalName'))
                                 <li class="flex items-center justify-between p-2 rounded-lg bg-[#F8F8FA] border border-[#ECEEF2]/70">
                                     <div class="flex items-center gap-2 min-w-0">
-                                        <x-ui.icon name="file-text" class="w-4 h-4 text-[#8E92A4] shrink-0" />
+                                        <x-ui.icon name="file-text" class="w-4 h-4 text-[#4E5262] shrink-0" />
                                         <span class="truncate font-medium text-[#1E2029]">{{ $f->getClientOriginalName() }}</span>
-                                        <span class="text-[10px] text-[#8E92A4] shrink-0">({{ number_format($f->getSize() / 1024, 0) }} KB)</span>
+                                        <span class="text-[10px] text-[#4E5262] shrink-0">({{ number_format($f->getSize() / 1024, 0) }} KB)</span>
                                     </div>
                                     <button
                                         type="button"
                                         wire:click="removeUploadedFile({{ $idx }})"
-                                        class="p-1 text-[#8E92A4] hover:text-[#E5484D] rounded cursor-pointer shrink-0 ml-2"
+                                        class="p-1 text-[#4E5262] hover:text-[#E5484D] rounded cursor-pointer shrink-0 ml-2"
                                         title="Hapus file ini"
                                     >
                                         <x-ui.icon name="x" class="w-3.5 h-3.5" />
@@ -444,7 +444,7 @@
 
                             <div class="flex items-center justify-between text-xs pt-1">
                                 <div class="flex items-center gap-1.5">
-                                    <span class="text-[#8E92A4]">Qty:</span>
+                                    <span class="text-[#4E5262]">Qty:</span>
                                     <input
                                         type="number"
                                         min="1"
@@ -475,7 +475,7 @@
             <div class="p-3.5 rounded-xl bg-[#5E63E8]/5 border border-[#5E63E8]/20 flex items-center justify-between text-xs">
                 <div>
                     <span class="text-[#5A5D6C]">Subtotal Menu: <b>Rp{{ number_format($this->confirmSubtotal, 0, ',', '.') }}</b></span>
-                    <span class="mx-2 text-[#8E92A4]">|</span>
+                    <span class="mx-2 text-[#4E5262]">|</span>
                     <span class="text-[#5A5D6C]">Penyesuaian Platform: <b>Rp{{ number_format($this->confirmAdjustment, 0, ',', '.') }}</b></span>
                 </div>
                 <div>
@@ -558,7 +558,7 @@
                             <button
                                 type="button"
                                 wire:click="removeManualItem({{ $mIdx }})"
-                                class="p-2 text-[#8E92A4] hover:text-[#E5484D]"
+                                class="p-2 text-[#4E5262] hover:text-[#E5484D]"
                             >
                                 <x-ui.icon name="trash" class="w-4 h-4" />
                             </button>
@@ -576,7 +576,7 @@
             />
 
             <div class="p-3 rounded-xl bg-white/70 border border-[#ECEEF2] text-xs flex justify-between">
-                <span class="text-[#8E92A4]">Penyesuaian Platform:</span>
+                <span class="text-[#4E5262]">Penyesuaian Platform:</span>
                 <span class="font-bold tabular-nums {{ $this->manualAdjustment < 0 ? 'text-[#E5484D]' : 'text-[#2EB872]' }}">
                     Rp{{ number_format($this->manualAdjustment, 0, ',', '.') }}
                 </span>

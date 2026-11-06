@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Bahan Baku & Stok</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">Monitoring stok bahan dasar, satuan konversi, dan kartu riwayat mutasi stok</p>
+            <p class="text-xs text-[#4E5262] mt-0.5">Monitoring stok bahan dasar, satuan konversi, dan kartu riwayat mutasi stok</p>
         </div>
 
         @if(auth()->user()?->isOwner())
@@ -59,7 +59,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                         <th class="py-3 px-4">Nama Bahan</th>
                         <th class="py-3 px-4">Satuan Dasar</th>
                         <th class="py-3 px-4">Satuan Beli & Konversi</th>
@@ -84,13 +84,13 @@
                             <td class="py-3.5 px-4 text-[#5A5D6C] font-semibold">
                                 {{ $ing->base_unit }}
                             </td>
-                            <td class="py-3.5 px-4 text-[#8E92A4]">
+                            <td class="py-3.5 px-4 text-[#4E5262]">
                                 1 {{ $ing->purchase_unit }} = {{ number_format($ing->unit_factor, 0, ',', '.') }} {{ $ing->base_unit }}
                             </td>
                             <td class="py-3.5 px-4 text-right font-bold tabular-nums {{ $status === 'negative' ? 'text-[#E5484D]' : ($status === 'low' ? 'text-[#D97706]' : 'text-[#1E2029]') }}">
                                 {{ number_format($ing->current_stock, 1, ',', '.') }} {{ $ing->base_unit }}
                             </td>
-                            <td class="py-3.5 px-4 text-right text-[#8E92A4] tabular-nums">
+                            <td class="py-3.5 px-4 text-right text-[#4E5262] tabular-nums">
                                 {{ number_format($ing->min_stock, 0, ',', '.') }} {{ $ing->base_unit }}
                             </td>
                             @if(auth()->user()?->isOwner())
@@ -241,14 +241,14 @@
             @if($selectedIngredient)
                 <div class="p-3 rounded-xl bg-white/70 border border-[#ECEEF2] flex items-center justify-between text-xs">
                     <div>
-                        <span class="text-[#8E92A4]">Saldo Stok Saat Ini:</span>
+                        <span class="text-[#4E5262]">Saldo Stok Saat Ini:</span>
                         <span class="font-bold text-base text-[#1E2029] ml-1 tabular-nums">
                             {{ number_format($selectedIngredient->current_stock, 1, ',', '.') }} {{ $selectedIngredient->base_unit }}
                         </span>
                     </div>
                     @if(auth()->user()?->isOwner())
                         <div>
-                            <span class="text-[#8E92A4]">Harga Rata-rata:</span>
+                            <span class="text-[#4E5262]">Harga Rata-rata:</span>
                             <span class="font-bold text-[#5E63E8] ml-1 tabular-nums">
                                 Rp{{ number_format($selectedIngredient->avg_cost_per_base, 0, ',', '.') }}/{{ $selectedIngredient->base_unit }}
                             </span>
@@ -258,7 +258,7 @@
 
                 <div class="border border-[#ECEEF2] rounded-xl overflow-hidden max-h-[360px] overflow-y-auto">
                     <table class="w-full text-left text-xs">
-                        <thead class="bg-white/60 text-[#8E92A4] border-b border-[#ECEEF2] text-[11px] uppercase">
+                        <thead class="bg-white/60 text-[#4E5262] border-b border-[#ECEEF2] text-[11px] uppercase">
                             <tr>
                                 <th class="py-2.5 px-3">Waktu</th>
                                 <th class="py-2.5 px-3">Jenis</th>
@@ -270,7 +270,7 @@
                         <tbody class="divide-y divide-[#ECEEF2]">
                             @forelse($movements as $m)
                                 <tr>
-                                    <td class="py-2 px-3 text-[#8E92A4]">
+                                    <td class="py-2 px-3 text-[#4E5262]">
                                         {{ $m->created_at->format('d/m/y H:i') }}
                                     </td>
                                     <td class="py-2 px-3">
@@ -293,13 +293,13 @@
                                     <td class="py-2 px-3 text-[#5A5D6C]">
                                         {{ $m->reason ?: ($m->ref_type . ' #' . $m->ref_id) }}
                                     </td>
-                                    <td class="py-2 px-3 text-[#8E92A4]">
+                                    <td class="py-2 px-3 text-[#4E5262]">
                                         {{ $m->user?->name ?? '-' }}
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="py-6 text-center text-[#8E92A4]">
+                                    <td colspan="5" class="py-6 text-center text-[#4E5262]">
                                         Belum ada mutasi stok tercatat untuk bahan ini.
                                     </td>
                                 </tr>

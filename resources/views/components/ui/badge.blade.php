@@ -1,4 +1,4 @@
-@props([
+﻿@props([
     'variant' => 'neutral',
     'size' => 'md',
     'dot' => false,
@@ -28,7 +28,7 @@ $sizeClasses = match($size) {
             'error', 'danger' => 'bg-[#E5484D]',
             'warning' => 'bg-[#D97706]',
             'info' => 'bg-[#5E63E8]',
-            default => 'bg-[#8E92A4]',
+            default => 'bg-[#4E5262]',
         } }}"></span>
     @endif
     <span>{{ $slot }}</span>

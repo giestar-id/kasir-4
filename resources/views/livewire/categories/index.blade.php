@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Kategori Menu</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">Atur pengelompokan menu dan urutan tab tampilan pada kasir POS</p>
+            <p class="text-xs text-[#4E5262] mt-0.5">Atur pengelompokan menu dan urutan tab tampilan pada kasir POS</p>
         </div>
 
         <x-ui.button
@@ -23,7 +23,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                         <th class="py-3 px-4 w-20">Urutan</th>
                         <th class="py-3 px-4">Nama Kategori</th>
                         <th class="py-3 px-4 text-center">Jumlah Menu</th>
@@ -56,7 +56,7 @@
                                     <button
                                         type="button"
                                         wire:click="openDeleteModal({{ $category->id }})"
-                                        class="p-1.5 text-[#8E92A4] hover:text-[#E5484D] rounded-lg transition-colors cursor-pointer"
+                                        class="p-1.5 text-[#4E5262] hover:text-[#E5484D] rounded-lg transition-colors cursor-pointer"
                                         title="Hapus Kategori"
                                     >
                                         <x-ui.icon name="trash-2" class="w-4 h-4" />

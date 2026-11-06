@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Menu & HPP</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">Kelola katalog menu satu harga, alias platform AI, dan kalkulasi HPP resep</p>
+            <p class="text-xs text-[#4E5262] mt-0.5">Kelola katalog menu satu harga, alias platform AI, dan kalkulasi HPP resep</p>
         </div>
 
         <div class="flex items-center gap-2.5">
@@ -54,7 +54,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                         <th class="py-3 px-4">Nama Menu</th>
                         <th class="py-3 px-4">Kategori</th>
                         <th class="py-3 px-4">Alias Platform</th>
@@ -78,7 +78,7 @@
                             <td class="py-3.5 px-4 text-[#5A5D6C]">
                                 {{ $menu->category?->name ?? '-' }}
                             </td>
-                            <td class="py-3.5 px-4 text-[#8E92A4] max-w-[160px] truncate">
+                            <td class="py-3.5 px-4 text-[#4E5262] max-w-[160px] truncate">
                                 {{ $menu->aliases->pluck('alias')->implode(', ') ?: '-' }}
                             </td>
                             <td class="py-3.5 px-4 text-right font-bold text-[#1E2029] tabular-nums">
@@ -89,7 +89,7 @@
                             </td>
                             <td class="py-3.5 px-4 text-right tabular-nums">
                                 <span class="font-bold text-[#2EB872]">Rp{{ number_format($margin['margin_rp'], 0, ',', '.') }}</span>
-                                <span class="text-[10px] text-[#8E92A4] block">({{ $margin['margin_pct'] }}%)</span>
+                                <span class="text-[10px] text-[#4E5262] block">({{ $margin['margin_pct'] }}%)</span>
                             </td>
                             <td class="py-3.5 px-4">
                                 @if($margin['is_complete'])
@@ -124,7 +124,7 @@
                                     <button
                                         type="button"
                                         wire:click="openDeleteModal({{ $menu->id }})"
-                                        class="p-1.5 text-[#8E92A4] hover:text-[#E5484D] rounded-lg transition-colors cursor-pointer"
+                                        class="p-1.5 text-[#4E5262] hover:text-[#E5484D] rounded-lg transition-colors cursor-pointer"
                                         title="Hapus / Nonaktifkan"
                                     >
                                         <x-ui.icon name="trash-2" class="w-4 h-4" />
@@ -231,7 +231,7 @@
     <x-ui.modal name="recipe-modal" title="Atur Resep & HPP Menu" size="lg">
         <form wire:submit.prevent="saveRecipe" class="flex flex-col gap-4">
             
-            <p class="text-xs text-[#8E92A4]">
+            <p class="text-xs text-[#4E5262]">
                 Tentukan takaran bahan baku per 1 porsi untuk menghitung Harga Pokok Penjualan (HPP) secara otomatis.
             </p>
 
@@ -276,7 +276,7 @@
                         <button
                             type="button"
                             wire:click="removeRecipeIngredientRow({{ $rIdx }})"
-                            class="p-2 text-[#8E92A4] hover:text-[#E5484D] rounded-lg"
+                            class="p-2 text-[#4E5262] hover:text-[#E5484D] rounded-lg"
                         >
                             <x-ui.icon name="trash" class="w-4 h-4" />
                         </button>
@@ -314,7 +314,7 @@
                         <button
                             type="button"
                             wire:click="removeExtraCostRow({{ $eIdx }})"
-                            class="p-2 text-[#8E92A4] hover:text-[#E5484D]"
+                            class="p-2 text-[#4E5262] hover:text-[#E5484D]"
                         >
                             <x-ui.icon name="trash" class="w-4 h-4" />
                         </button>

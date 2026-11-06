@@ -1,4 +1,4 @@
-@props([
+﻿@props([
     'icon' => 'inbox',
     'title' => 'Belum ada data',
     'description' => 'Mulai tambahkan data pertama Anda menggunakan tombol di bawah.',
@@ -9,7 +9,7 @@
         <x-ui.icon :name="$icon" class="w-7 h-7" />
     </div>
     <h3 class="text-sm sm:text-base font-bold text-[#1E2029] tracking-tight">{{ $title }}</h3>
-    <p class="text-xs text-[#8E92A4] max-w-sm mt-1 leading-relaxed">{{ $description }}</p>
+    <p class="text-xs text-[#4E5262] max-w-sm mt-1 leading-relaxed">{{ $description }}</p>
 
     @if($slot->isNotEmpty())
         <div class="mt-4 flex items-center gap-2">

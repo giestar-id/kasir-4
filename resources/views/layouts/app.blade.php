@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="utf-8">
@@ -85,7 +85,7 @@
                     </div>
                     <div x-show="!(isDesktop && desktopCollapsed)" x-cloak class="flex flex-col min-w-0 overflow-hidden">
                         <span class="text-sm font-bold text-[#1E2029] tracking-tight leading-tight truncate">POS Kuliner</span>
-                        <span class="text-[10px] font-medium text-[#8E92A4] truncate">Satu Outlet · POS</span>
+                        <span class="text-[10px] font-medium text-[#4E5262] truncate">Satu Outlet · POS</span>
                     </div>
                 </a>
 
@@ -93,7 +93,7 @@
                 <button
                     type="button"
                     @click="mobileNavOpen = false"
-                    class="md:hidden p-2 text-[#8E92A4] hover:text-[#1E2029] hover:bg-black/5 rounded-xl cursor-pointer transition-colors shrink-0"
+                    class="md:hidden p-2 text-[#4E5262] hover:text-[#1E2029] hover:bg-black/5 rounded-xl cursor-pointer transition-colors shrink-0"
                     title="Tutup Menu"
                 >
                     <x-ui.icon name="x" class="w-5 h-5 shrink-0" />
@@ -117,7 +117,7 @@
 
                 @if($isOwner)
                     <div x-show="!(isDesktop && desktopCollapsed)" x-cloak class="my-2 border-t border-[#ECEEF2] px-2 pt-2">
-                        <span class="text-[10px] font-bold text-[#8E92A4] uppercase tracking-wider">Katalog & Stok</span>
+                        <span class="text-[10px] font-bold text-[#4E5262] uppercase tracking-wider">Katalog & Stok</span>
                     </div>
                     <div x-show="isDesktop && desktopCollapsed" x-cloak class="my-2 border-t border-[#ECEEF2] mx-2"></div>
 
@@ -129,7 +129,7 @@
                     <x-nav-link route="reports" icon="bar-chart-3" label="Laporan Penjualan" />
 
                     <div x-show="!(isDesktop && desktopCollapsed)" x-cloak class="my-2 border-t border-[#ECEEF2] px-2 pt-2">
-                        <span class="text-[10px] font-bold text-[#8E92A4] uppercase tracking-wider">Pengaturan</span>
+                        <span class="text-[10px] font-bold text-[#4E5262] uppercase tracking-wider">Pengaturan</span>
                     </div>
                     <div x-show="isDesktop && desktopCollapsed" x-cloak class="my-2 border-t border-[#ECEEF2] mx-2"></div>
 
@@ -137,7 +137,7 @@
                     <x-nav-link route="settings" icon="settings" label="Pengaturan" />
                 @else
                     <div x-show="!(isDesktop && desktopCollapsed)" x-cloak class="my-2 border-t border-[#ECEEF2] px-2 pt-2">
-                        <span class="text-[10px] font-bold text-[#8E92A4] uppercase tracking-wider">Operasional Kasir</span>
+                        <span class="text-[10px] font-bold text-[#4E5262] uppercase tracking-wider">Operasional Kasir</span>
                     </div>
                     <div x-show="isDesktop && desktopCollapsed" x-cloak class="my-2 border-t border-[#ECEEF2] mx-2"></div>
 
@@ -209,7 +209,7 @@
                     </button>
 
                     <!-- Outlet Name Pill (Uniform h-10 size, visible on lg+ screens to prevent tablet header overflow) -->
-                    <div class="hidden lg:flex items-center gap-2.5 text-xs text-[#8E92A4] bg-white/80 border border-[#ECEEF2] h-10 px-3.5 rounded-xl shadow-2xs backdrop-blur-md min-w-0 shrink">
+                    <div class="hidden lg:flex items-center gap-2.5 text-xs text-[#4E5262] bg-white/80 border border-[#ECEEF2] h-10 px-3.5 rounded-xl shadow-2xs backdrop-blur-md min-w-0 shrink">
                         <x-ui.icon name="store" class="w-4 h-4 text-[#5E63E8] shrink-0" />
                         <span class="font-bold text-[#1E2029] truncate max-w-[140px] xl:max-w-[220px]">{{ \App\Models\Setting::get('store_name', 'POS Kuliner Satu Outlet') }}</span>
                     </div>
@@ -224,7 +224,7 @@
                         </div>
                         <div class="flex flex-col text-left leading-none justify-center gap-0.5 min-w-0">
                             <span class="text-xs font-bold text-[#1E2029] truncate max-w-[70px] xs:max-w-[100px] sm:max-w-[130px] md:max-w-[150px] lg:max-w-[180px]">{{ auth()->user()?->name ?? 'User' }}</span>
-                            <span class="text-[10px] font-medium text-[#8E92A4] truncate">
+                            <span class="text-[10px] font-medium text-[#4E5262] truncate">
                                 {{ auth()->user()?->isOwner() ? 'Pemilik Outlet' : 'Kasir' }}
                             </span>
                         </div>

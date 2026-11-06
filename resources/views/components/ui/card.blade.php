@@ -1,4 +1,4 @@
-@props([
+﻿@props([
     'title' => null,
     'subtitle' => null,
     'actions' => null,
@@ -22,7 +22,7 @@
                         <h3 class="text-sm sm:text-base font-bold text-[#1E2029] tracking-tight">{{ $title }}</h3>
                     @endif
                     @if($subtitle)
-                        <p class="text-xs text-[#8E92A4] mt-0.5">{{ $subtitle }}</p>
+                        <p class="text-xs text-[#4E5262] mt-0.5">{{ $subtitle }}</p>
                     @endif
                 </div>
                 @if($actions)
@@ -39,7 +39,7 @@
     </div>
 
     @if($footer || isset($footerSlot))
-        <div class="px-4 sm:px-5 py-3 sm:py-3.5 bg-white/40 border-t border-[#ECEEF2]/60 flex items-center justify-between text-xs text-[#8E92A4]">
+        <div class="px-4 sm:px-5 py-3 sm:py-3.5 bg-white/40 border-t border-[#ECEEF2]/60 flex items-center justify-between text-xs text-[#4E5262]">
             {{ $footer ?? $footerSlot }}
         </div>
     @endif

@@ -1,4 +1,4 @@
-<div class="w-full max-w-[420px] flex flex-col items-center">
+﻿<div class="w-full max-w-[420px] flex flex-col items-center">
     <!-- Centered Glass Login Card -->
     <div class="relative w-full glass-modal rounded-2xl shadow-2xl p-7 sm:p-8 flex flex-col">
         
@@ -11,7 +11,7 @@
                 <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">POS Kuliner</h1>
                 <span class="w-2 h-2 rounded-full bg-[#5E63E8] inline-block"></span>
             </div>
-            <p class="text-xs sm:text-sm text-[#8E92A4] mt-1">
+            <p class="text-xs sm:text-sm text-[#4E5262] mt-1">
                 Masuk ke akun outlet Anda
             </p>
         </div>
@@ -39,7 +39,7 @@
                     <span>Password <span class="text-[#E5484D]">*</span></span>
                 </label>
                 <div class="relative flex items-center w-full">
-                    <div class="absolute left-3 text-[#8E92A4] pointer-events-none flex items-center justify-center">
+                    <div class="absolute left-3 text-[#4E5262] pointer-events-none flex items-center justify-center">
                         <x-ui.icon name="lock" class="w-4 h-4" />
                     </div>
                     <input
@@ -47,13 +47,13 @@
                         :type="showPass ? 'text' : 'password'"
                         wire:model="password"
                         placeholder="••••••••"
-                        class="w-full bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2.5 pl-9 pr-10 border border-[#ECEEF2] shadow-2xs placeholder:text-[#8E92A4]/60 focus:bg-white focus:outline-none focus:ring-3 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all"
+                        class="w-full bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2.5 pl-9 pr-10 border border-[#ECEEF2] shadow-2xs placeholder:text-[#4E5262]/60 focus:bg-white focus:outline-none focus:ring-3 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all"
                         required
                     />
                     <button
                         type="button"
                         @click="showPass = !showPass"
-                        class="absolute right-2.5 text-[#8E92A4] hover:text-[#1E2029] p-1 rounded-lg transition-colors cursor-pointer"
+                        class="absolute right-2.5 text-[#4E5262] hover:text-[#1E2029] p-1 rounded-lg transition-colors cursor-pointer"
                         title="Tampilkan sandi"
                     >
                         <span x-show="!showPass" class="flex items-center justify-center">
@@ -94,7 +94,7 @@
         </form>
 
         <!-- Operational Info Footer -->
-        <div class="mt-6 pt-4 bg-[#F8F8FA]/60 -mx-7 sm:-mx-8 -mb-7 sm:-mb-8 px-7 sm:px-8 py-3 rounded-b-2xl border-t border-[#ECEEF2]/80 flex items-center justify-between text-[#8E92A4] text-[11px]">
+        <div class="mt-6 pt-4 bg-[#F8F8FA]/60 -mx-7 sm:-mx-8 -mb-7 sm:-mb-8 px-7 sm:px-8 py-3 rounded-b-2xl border-t border-[#ECEEF2]/80 flex items-center justify-between text-[#4E5262] text-[11px]">
             <div class="flex items-center gap-1.5">
                 <x-ui.icon name="wifi-off" class="w-3.5 h-3.5" />
                 <span>Mode Offline-Ready</span>
@@ -107,7 +107,7 @@
     </div>
 
     <!-- Help note -->
-    <div class="mt-4 flex items-center gap-1.5 text-xs text-[#8E92A4]">
+    <div class="mt-4 flex items-center gap-1.5 text-xs text-[#4E5262]">
         <x-ui.icon name="help-circle" class="w-3.5 h-3.5" />
         <span>Kendala akses? Gunakan akun default <b>owner@outlet.id</b> (pass: password123)</span>
     </div>

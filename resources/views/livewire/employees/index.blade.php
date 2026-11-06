@@ -1,4 +1,4 @@
-<div class="flex flex-col gap-5 sm:gap-6">
+﻿<div class="flex flex-col gap-5 sm:gap-6">
 
     @php
         $metricTotal = $totalCount ?? \App\Models\User::count();
@@ -13,7 +13,7 @@
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight truncate">
                 Kelola Pekerja & Kasir
             </h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5 truncate sm:whitespace-normal">
+            <p class="text-xs text-[#4E5262] mt-0.5 truncate sm:whitespace-normal">
                 Manajemen akun staf kasir, hak otorisasi diskon transaksi POS, dan pengaturan status operasional outlet
             </p>
         </div>
@@ -46,7 +46,7 @@
                 <div class="text-2xl sm:text-3xl font-bold text-[#1E2029] tracking-tight tabular-nums truncate">
                     {{ number_format($metricTotal, 0, ',', '.') }}
                 </div>
-                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#8E92A4] min-w-0 truncate">
+                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#4E5262] min-w-0 truncate">
                     <x-ui.icon name="shield-check" class="w-3.5 h-3.5 text-[#5E63E8] shrink-0" />
                     <span class="truncate">Owner & kasir terdaftar</span>
                 </div>
@@ -65,7 +65,7 @@
                 <div class="text-2xl sm:text-3xl font-bold text-[#2EB872] tracking-tight tabular-nums truncate">
                     {{ number_format($metricActiveCashier, 0, ',', '.') }}
                 </div>
-                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#8E92A4] min-w-0 truncate">
+                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#4E5262] min-w-0 truncate">
                     <span class="w-1.5 h-1.5 rounded-full bg-[#2EB872] shrink-0"></span>
                     <span class="truncate">Siap layani transaksi kasir</span>
                 </div>
@@ -81,11 +81,11 @@
                 </div>
             </div>
             <div class="min-w-0">
-                <div class="text-2xl sm:text-3xl font-bold {{ $metricInactiveCashier > 0 ? 'text-[#E5484D]' : 'text-[#8E92A4]' }} tracking-tight tabular-nums truncate">
+                <div class="text-2xl sm:text-3xl font-bold {{ $metricInactiveCashier > 0 ? 'text-[#E5484D]' : 'text-[#4E5262]' }} tracking-tight tabular-nums truncate">
                     {{ number_format($metricInactiveCashier, 0, ',', '.') }}
                 </div>
-                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#8E92A4] min-w-0 truncate">
-                    <span class="w-1.5 h-1.5 rounded-full {{ $metricInactiveCashier > 0 ? 'bg-[#E5484D]' : 'bg-[#8E92A4]' }} shrink-0"></span>
+                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#4E5262] min-w-0 truncate">
+                    <span class="w-1.5 h-1.5 rounded-full {{ $metricInactiveCashier > 0 ? 'bg-[#E5484D]' : 'bg-[#4E5262]' }} shrink-0"></span>
                     <span class="truncate">Akses sistem diblokir / cuti</span>
                 </div>
             </div>
@@ -103,7 +103,7 @@
                 <div class="text-2xl sm:text-3xl font-bold text-[#D97706] tracking-tight tabular-nums truncate">
                     {{ number_format($metricCanDiscount, 0, ',', '.') }}
                 </div>
-                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#8E92A4] min-w-0 truncate">
+                <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#4E5262] min-w-0 truncate">
                     <x-ui.icon name="percent" class="w-3.5 h-3.5 text-[#D97706] shrink-0" />
                     <span class="truncate">Otorisasi diskon di kasir POS</span>
                 </div>
@@ -137,7 +137,7 @@
                     <option value="active">Status: Aktif</option>
                     <option value="inactive">Status: Nonaktif</option>
                 </select>
-                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#8E92A4]">
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
                     <x-ui.icon name="chevron-down" class="w-3.5 h-3.5 shrink-0" />
                 </div>
             </div>
@@ -152,7 +152,7 @@
                     <option value="allowed">Boleh Beri Diskon</option>
                     <option value="not_allowed">Tanpa Hak Diskon</option>
                 </select>
-                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#8E92A4]">
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
                     <x-ui.icon name="chevron-down" class="w-3.5 h-3.5 shrink-0" />
                 </div>
             </div>
@@ -162,7 +162,7 @@
                 <button
                     type="button"
                     wire:click="$set('search', ''); $set('statusFilter', 'all'); $set('discountFilter', 'all');"
-                    class="h-9 px-3 text-xs font-semibold text-[#8E92A4] hover:text-[#E5484D] hover:bg-[#E5484D]/10 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                    class="h-9 px-3 text-xs font-semibold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
                     title="Reset Filter"
                 >
                     <x-ui.icon name="rotate-ccw" class="w-3.5 h-3.5 shrink-0" />
@@ -180,7 +180,7 @@
         <div class="overflow-x-auto min-w-0">
             <table class="w-full text-left border-collapse min-w-[760px]">
                 <thead>
-                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                         <th class="py-3.5 px-4 sm:px-5">Nama & Email</th>
                         <th class="py-3.5 px-4">Role / Jabatan</th>
                         <th class="py-3.5 px-4">Hak Diskon</th>
@@ -210,7 +210,7 @@
                                                 </span>
                                             @endif
                                         </div>
-                                        <span class="text-xs text-[#8E92A4] truncate" title="{{ $emp->email }}">
+                                        <span class="text-xs text-[#4E5262] truncate" title="{{ $emp->email }}">
                                             {{ $emp->email }}
                                         </span>
                                     </div>
@@ -283,11 +283,11 @@
                             <td class="py-3.5 px-4 whitespace-nowrap">
                                 <div class="flex flex-col text-xs leading-tight min-w-0">
                                     <span class="text-[#1E2029] font-medium flex items-center gap-1.5 truncate" title="{{ $emp->last_login_at ? $emp->last_login_at->translatedFormat('d M Y, H:i') : 'Belum pernah login' }}">
-                                        <x-ui.icon name="clock" class="w-3.5 h-3.5 text-[#8E92A4] shrink-0" />
+                                        <x-ui.icon name="clock" class="w-3.5 h-3.5 text-[#4E5262] shrink-0" />
                                         <span class="truncate">{{ $emp->last_login_at ? $emp->last_login_at->diffForHumans() : 'Belum pernah login' }}</span>
                                     </span>
-                                    <span class="text-[11px] text-[#8E92A4] mt-1 flex items-center gap-1.5 truncate">
-                                        <x-ui.icon name="calendar" class="w-3.5 h-3.5 text-[#8E92A4] shrink-0" />
+                                    <span class="text-[11px] text-[#4E5262] mt-1 flex items-center gap-1.5 truncate">
+                                        <x-ui.icon name="calendar" class="w-3.5 h-3.5 text-[#4E5262] shrink-0" />
                                         <span class="truncate">Daftar: {{ $emp->created_at ? $emp->created_at->format('d/m/Y') : '-' }}</span>
                                     </span>
                                 </div>
@@ -330,7 +330,7 @@
                                         <button
                                             type="button"
                                             wire:click="openDeleteModal({{ $emp->id }})"
-                                            class="p-2 text-[#8E92A4] hover:text-[#E5484D] hover:bg-[#E5484D]/10 rounded-xl transition-all cursor-pointer shrink-0"
+                                            class="p-2 text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 rounded-xl transition-all cursor-pointer shrink-0"
                                             title="Hapus Pekerja"
                                         >
                                             <x-ui.icon name="trash-2" class="w-4 h-4 shrink-0" />
@@ -378,7 +378,7 @@
 
         <!-- Pagination Bar -->
         @if(method_exists($employees, 'hasPages') && $employees->hasPages())
-            <div class="px-4 sm:px-5 py-3 border-t border-[#ECEEF2] bg-white/40 flex items-center justify-between text-xs text-[#8E92A4] min-w-0">
+            <div class="px-4 sm:px-5 py-3 border-t border-[#ECEEF2] bg-white/40 flex items-center justify-between text-xs text-[#4E5262] min-w-0">
                 {{ $employees->links() }}
             </div>
         @endif
@@ -454,7 +454,7 @@
                 />
                 <label for="can_give_discount_input" class="flex flex-col text-xs cursor-pointer select-none">
                     <span class="font-bold text-[#1E2029]">Otorisasi Pemberian Diskon</span>
-                    <span class="text-[#8E92A4] mt-0.5">Izinkan pekerja ini memberikan diskon manual pada transaksi penjualan di Kasir POS.</span>
+                    <span class="text-[#4E5262] mt-0.5">Izinkan pekerja ini memberikan diskon manual pada transaksi penjualan di Kasir POS.</span>
                 </label>
             </div>
 
@@ -469,7 +469,7 @@
                 />
                 <label for="is_active_input" class="flex flex-col text-xs cursor-pointer select-none">
                     <span class="font-bold text-[#1E2029]">Status Akun Aktif</span>
-                    <span class="text-[#8E92A4] mt-0.5">
+                    <span class="text-[#4E5262] mt-0.5">
                         {{ $editingEmployeeId === auth()->id() ? 'Akun pemilik Anda selalu aktif.' : 'Pekerja hanya dapat masuk dan mengoperasikan kasir jika akun berstatus aktif.' }}
                     </span>
                 </label>
@@ -497,7 +497,7 @@
                         <x-ui.icon name="key" class="w-4 h-4 shrink-0" />
                     </div>
                     <div class="min-w-0">
-                        <span class="text-[#8E92A4] block text-[11px]">Ubah kata sandi akun pekerja:</span>
+                        <span class="text-[#4E5262] block text-[11px]">Ubah kata sandi akun pekerja:</span>
                         <span class="font-bold text-[#1E2029] truncate block">{{ $passwordEmployeeName }}</span>
                     </div>
                 </div>

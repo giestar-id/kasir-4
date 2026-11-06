@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Pembelian Bahan Baku</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">Catat belanja bahan untuk menambah stok dan menghitung harga rata-rata tertimbang</p>
+            <p class="text-xs text-[#4E5262] mt-0.5">Catat belanja bahan untuk menambah stok dan menghitung harga rata-rata tertimbang</p>
         </div>
 
         <x-ui.button
@@ -46,7 +46,7 @@
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse">
                 <thead>
-                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#8E92A4] uppercase tracking-wider bg-white/40">
+                    <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
                         <th class="py-3 px-4">Tanggal Beli</th>
                         <th class="py-3 px-4">Nama Bahan</th>
                         <th class="py-3 px-4 text-right">Jumlah Belanja</th>
@@ -59,7 +59,7 @@
                 <tbody class="divide-y divide-[#ECEEF2]/70 text-xs">
                     @forelse($purchases as $p)
                         <tr wire:key="purchase-{{ $p->id }}" class="hover:bg-white/50 transition-colors">
-                            <td class="py-3.5 px-4 text-[#8E92A4]">
+                            <td class="py-3.5 px-4 text-[#4E5262]">
                                 {{ $p->purchased_at->format('d M Y') }}
                             </td>
                             <td class="py-3.5 px-4 font-bold text-[#1E2029]">
@@ -68,7 +68,7 @@
                             <td class="py-3.5 px-4 text-right font-semibold text-[#5A5D6C] tabular-nums">
                                 {{ number_format($p->qty_purchase_unit, 2, ',', '.') }} {{ $p->ingredient?->purchase_unit }}
                             </td>
-                            <td class="py-3.5 px-4 text-right text-[#8E92A4] tabular-nums">
+                            <td class="py-3.5 px-4 text-right text-[#4E5262] tabular-nums">
                                 {{ number_format($p->qty_base, 1, ',', '.') }} {{ $p->ingredient?->base_unit }}
                             </td>
                             <td class="py-3.5 px-4 text-right font-bold text-[#1E2029] tabular-nums">
@@ -77,7 +77,7 @@
                             <td class="py-3.5 px-4 text-right font-semibold text-[#5E63E8] tabular-nums">
                                 Rp{{ number_format($p->unit_cost_per_base, 0, ',', '.') }} / {{ $p->ingredient?->base_unit }}
                             </td>
-                            <td class="py-3.5 px-4 text-[#8E92A4]">
+                            <td class="py-3.5 px-4 text-[#4E5262]">
                                 {{ $p->note ?: '-' }}
                             </td>
                         </tr>

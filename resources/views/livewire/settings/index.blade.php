@@ -1,10 +1,10 @@
-<div class="flex flex-col gap-5">
+﻿<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Pengaturan Outlet</h1>
-            <p class="text-xs text-[#8E92A4] mt-0.5">Konfigurasi profil toko, akun kasir, enkripsi integrasi AI, dan cadangan database</p>
+            <p class="text-xs text-[#4E5262] mt-0.5">Konfigurasi profil toko, akun kasir, enkripsi integrasi AI, dan cadangan database</p>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
         <div class="glass-card rounded-2xl p-6 sm:p-7 w-full flex flex-col gap-5">
             <div>
                 <h2 class="text-base font-bold text-[#1E2029]">Identitas & Informasi Struk</h2>
-                <p class="text-xs text-[#8E92A4] mt-0.5">Informasi ini akan tercetak pada struk fisik kasir dan identitas outlet.</p>
+                <p class="text-xs text-[#4E5262] mt-0.5">Informasi ini akan tercetak pada struk fisik kasir dan identitas outlet.</p>
             </div>
 
             <form wire:submit.prevent="saveProfile" class="flex flex-col gap-5">
@@ -113,7 +113,7 @@
             <!-- Left: Change Owner Password -->
             <div class="lg:col-span-5 glass-card rounded-2xl p-6 flex flex-col gap-4">
                 <h3 class="text-base font-bold text-[#1E2029]">Ubah Password Pemilik</h3>
-                <p class="text-xs text-[#8E92A4]">Gunakan minimal 10 karakter dengan kombinasi huruf dan angka.</p>
+                <p class="text-xs text-[#4E5262]">Gunakan minimal 10 karakter dengan kombinasi huruf dan angka.</p>
 
                 <form wire:submit.prevent="changePassword" class="flex flex-col gap-3.5">
                     <x-ui.input
@@ -153,7 +153,7 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h3 class="text-base font-bold text-[#1E2029]">Daftar Akun Kasir</h3>
-                        <p class="text-xs text-[#8E92A4]">Kasir hanya dapat mengakses POS dan tidak melihat data HPP / Laba</p>
+                        <p class="text-xs text-[#4E5262]">Kasir hanya dapat mengakses POS dan tidak melihat data HPP / Laba</p>
                     </div>
 
                     <x-ui.button
@@ -169,7 +169,7 @@
 
                 <div class="border border-[#ECEEF2] rounded-xl overflow-x-auto">
                     <table class="w-full text-left text-xs">
-                        <thead class="bg-white/60 text-[#8E92A4] border-b border-[#ECEEF2] text-[11px] uppercase">
+                        <thead class="bg-white/60 text-[#4E5262] border-b border-[#ECEEF2] text-[11px] uppercase">
                             <tr>
                                 <th class="py-2.5 px-3">Nama</th>
                                 <th class="py-2.5 px-3">Email / User</th>
@@ -187,7 +187,7 @@
                                         @if($c->can_give_discount)
                                             <span class="text-[10px] text-[#2EB872] font-semibold">Diizinkan</span>
                                         @else
-                                            <span class="text-[10px] text-[#8E92A4]">Tidak</span>
+                                            <span class="text-[10px] text-[#4E5262]">Tidak</span>
                                         @endif
                                     </td>
                                     <td class="py-2.5 px-3">
@@ -205,7 +205,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="py-8 text-center text-[#8E92A4]">
+                                    <td colspan="5" class="py-8 text-center text-[#4E5262]">
                                         Belum ada kasir tambahan. Gunakan tombol + Tambah Kasir di atas.
                                     </td>
                                 </tr>
@@ -224,7 +224,7 @@
             <div class="flex items-start justify-between gap-4">
                 <div>
                     <h3 class="text-base font-bold text-[#1E2029]">Konfigurasi Integrasi AI</h3>
-                    <p class="text-xs text-[#8E92A4] mt-0.5">Membaca otomatis struk pesanan GoFood & ShopeeFood dari screenshot</p>
+                    <p class="text-xs text-[#4E5262] mt-0.5">Membaca otomatis struk pesanan GoFood & ShopeeFood dari screenshot</p>
                 </div>
 
                 <!-- Status Badge -->
@@ -307,7 +307,7 @@
                             </x-ui.button>
                         @endif
                     </div>
-                    <span class="text-[11px] text-[#8E92A4]">
+                    <span class="text-[11px] text-[#4E5262]">
                         Key disimpan menggunakan enkripsi AES-256 dan tidak pernah terekspos ke browser.
                     </span>
                 </div>
@@ -379,7 +379,7 @@
         <div class="glass-card rounded-2xl p-6 sm:p-7 w-full flex flex-col gap-5">
             <div>
                 <h3 class="text-base font-bold text-[#1E2029]">Cadangan Basis Data Outlet</h3>
-                <p class="text-xs text-[#8E92A4] mt-0.5 leading-relaxed">
+                <p class="text-xs text-[#4E5262] mt-0.5 leading-relaxed">
                     Unduh salinan berkas SQL lengkap berisi katalog menu, resep, bahan baku, transaksi, pergerakan stok, dan pengaturan toko untuk arsip offline harian.
                 </p>
             </div>
@@ -391,7 +391,7 @@
                     </div>
                     <div class="flex flex-col">
                         <span class="text-sm font-bold text-[#1E2029]">Database SQLite / MySQL</span>
-                        <span class="text-xs text-[#8E92A4]">Semua tabel operasional, katalog resep, dan transaksi kasir siap diekspor</span>
+                        <span class="text-xs text-[#4E5262]">Semua tabel operasional, katalog resep, dan transaksi kasir siap diekspor</span>
                     </div>
                 </div>
 
@@ -470,7 +470,7 @@
     <!-- Modal M19: Tes Baca Gambar AI -->
     <x-ui.modal name="sample-test-modal" title="Uji Ekstraksi Screenshot (Dry Run)" size="lg">
         <div class="flex flex-col gap-4">
-            <p class="text-xs text-[#8E92A4]">
+            <p class="text-xs text-[#4E5262]">
                 Unggah satu contoh screenshot untuk memverifikasi hasil ekstraksi AI/Lokal tanpa menyimpan transaksi ke database.
             </p>
 

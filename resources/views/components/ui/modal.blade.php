@@ -1,4 +1,4 @@
-@props([
+﻿@props([
     'name' => null,
     'title' => null,
     'size' => 'md', // sm (400px), md (520px), lg (640px), xl (760px), 2xl
@@ -91,7 +91,7 @@ $widthClasses = match($maxWidth ?? $size) {
                 <button
                     type="button"
                     @click="show = false"
-                    class="p-1.5 rounded-lg text-[#8E92A4] hover:text-[#1E2029] hover:bg-black/5 transition-colors cursor-pointer"
+                    class="p-1.5 rounded-lg text-[#4E5262] hover:text-[#1E2029] hover:bg-black/5 transition-colors cursor-pointer"
                 >
                     <x-ui.icon name="x" class="w-4 h-4" />
                 </button>

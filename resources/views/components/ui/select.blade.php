@@ -1,4 +1,4 @@
-@props([
+﻿@props([
     'label' => null,
     'error' => null,
     'hint' => null,
@@ -23,7 +23,7 @@ $selectId = $id ?? 'select_' . substr(md5($seed), 0, 10);
         <label for="{{ $selectId }}" class="flex items-center justify-between text-xs font-semibold text-[#5A5D6C]">
             <span>{{ $label }} @if($required) <span class="text-[#E5484D]">*</span> @endif</span>
             @if($hint)
-                <span class="text-[11px] font-normal text-[#8E92A4]">{{ $hint }}</span>
+                <span class="text-[11px] font-normal text-[#4E5262]">{{ $hint }}</span>
             @endif
         </label>
     @endif
@@ -39,7 +39,7 @@ $selectId = $id ?? 'select_' . substr(md5($seed), 0, 10);
         >
             {{ $slot }}
         </select>
-        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#8E92A4]">
+        <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
             <x-ui.icon name="chevron-down" class="w-4 h-4" />
         </div>
     </div>

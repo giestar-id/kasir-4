@@ -1,4 +1,4 @@
-@props([
+﻿@props([
     'route',
     'icon' => 'circle',
     'label' => '',
@@ -21,7 +21,7 @@ $classes = $isActive
 >
     <x-ui.icon
         :name="$icon"
-        class="w-4 h-4 shrink-0 transition-transform duration-200 group-hover:scale-110 {{ $isActive ? 'text-white' : 'text-[#8E92A4] group-hover:text-[#5E63E8]' }}"
+        class="w-4 h-4 shrink-0 transition-transform duration-200 group-hover:scale-110 {{ $isActive ? 'text-white' : 'text-[#4E5262] group-hover:text-[#5E63E8]' }}"
     />
     <span
         x-show="!(isDesktop && desktopCollapsed)"
