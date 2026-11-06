@@ -1,20 +1,23 @@
-# fly.toml app configuration file for kasir-4
+# fly.toml app configuration file generated for kasir-4 on 2026-11-06T12:14:02Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
 app = 'kasir-4'
-primary_region = 'sin'
+primary_region = 'nrt'
 
 [build]
   dockerfile = 'Dockerfile'
 
 [env]
-  APP_NAME = 'POS Kuliner'
-  APP_ENV = 'production'
   APP_DEBUG = 'false'
+  APP_ENV = 'production'
+  APP_NAME = 'POS Kuliner'
+  CACHE_STORE = 'database'
   DB_CONNECTION = 'sqlite'
   DB_DATABASE = '/var/www/html/database/database.sqlite'
-  SESSION_DRIVER = 'database'
-  CACHE_STORE = 'database'
   QUEUE_CONNECTION = 'sync'
+  SESSION_DRIVER = 'database'
 
 [http_service]
   internal_port = 80
@@ -28,3 +31,4 @@ primary_region = 'sin'
   memory = '512mb'
   cpu_kind = 'shared'
   cpus = 1
+  memory_mb = 512
