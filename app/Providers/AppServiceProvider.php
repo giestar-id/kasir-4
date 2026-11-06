@@ -6,6 +6,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
     {
         date_default_timezone_set('Asia/Jakarta');
         Carbon::setLocale('id');
+
+        if ($this->app->isProduction() || strtolower((string) request()->header('x-forwarded-proto')) === 'https') {
+            URL::forceScheme('https');
+        }
 
         Model::preventSilentlyDiscardingAttributes(! $this->app->isProduction());
 

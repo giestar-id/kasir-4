@@ -25,9 +25,10 @@ if [ ! -f /var/www/html/database/database.sqlite ]; then
     touch /var/www/html/database/database.sqlite
 fi
 
-# 4. Set proper permissions for storage, cache, and database
-chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database /var/www/html/.env
+# 4. Set proper permissions for storage, cache, database, and public assets
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database /var/www/html/.env /var/www/html/public
 chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/database
+chmod -R 755 /var/www/html/public
 
 # 5. Run database migrations and initial seeders
 php artisan migrate --force --seed
