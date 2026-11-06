@@ -1,4 +1,4 @@
-﻿@props([
+@props([
     'route',
     'icon' => 'circle',
     'label' => '',
@@ -16,8 +16,8 @@ $classes = $isActive
     wire:navigate.hover
     @click="mobileNavOpen = false"
     :title="(isDesktop && desktopCollapsed) ? '{{ $label }}' : ''"
-    class="flex items-center gap-2.5 rounded-xl text-xs sm:text-sm transition-all duration-200 group min-w-0 {{ $classes }}"
-    :class="(isDesktop && desktopCollapsed) ? 'justify-center px-0 w-10 h-10 mx-auto' : 'px-3.5 py-2.5 w-full'"
+    class="flex items-center rounded-xl text-xs sm:text-sm transition-all duration-200 group min-w-0 {{ $classes }}"
+    :class="(isDesktop && desktopCollapsed) ? 'justify-center px-0 w-10 h-10 mx-auto' : 'gap-2.5 px-3.5 py-2.5 w-full'"
 >
     <x-ui.icon
         :name="$icon"

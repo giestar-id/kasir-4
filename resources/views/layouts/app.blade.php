@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="utf-8">
@@ -37,7 +37,9 @@
             toggleDesktopSidebar() {
                 this.desktopCollapsed = !this.desktopCollapsed;
                 localStorage.setItem('pos_sidebar_collapsed', this.desktopCollapsed);
-                setTimeout(() => window.refreshIcons && window.refreshIcons(), 50);
+                this.$nextTick(() => {
+                    if (window.refreshIcons) window.refreshIcons();
+                });
             }
         }"
         x-init="
@@ -50,7 +52,7 @@
                 }
             })
         "
-        @resize.window="isDesktop = (window.innerWidth >= 768); if (isDesktop) mobileNavOpen = false;"
+        @resize.window.debounce.100ms="isDesktop = (window.innerWidth >= 768); if (isDesktop) { mobileNavOpen = false; document.body.classList.remove('overflow-hidden'); }"
         @keydown.escape.window="mobileNavOpen = false"
         class="relative z-10 min-h-screen flex flex-col md:flex-row"
     >
@@ -71,15 +73,17 @@
 
         <!-- Sidebar Navigation (Desktop Fixed & Mobile Slide-over) -->
         <aside
-            :class="[
-                mobileNavOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full md:translate-x-0',
-                (isDesktop && desktopCollapsed) ? 'md:w-[76px] md:px-2.5' : 'md:w-[240px] md:px-4'
-            ]"
-            class="fixed top-0 bottom-0 left-0 w-[280px] max-w-[85vw] md:w-[240px] px-3.5 sm:px-4 h-screen overflow-y-auto overflow-x-hidden glass-sidebar z-[45] flex flex-col py-4 transition-all duration-300 ease-in-out"
+            :class="{
+                'translate-x-0 shadow-2xl': mobileNavOpen,
+                '-translate-x-full md:translate-x-0': !mobileNavOpen,
+                'md:w-[76px] md:px-2.5': (isDesktop && desktopCollapsed),
+                'w-[280px] max-w-[85vw] md:w-[240px] px-3.5 sm:px-4 md:px-4': !(isDesktop && desktopCollapsed)
+            }"
+            class="fixed top-0 bottom-0 left-0 z-[45] flex flex-col py-4 h-screen overflow-y-auto overflow-x-hidden glass-sidebar transition-all duration-300 ease-in-out"
         >
             <!-- Top Header in Sidebar -->
             <div class="flex items-center px-1 sm:px-1.5 mb-4 shrink-0" :class="(isDesktop && desktopCollapsed) ? 'justify-center' : 'justify-between'">
-                <a href="{{ auth()->user()?->isOwner() ? route('dashboard') : route('pos') }}" wire:navigate.hover class="flex items-center gap-2.5 group min-w-0" :title="(isDesktop && desktopCollapsed) ? 'POS Kuliner' : ''">
+                <a href="{{ auth()->user()?->isOwner() ? route('dashboard') : route('pos') }}" wire:navigate.hover @click="mobileNavOpen = false" class="flex items-center gap-2.5 group min-w-0" :title="(isDesktop && desktopCollapsed) ? 'POS Kuliner' : ''">
                     <div class="w-9 h-9 rounded-xl bg-[#5E63E8] text-white flex items-center justify-center shadow-md shadow-[#5E63E8]/25 group-hover:scale-105 transition-transform shrink-0">
                         <x-ui.icon name="store" class="w-5 h-5 shrink-0" />
                     </div>
@@ -171,40 +175,18 @@
                         <x-ui.icon name="menu" class="w-5 h-5 shrink-0" />
                     </button>
 
-                    <!-- Desktop Sidebar Toggle Button with Animated Morph Icons (h-10 w-10) -->
+                    <!-- Desktop Sidebar Toggle Button (h-10 w-10) -->
                     <button
                         type="button"
                         @click="toggleDesktopSidebar()"
                         :title="(isDesktop && desktopCollapsed) ? 'Buka Sidebar' : 'Tutup Sidebar'"
-                        class="hidden md:flex items-center justify-center h-10 w-10 rounded-xl bg-white/80 hover:bg-white text-[#5A5D6C] hover:text-[#5E63E8] border border-[#ECEEF2] shadow-2xs transition-all duration-300 active:scale-95 cursor-pointer group relative overflow-hidden shrink-0"
+                        class="hidden md:flex items-center justify-center h-10 w-10 rounded-xl bg-white/80 hover:bg-white text-[#5A5D6C] hover:text-[#5E63E8] border border-[#ECEEF2] shadow-2xs transition-all duration-200 active:scale-95 cursor-pointer shrink-0"
                     >
-                        <!-- Icon when sidebar is OPEN: click to close -->
-                        <span
-                            x-show="!(isDesktop && desktopCollapsed)"
-                            x-transition:enter="transition ease-out duration-300 transform"
-                            x-transition:enter-start="opacity-0 -rotate-90 scale-50"
-                            x-transition:enter-end="opacity-100 rotate-0 scale-100"
-                            x-transition:leave="transition ease-in duration-200 transform absolute"
-                            x-transition:leave-start="opacity-100 rotate-0 scale-100"
-                            x-transition:leave-end="opacity-0 rotate-90 scale-50"
-                            class="flex items-center justify-center shrink-0"
-                        >
-                            <x-ui.icon name="panel-left-close" class="w-4 h-4 text-[#5A5D6C] group-hover:text-[#5E63E8] transition-colors shrink-0" />
+                        <span x-show="!(isDesktop && desktopCollapsed)" class="flex items-center justify-center shrink-0">
+                            <x-ui.icon name="panel-left-close" class="w-4 h-4 text-[#5A5D6C] hover:text-[#5E63E8] transition-colors" />
                         </span>
-
-                        <!-- Icon when sidebar is CLOSED: click to open (different logo/icon with animation) -->
-                        <span
-                            x-show="isDesktop && desktopCollapsed"
-                            x-cloak
-                            x-transition:enter="transition ease-out duration-300 transform"
-                            x-transition:enter-start="opacity-0 rotate-90 scale-50"
-                            x-transition:enter-end="opacity-100 rotate-0 scale-100"
-                            x-transition:leave="transition ease-in duration-200 transform absolute"
-                            x-transition:leave-start="opacity-100 rotate-0 scale-100"
-                            x-transition:leave-end="opacity-0 -rotate-90 scale-50"
-                            class="flex items-center justify-center shrink-0"
-                        >
-                            <x-ui.icon name="panel-left-open" class="w-4 h-4 text-[#5E63E8] group-hover:text-[#4D52D6] transition-colors shrink-0" />
+                        <span x-show="isDesktop && desktopCollapsed" x-cloak class="flex items-center justify-center shrink-0">
+                            <x-ui.icon name="panel-left-open" class="w-4 h-4 text-[#5E63E8] hover:text-[#4D52D6] transition-colors" />
                         </span>
                     </button>
 
