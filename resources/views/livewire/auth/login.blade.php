@@ -1,4 +1,4 @@
-﻿<div class="w-full max-w-[420px] flex flex-col items-center">
+<div class="w-full max-w-[420px] flex flex-col items-center">
     <!-- Centered Glass Login Card -->
     <div class="relative w-full glass-modal rounded-2xl shadow-2xl p-7 sm:p-8 flex flex-col">
         
@@ -92,18 +92,6 @@
                 <x-ui.icon name="arrow-right" class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </button>
         </form>
-
-        <!-- Operational Info Footer -->
-        <div class="mt-6 pt-4 bg-[#F8F8FA]/60 -mx-7 sm:-mx-8 -mb-7 sm:-mb-8 px-7 sm:px-8 py-3 rounded-b-2xl border-t border-[#ECEEF2]/80 flex items-center justify-between text-[#4E5262] text-[11px]">
-            <div class="flex items-center gap-1.5">
-                <x-ui.icon name="wifi-off" class="w-3.5 h-3.5" />
-                <span>Mode Offline-Ready</span>
-            </div>
-            <div class="flex items-center gap-1">
-                <x-ui.icon name="shield-check" class="w-3.5 h-3.5" />
-                <span>Enkripsi Sesi Aktif</span>
-            </div>
-        </div>
     </div>
 
     <!-- Help note -->
