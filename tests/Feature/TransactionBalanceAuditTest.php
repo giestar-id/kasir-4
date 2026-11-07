@@ -6,11 +6,14 @@ use App\Livewire\Dashboard;
 use App\Livewire\OnlineOrders\Index as OnlineOrdersIndex;
 use App\Livewire\Pos\Cashier;
 use App\Livewire\Reports\Index as ReportsIndex;
+use App\Models\AuditLog;
 use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Menu;
 use App\Models\Recipe;
 use App\Models\Sale;
+use App\Models\SaleItem;
+use App\Models\StockMovement;
 use App\Models\User;
 use App\Services\CostingService;
 use App\Services\SaleService;
@@ -617,5 +620,147 @@ class TransactionBalanceAuditTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessage('Transaksi ini sudah dibatalkan sebelumnya.');
         $this->saleService->voidSale($sale, 'Void kedua duplicate', $this->owner);
+    }
+
+    public function test_sale_creation_database_rollback_on_failure(): void
+    {
+        $initialKopiStock = (float) $this->kopi->fresh()->current_stock;
+        $initialSalesCount = Sale::count();
+        $initialItemsCount = SaleItem::count();
+        $initialMovementsCount = StockMovement::count();
+
+        // Create a failing StockService simulator
+        $failingStockService = new class extends StockService
+        {
+            public function deductForSale(Sale $sale): void
+            {
+                throw new \RuntimeException('Database disk full / stock service failure simulation');
+            }
+        };
+
+        $saleServiceWithFailure = new SaleService($failingStockService);
+
+        try {
+            $saleServiceWithFailure->createSale([
+                'channel' => Sale::CHANNEL_OFFLINE,
+                'subtotal' => 22000,
+                'total' => 22000,
+                'payment_method' => 'cash',
+                'paid_amount' => 22000,
+            ], [
+                ['menu_id' => $this->kopiSusu->id, 'qty' => 1],
+            ], $this->owner);
+
+            $this->fail('Expected RuntimeException was not thrown.');
+        } catch (\RuntimeException $e) {
+            $this->assertEquals('Database disk full / stock service failure simulation', $e->getMessage());
+        }
+
+        // Database transaction rollback assertions: Zero partial writes!
+        $this->assertEquals($initialSalesCount, Sale::count(), 'Sale record must NOT be persisted if deduction fails.');
+        $this->assertEquals($initialItemsCount, SaleItem::count(), 'SaleItem records must be rolled back.');
+        $this->assertEquals($initialMovementsCount, StockMovement::count(), 'StockMovements must be rolled back.');
+        $this->assertEquals($initialKopiStock, (float) $this->kopi->fresh()->current_stock, 'Ingredient stock must not be modified.');
+    }
+
+    public function test_void_sale_database_rollback_on_failure(): void
+    {
+        $sale = $this->saleService->createSale([
+            'channel' => Sale::CHANNEL_OFFLINE,
+            'subtotal' => 22000,
+            'total' => 22000,
+            'payment_method' => 'cash',
+            'paid_amount' => 22000,
+        ], [
+            ['menu_id' => $this->kopiSusu->id, 'qty' => 1],
+        ], $this->owner);
+
+        $postSaleKopiStock = (float) $this->kopi->fresh()->current_stock;
+        $postSaleMovementsCount = StockMovement::count();
+        $postSaleAuditLogsCount = AuditLog::count();
+
+        // Create failing StockService simulator for returnForVoid
+        $failingVoidStockService = new class extends StockService
+        {
+            public function returnForVoid(Sale $sale, ?string $reason, ?int $userId = null): void
+            {
+                throw new \RuntimeException('Deadlock or failure during void stock return');
+            }
+        };
+
+        $saleServiceVoidFailure = new SaleService($failingVoidStockService);
+
+        try {
+            $saleServiceVoidFailure->voidSale($sale, 'Alasan void gagal', $this->owner);
+            $this->fail('Expected RuntimeException was not thrown.');
+        } catch (\RuntimeException $e) {
+            $this->assertEquals('Deadlock or failure during void stock return', $e->getMessage());
+        }
+
+        // Assert sale status was NOT changed to void
+        $saleFresh = $sale->fresh();
+        $this->assertEquals(Sale::STATUS_COMPLETED, $saleFresh->status, 'Sale status must remain completed if void fails.');
+        $this->assertNull($saleFresh->voided_at, 'voided_at must remain null on rollback.');
+        $this->assertNull($saleFresh->void_reason, 'void_reason must remain null on rollback.');
+
+        // Assert audit log and stock movement were rolled back
+        $this->assertEquals($postSaleAuditLogsCount, AuditLog::count(), 'Audit log must not be committed on void failure.');
+        $this->assertEquals($postSaleMovementsCount, StockMovement::count(), 'Void stock movement must not be committed on void failure.');
+        $this->assertEquals($postSaleKopiStock, (float) $this->kopi->fresh()->current_stock, 'Stock must remain unchanged.');
+    }
+
+    public function test_multi_item_same_ingredient_atomic_grouping_and_hpp_snapshot(): void
+    {
+        $kopiBefore = (float) $this->kopi->fresh()->current_stock;
+        $susuBefore = (float) $this->susu->fresh()->current_stock;
+
+        // Order contains:
+        // - 2 portions of Kopi Susu (each: 18g kopi + 120ml susu) => 36g kopi, 240ml susu. unit_hpp = 6600
+        // - 3 portions of Espresso (each: 18g kopi + 0ml susu) => 54g kopi, 0ml susu. unit_hpp = 3600
+        // Total expected deduction: 36g + 54g = 90g kopi; 240ml susu.
+        $sale = $this->saleService->createSale([
+            'channel' => Sale::CHANNEL_OFFLINE,
+            'subtotal' => (2 * 22000) + (3 * 15000), // 44000 + 45000 = 89000
+            'total' => 89000,
+            'payment_method' => 'cash',
+            'paid_amount' => 100000,
+        ], [
+            ['menu_id' => $this->kopiSusu->id, 'qty' => 2],
+            ['menu_id' => $this->espresso->id, 'qty' => 3],
+        ], $this->owner);
+
+        // 1. Check line item HPP snapshots
+        $items = $sale->items()->orderBy('menu_id')->get();
+        $this->assertCount(2, $items);
+        $this->assertEquals(6600, $items[0]->unit_hpp);
+        $this->assertEquals(2, $items[0]->qty);
+        $this->assertEquals(13200, $items[0]->total_hpp);
+
+        $this->assertEquals(3600, $items[1]->unit_hpp);
+        $this->assertEquals(3, $items[1]->qty);
+        $this->assertEquals(10800, $items[1]->total_hpp);
+
+        // Total HPP for this sale = 13200 + 10800 = 24000
+        $this->assertEquals(24000, $items->sum('total_hpp'));
+
+        // 2. Check ingredient stocks: Exactly 90g kopi and 240ml susu deducted
+        $this->assertEquals($kopiBefore - 90, (float) $this->kopi->fresh()->current_stock);
+        $this->assertEquals($susuBefore - 240, (float) $this->susu->fresh()->current_stock);
+
+        // 3. Check stock movements: Exactly ONE consolidated movement for kopi and ONE for susu
+        $movements = StockMovement::where('ref_type', 'sale')
+            ->where('ref_id', $sale->id)
+            ->get();
+        $this->assertCount(2, $movements, 'Stock deductions for same ingredient must be atomically consolidated into one movement.');
+
+        $kopiMovement = $movements->firstWhere('ingredient_id', $this->kopi->id);
+        $this->assertEquals(-90, (float) $kopiMovement->qty_change);
+
+        $susuMovement = $movements->firstWhere('ingredient_id', $this->susu->id);
+        $this->assertEquals(-240, (float) $susuMovement->qty_change);
+
+        // 4. Verify consistency
+        $this->assertTrue($this->stockService->verifyConsistency($this->kopi->id));
+        $this->assertTrue($this->stockService->verifyConsistency($this->susu->id));
     }
 }

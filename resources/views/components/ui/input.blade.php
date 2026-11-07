@@ -1,4 +1,4 @@
-﻿@props([
+@props([
     'label' => null,
     'icon' => null,
     'prefix' => null,
@@ -45,7 +45,7 @@ $inputId = $id ?? 'input_' . substr(md5($seed), 0, 10);
         <input
             id="{{ $inputId }}"
             {{ $attributes->merge([
-                'class' => 'w-full bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2.5 ' .
+                'class' => 'w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 ' .
                     ($icon ? 'pl-9 ' : ($prefix ? 'pl-9 ' : 'pl-3.5 ')) .
                     ($suffix ? 'pr-9 ' : 'pr-3.5 ') .
                     ($error ? 'border-[#E5484D] focus:ring-[#E5484D]/20 focus:border-[#E5484D] ' : 'border-[#ECEEF2] focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] ') .

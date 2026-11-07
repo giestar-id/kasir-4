@@ -197,6 +197,7 @@ class Index extends Component
         $this->cashierCanDiscount = false;
         $this->cashierIsActive = true;
         $this->dispatch('open-modal', 'cashier-form-modal');
+        $this->dispatch('open-modal-cashier-form-modal');
     }
 
     public function openEditCashierModal(int $id): void
@@ -211,6 +212,7 @@ class Index extends Component
         $this->cashierIsActive = $cashier->is_active;
 
         $this->dispatch('open-modal', 'cashier-form-modal');
+        $this->dispatch('open-modal-cashier-form-modal');
     }
 
     public function saveCashier(): void
@@ -271,6 +273,7 @@ class Index extends Component
         ]);
 
         $this->dispatch('close-modal', 'cashier-form-modal');
+        $this->dispatch('close-modal-cashier-form-modal');
         $this->dispatch('toast', [
             'type' => 'success',
             'title' => 'Akun Kasir Tersimpan',
@@ -398,6 +401,7 @@ class Index extends Component
         ]);
 
         $this->dispatch('close-modal', 'delete-key-modal');
+        $this->dispatch('close-modal-delete-key-modal');
         $this->dispatch('toast', [
             'type' => 'success',
             'title' => 'API Key Dihapus',

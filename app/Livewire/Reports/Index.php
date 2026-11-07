@@ -18,6 +18,10 @@ class Index extends Component
 
     public ?string $endDate = null;
 
+    public string $customStartDate = '';
+
+    public string $customEndDate = '';
+
     public string $activeTab = 'per_menu'; // per_period, per_channel, per_category, per_menu, per_ingredient
 
     public function mount(): void
@@ -25,6 +29,8 @@ class Index extends Component
         abort_unless(auth()->user()?->isOwner(), 403);
         $this->startDate = Carbon::today()->startOfMonth()->format('Y-m-d');
         $this->endDate = Carbon::today()->format('Y-m-d');
+        $this->customStartDate = $this->startDate;
+        $this->customEndDate = $this->endDate;
     }
 
     public function setPeriod(string $period): void
@@ -50,12 +56,33 @@ class Index extends Component
         };
     }
 
-    public function applyCustomPeriod(string $start, string $end): void
+    public function openCustomDateModal(): void
+    {
+        $this->customStartDate = $this->startDate ?: Carbon::today()->startOfMonth()->format('Y-m-d');
+        $this->customEndDate = $this->endDate ?: Carbon::today()->format('Y-m-d');
+        $this->dispatch('open-modal', 'custom-date-modal');
+    }
+
+    public function applyCustomPeriod(?string $start = null, ?string $end = null): void
     {
         abort_unless(auth()->user()?->isOwner(), 403);
-        $this->startDate = $start;
-        $this->endDate = $end;
-        $this->period = 'custom';
+
+        $startDate = $start ?: $this->customStartDate;
+        $endDate = $end ?: $this->customEndDate;
+
+        if ($startDate && $endDate) {
+            if ($startDate > $endDate) {
+                $temp = $startDate;
+                $startDate = $endDate;
+                $endDate = $temp;
+            }
+            $this->startDate = $startDate;
+            $this->endDate = $endDate;
+            $this->customStartDate = $startDate;
+            $this->customEndDate = $endDate;
+            $this->period = 'custom';
+        }
+
         $this->dispatch('close-modal', 'custom-date-modal');
         $this->dispatch('toast', [
             'type' => 'success',
@@ -146,52 +173,59 @@ class Index extends Component
         $start = Carbon::parse($this->startDate)->startOfDay();
         $end = Carbon::parse($this->endDate)->endOfDay();
 
-        // High performance SQL Aggregations
+        // High performance SQL Aggregations (Combined single query)
         $salesQuery = Sale::nonVoid()->whereBetween('ordered_at', [$start, $end]);
 
         $totalOmzet = (int) (clone $salesQuery)->sum('total');
-        $saleIdsSubquery = (clone $salesQuery)->select('id');
+        $saleIds = (clone $salesQuery)->pluck('id');
 
-        $totalHpp = (int) SaleItem::whereIn('sale_id', $saleIdsSubquery)
+        $totalHpp = (int) SaleItem::whereIn('sale_id', $saleIds)
             ->sum(DB::raw('qty * unit_hpp'));
+
+        $incompleteHppCount = SaleItem::whereIn('sale_id', $saleIds)
+            ->where('unit_hpp', '<=', 0)
+            ->count();
 
         $grossProfit = max(0, $totalOmzet - $totalHpp);
         $profitMarginPct = $totalOmzet > 0 ? round(($grossProfit / $totalOmzet) * 100, 1) : 0;
 
-        $incompleteHppCount = SaleItem::whereIn('sale_id', $saleIdsSubquery)
-            ->where('unit_hpp', '<=', 0)
-            ->count();
+        // Lazy load tab data on demand to eliminate unnecessary database queries
+        $menuReport = $this->activeTab === 'per_menu'
+            ? SaleItem::whereIn('sale_id', $saleIds)
+                ->select('menu_name_snapshot', DB::raw('SUM(qty) as total_qty'), DB::raw('SUM(qty * unit_price) as total_omzet'), DB::raw('SUM(qty * unit_hpp) as total_hpp'))
+                ->groupBy('menu_name_snapshot')
+                ->orderByDesc('total_omzet')
+                ->get()
+            : collect();
 
-        // Tab: Per Menu
-        $menuReport = SaleItem::whereIn('sale_id', $saleIdsSubquery)
-            ->select('menu_name_snapshot', DB::raw('SUM(qty) as total_qty'), DB::raw('SUM(qty * unit_price) as total_omzet'), DB::raw('SUM(qty * unit_hpp) as total_hpp'))
-            ->groupBy('menu_name_snapshot')
-            ->orderByDesc('total_omzet')
-            ->get();
+        $dailyReport = $this->activeTab === 'per_period'
+            ? Sale::nonVoid()
+                ->whereBetween('ordered_at', [$start, $end])
+                ->select(DB::raw('DATE(ordered_at) as date'), DB::raw('COUNT(*) as count'), DB::raw('SUM(total) as omzet'), DB::raw('SUM(discount) as discount'))
+                ->groupBy('date')
+                ->orderBy('date', 'desc')
+                ->get()
+            : collect();
 
-        // Tab: Per Periode (Harian)
-        $dailyReport = Sale::nonVoid()
-            ->whereBetween('ordered_at', [$start, $end])
-            ->select(DB::raw('DATE(ordered_at) as date'), DB::raw('COUNT(*) as count'), DB::raw('SUM(total) as omzet'), DB::raw('SUM(discount) as discount'))
-            ->groupBy('date')
-            ->orderBy('date', 'desc')
-            ->get();
+        $channelReport = $this->activeTab === 'per_channel'
+            ? Sale::nonVoid()
+                ->whereBetween('ordered_at', [$start, $end])
+                ->select('channel', DB::raw('COUNT(*) as count'), DB::raw('SUM(total) as omzet'), DB::raw('SUM(platform_adjustment) as adjustment'))
+                ->groupBy('channel')
+                ->get()
+            : collect();
 
-        // Tab: Per Kanal
-        $channelReport = Sale::nonVoid()
-            ->whereBetween('ordered_at', [$start, $end])
-            ->select('channel', DB::raw('COUNT(*) as count'), DB::raw('SUM(total) as omzet'), DB::raw('SUM(platform_adjustment) as adjustment'))
-            ->groupBy('channel')
-            ->get();
+        $inventoryReport = $this->activeTab === 'per_ingredient'
+            ? Ingredient::where('is_active', true)
+                ->orderBy('name')
+                ->get()
+            : collect();
 
-        // Tab: Pemakaian Bahan & Nilai Aset Stok
-        $inventoryReport = Ingredient::where('is_active', true)
-            ->orderBy('name')
-            ->get();
-
-        $totalInventoryValue = $inventoryReport->sum(function ($ing) {
-            return (int) round((float) $ing->current_stock * (float) $ing->avg_cost_per_base);
-        });
+        $totalInventoryValue = $this->activeTab === 'per_ingredient'
+            ? $inventoryReport->sum(function ($ing) {
+                return (int) round((float) $ing->current_stock * (float) $ing->avg_cost_per_base);
+            })
+            : 0;
 
         return view('livewire.reports.index', [
             'totalOmzet' => $totalOmzet,

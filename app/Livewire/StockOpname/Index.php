@@ -14,6 +14,17 @@ class Index extends Component
 
     public string $search = '';
 
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function resetFilters(): void
+    {
+        $this->search = '';
+        $this->resetPage();
+    }
+
     // Modal M17: Input Stok Opname
     public ?int $opnameIngredientId = null;
 

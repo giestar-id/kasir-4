@@ -13,12 +13,24 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Livewire\WithPagination;
 
 class Index extends Component
 {
-    use WithFileUploads;
+    use WithFileUploads, WithPagination;
 
     public string $statusFilter = 'all'; // all, pending, needs_review, ready_to_save, saved, duplicate, failed
+
+    public function updatingStatusFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function setStatusFilter(string $status): void
+    {
+        $this->statusFilter = $status;
+        $this->resetPage();
+    }
 
     // Upload Modal (M4)
     public $uploadedFiles = [];
@@ -60,6 +72,11 @@ class Index extends Component
     public int $confirmPlatformTotal = 0;
 
     public bool $isDuplicateWarning = false;
+
+    public function useCurrentTime(): void
+    {
+        $this->confirmOrderTime = Carbon::now()->format('Y-m-d\TH:i');
+    }
 
     public ?string $duplicateWarningMessage = null;
 

@@ -41,7 +41,7 @@
         <div class="col-span-12 lg:col-span-8 flex flex-col gap-4">
 
             <!-- Search and Filter Bar -->
-            <div class="glass-card rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-3">
+            <div class="glass-card rounded-2xl p-3 sm:p-3.5 flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
                 <div class="relative w-full flex-1">
                     <x-ui.input
                         x-ref="searchInput"
@@ -52,11 +52,11 @@
                 </div>
 
                 <!-- Category Pills -->
-                <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none">
+                <div class="flex items-center gap-1.5 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 scrollbar-none shrink-0">
                     <button
                         type="button"
                         wire:click="$set('selectedCategory', null)"
-                        class="px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer {{ is_null($selectedCategory) ? 'bg-[#5E63E8] text-white shadow-xs' : 'bg-white/80 text-[#5A5D6C] hover:bg-white border border-[#ECEEF2]' }}"
+                        class="h-10 px-3.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer inline-flex items-center justify-center {{ is_null($selectedCategory) ? 'bg-[#5E63E8] text-white shadow-xs' : 'bg-white/80 text-[#5A5D6C] hover:bg-white hover:text-[#1E2029] border border-[#ECEEF2]' }}"
                     >
                         Semua
                     </button>
@@ -64,7 +64,7 @@
                         <button
                             type="button"
                             wire:click="$set('selectedCategory', {{ $cat->id }})"
-                            class="px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer {{ $selectedCategory === $cat->id ? 'bg-[#5E63E8] text-white shadow-xs' : 'bg-white/80 text-[#5A5D6C] hover:bg-white border border-[#ECEEF2]' }}"
+                            class="h-10 px-3.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer inline-flex items-center justify-center {{ $selectedCategory === $cat->id ? 'bg-[#5E63E8] text-white shadow-xs' : 'bg-white/80 text-[#5A5D6C] hover:bg-white hover:text-[#1E2029] border border-[#ECEEF2]' }}"
                         >
                             {{ $cat->name }}
                         </button>

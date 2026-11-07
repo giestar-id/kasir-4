@@ -1,4 +1,4 @@
-﻿<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -15,48 +15,83 @@
     </div>
 
     <!-- Filters Bar Card -->
-    <div class="glass-card rounded-2xl p-4 flex flex-col md:flex-row items-center gap-3">
-        <div class="relative w-full md:w-72">
+    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 min-w-0">
+        
+        <!-- Search Input -->
+        <div class="relative flex-1 min-w-[240px]">
             <x-ui.input
                 wire:model.live.debounce.300ms="search"
                 icon="search"
-                placeholder="Cari no. transaksi / order ID..."
+                placeholder="Cari no. transaksi / order ID / nama barang..."
             />
         </div>
 
-        <div class="flex items-center gap-2 w-full md:w-auto flex-wrap">
+        <!-- Filters Group -->
+        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0">
             @if(auth()->user()?->isOwner())
-                <input
-                    type="date"
-                    wire:model.live="startDate"
-                    class="bg-white/80 border border-[#ECEEF2] text-xs rounded-xl px-3 py-2 text-[#5A5D6C] focus:outline-none focus:border-[#5E63E8]"
-                />
-                <span class="text-xs text-[#4E5262]">s/d</span>
-                <input
-                    type="date"
-                    wire:model.live="endDate"
-                    class="bg-white/80 border border-[#ECEEF2] text-xs rounded-xl px-3 py-2 text-[#5A5D6C] focus:outline-none focus:border-[#5E63E8]"
-                />
+                <div class="flex items-center gap-1.5 w-full sm:w-auto">
+                    <div class="relative w-full sm:w-36 shrink-0">
+                        <input
+                            type="date"
+                            wire:model.live="startDate"
+                            class="w-full h-10 bg-white/90 text-[#1E2029] text-xs rounded-xl px-3 py-2 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all cursor-pointer"
+                            title="Tanggal Mulai"
+                        />
+                    </div>
+                    <span class="text-xs font-semibold text-[#4E5262] shrink-0">s/d</span>
+                    <div class="relative w-full sm:w-36 shrink-0">
+                        <input
+                            type="date"
+                            wire:model.live="endDate"
+                            class="w-full h-10 bg-white/90 text-[#1E2029] text-xs rounded-xl px-3 py-2 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all cursor-pointer"
+                            title="Tanggal Akhir"
+                        />
+                    </div>
+                </div>
             @endif
 
-            <select
-                wire:model.live="channelFilter"
-                class="bg-white/80 border border-[#ECEEF2] text-xs rounded-xl px-3 py-2 text-[#5A5D6C] focus:outline-none focus:border-[#5E63E8]"
-            >
-                <option value="all">Semua Kanal</option>
-                <option value="offline">Offline</option>
-                <option value="gofood">GoFood</option>
-                <option value="shopeefood">ShopeeFood</option>
-            </select>
+            <!-- Channel Filter -->
+            <div class="relative w-full sm:w-40 md:w-44 shrink-0">
+                <select
+                    wire:model.live="channelFilter"
+                    class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
+                >
+                    <option value="all">Semua Kanal</option>
+                    <option value="offline">Offline</option>
+                    <option value="gofood">GoFood</option>
+                    <option value="shopeefood">ShopeeFood</option>
+                </select>
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
+                    <x-ui.icon name="chevron-down" class="w-3.5 h-3.5 shrink-0" />
+                </div>
+            </div>
 
-            <select
-                wire:model.live="statusFilter"
-                class="bg-white/80 border border-[#ECEEF2] text-xs rounded-xl px-3 py-2 text-[#5A5D6C] focus:outline-none focus:border-[#5E63E8]"
-            >
-                <option value="all">Semua Status</option>
-                <option value="completed">Selesai</option>
-                <option value="void">Dibatalkan (Void)</option>
-            </select>
+            <!-- Status Filter -->
+            <div class="relative w-full sm:w-40 md:w-44 shrink-0">
+                <select
+                    wire:model.live="statusFilter"
+                    class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
+                >
+                    <option value="all">Semua Status</option>
+                    <option value="completed">Selesai</option>
+                    <option value="void">Dibatalkan (Void)</option>
+                </select>
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
+                    <x-ui.icon name="chevron-down" class="w-3.5 h-3.5 shrink-0" />
+                </div>
+            </div>
+
+            @if($search || $channelFilter !== 'all' || $statusFilter !== 'all' || $startDate || $endDate)
+                <button
+                    type="button"
+                    wire:click="resetFilters"
+                    class="h-10 px-3.5 text-xs font-bold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 bg-white/80 border border-[#ECEEF2] rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0 shadow-2xs"
+                    title="Reset Filter"
+                >
+                    <x-ui.icon name="rotate-ccw" class="w-3.5 h-3.5 shrink-0" />
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
+            @endif
         </div>
     </div>
 
@@ -69,6 +104,7 @@
                         <th class="py-3 px-4">No. Transaksi</th>
                         <th class="py-3 px-4">Waktu</th>
                         <th class="py-3 px-4">Kanal</th>
+                        <th class="py-3 px-4">Nama Barang</th>
                         <th class="py-3 px-4">No. Eksternal</th>
                         <th class="py-3 px-4">Metode</th>
                         <th class="py-3 px-4 text-right">Total (Rp)</th>
@@ -93,6 +129,31 @@
                                     <x-ui.badge variant="gofood" size="sm">GoFood</x-ui.badge>
                                 @else
                                     <x-ui.badge variant="shopeefood" size="sm">ShopeeFood</x-ui.badge>
+                                @endif
+                            </td>
+                            <td class="py-3.5 px-4 text-[#1E2029]">
+                                @php
+                                    $itemsCount = $sale->items->count();
+                                @endphp
+                                @if($itemsCount > 0)
+                                    <div class="flex flex-col gap-0.5 max-w-[200px] xl:max-w-[240px]">
+                                        <div class="font-bold text-xs text-[#1E2029] truncate" title="{{ $sale->items->map(fn($it) => $it->qty . 'x ' . ($it->menu_name_snapshot ?: ($it->menu?->name ?? 'Barang')))->implode(', ') }}">
+                                            @php
+                                                $itemSummaries = $sale->items->take(2)->map(function($it) {
+                                                    return $it->qty . 'x ' . ($it->menu_name_snapshot ?: ($it->menu?->name ?? 'Barang'));
+                                                })->implode(', ');
+                                            @endphp
+                                            {{ $itemSummaries }}
+                                            @if($itemsCount > 2)
+                                                <span class="text-[11px] text-[#5E63E8] font-bold">+{{ $itemsCount - 2 }}</span>
+                                            @endif
+                                        </div>
+                                        <span class="text-[11px] text-[#4E5262]">
+                                            Total {{ $sale->items->sum('qty') }} porsi/item
+                                        </span>
+                                    </div>
+                                @else
+                                    <span class="text-[#8C90A0] italic text-[11px]">-</span>
                                 @endif
                             </td>
                             <td class="py-3.5 px-4 text-[#5A5D6C]">
@@ -137,7 +198,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9">
+                            <td colspan="10">
                                 <x-ui.empty-state
                                     icon="receipt"
                                     title="Belum ada transaksi"
@@ -205,42 +266,69 @@
                 @endif
 
                 <!-- Item snapshot table -->
-                <div class="border border-[#ECEEF2] rounded-xl overflow-x-auto">
-                    <table class="w-full text-left text-xs">
-                        <thead class="bg-white/60 text-[#4E5262] border-b border-[#ECEEF2]">
-                            <tr>
-                                <th class="py-2.5 px-3">Menu</th>
-                                <th class="py-2.5 px-3 text-center">Qty</th>
-                                <th class="py-2.5 px-3 text-right">Harga</th>
-                                @if(auth()->user()?->isOwner())
-                                    <th class="py-2.5 px-3 text-right">HPP Snapshot</th>
-                                @endif
-                                <th class="py-2.5 px-3 text-right">Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#ECEEF2]">
-                            @foreach($selectedSale->items as $item)
+                <div class="flex flex-col gap-2.5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-bold text-[#1E2029] flex items-center gap-1.5">
+                            <x-ui.icon name="shopping-bag" class="w-4 h-4 text-[#5E63E8]" />
+                            <span>Daftar Barang / Menu Yang Dibeli ({{ $selectedSale->items->count() }} item)</span>
+                        </h4>
+                        <span class="text-[11px] text-[#4E5262] font-semibold">
+                            Total {{ $selectedSale->items->sum('qty') }} porsi
+                        </span>
+                    </div>
+
+                    <div class="border border-[#ECEEF2] rounded-xl overflow-x-auto">
+                        <table class="w-full text-left text-xs">
+                            <thead class="bg-white/60 text-[#4E5262] border-b border-[#ECEEF2]">
                                 <tr>
-                                    <td class="py-2.5 px-3 font-semibold text-[#1E2029]">
-                                        {{ $item->menu_name_snapshot }}
-                                        @if($item->note)
-                                            <span class="block text-[11px] text-[#4E5262] font-normal">Catatan: {{ $item->note }}</span>
-                                        @endif
-                                    </td>
-                                    <td class="py-2.5 px-3 text-center tabular-nums">{{ $item->qty }}</td>
-                                    <td class="py-2.5 px-3 text-right tabular-nums">Rp{{ number_format($item->unit_price, 0, ',', '.') }}</td>
+                                    <th class="py-2.5 px-3">Nama Barang / Menu</th>
+                                    <th class="py-2.5 px-3 text-center">Qty</th>
+                                    <th class="py-2.5 px-3 text-right">Harga Satuan</th>
                                     @if(auth()->user()?->isOwner())
-                                        <td class="py-2.5 px-3 text-right tabular-nums text-[#4E5262]">
-                                            Rp{{ number_format($item->unit_hpp, 0, ',', '.') }}
-                                        </td>
+                                        <th class="py-2.5 px-3 text-right">HPP Snapshot</th>
                                     @endif
-                                    <td class="py-2.5 px-3 text-right font-bold text-[#1E2029] tabular-nums">
-                                        Rp{{ number_format($item->qty * $item->unit_price, 0, ',', '.') }}
-                                    </td>
+                                    <th class="py-2.5 px-3 text-right">Subtotal</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody class="divide-y divide-[#ECEEF2]">
+                                @forelse($selectedSale->items as $item)
+                                    <tr>
+                                        <td class="py-3 px-3 font-semibold text-[#1E2029]">
+                                            <div class="flex items-start gap-2.5">
+                                                <div class="w-7 h-7 rounded-lg bg-[#5E63E8]/10 text-[#5E63E8] flex items-center justify-center shrink-0 mt-0.5">
+                                                    <x-ui.icon name="utensils" class="w-3.5 h-3.5" />
+                                                </div>
+                                                <div class="flex flex-col min-w-0">
+                                                    <span class="font-bold text-[#1E2029] text-xs">
+                                                        {{ $item->menu_name_snapshot ?: ($item->menu?->name ?? 'Barang #' . $item->menu_id) }}
+                                                    </span>
+                                                    @if($item->note)
+                                                        <span class="text-[11px] text-[#5A5D6C] font-normal mt-0.5">Catatan: {{ $item->note }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="py-3 px-3 text-center tabular-nums font-semibold">{{ $item->qty }}</td>
+                                        <td class="py-3 px-3 text-right tabular-nums">Rp{{ number_format($item->unit_price, 0, ',', '.') }}</td>
+                                        @if(auth()->user()?->isOwner())
+                                            <td class="py-3 px-3 text-right tabular-nums text-[#4E5262]">
+                                                Rp{{ number_format($item->unit_hpp, 0, ',', '.') }}
+                                            </td>
+                                        @endif
+                                        <td class="py-3 px-3 text-right font-bold text-[#1E2029] tabular-nums">
+                                            Rp{{ number_format($item->qty * $item->unit_price, 0, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="{{ auth()->user()?->isOwner() ? 5 : 4 }}" class="py-4 text-center text-[#4E5262] italic">
+                                            Tidak ada rincian barang untuk transaksi ini.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <!-- Totals Breakdown -->

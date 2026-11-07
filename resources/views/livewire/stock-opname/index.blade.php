@@ -1,4 +1,4 @@
-﻿<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -19,14 +19,28 @@
     </div>
 
     <!-- Filters Bar Card -->
-    <div class="glass-card rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-3">
-        <div class="relative w-full sm:w-72">
+    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 min-w-0">
+        <div class="relative flex-1 min-w-[240px]">
             <x-ui.input
                 wire:model.live.debounce.250ms="search"
                 icon="search"
                 placeholder="Cari nama bahan opname..."
             />
         </div>
+
+        @if($search)
+            <div class="flex items-center gap-2 shrink-0">
+                <button
+                    type="button"
+                    wire:click="resetFilters"
+                    class="h-10 px-3.5 text-xs font-bold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 bg-white/80 border border-[#ECEEF2] rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0 shadow-2xs"
+                    title="Reset Filter"
+                >
+                    <x-ui.icon name="rotate-ccw" class="w-3.5 h-3.5 shrink-0" />
+                    <span>Reset</span>
+                </button>
+            </div>
+        @endif
     </div>
 
     <!-- Table Card -->
@@ -105,7 +119,7 @@
     <x-ui.modal name="opname-modal" title="Input Stok Opname Fisik" size="md">
         <form wire:submit.prevent="saveOpname" class="flex flex-col gap-4">
             
-            <x-ui.select label="Bahan Baku" wire:model.live="opnameIngredientId" required>
+            <x-ui.select label="Bahan Baku" wire:model.live="opnameIngredientId" :error="$errors->first('opnameIngredientId')" required>
                 @foreach($ingredients as $ing)
                     <option value="{{ $ing->id }}">{{ $ing->name }} (Satuan: {{ $ing->base_unit }})</option>
                 @endforeach
@@ -132,6 +146,7 @@
                 wire:model.live="actualStock"
                 :suffix="$this->selectedIngredient?->base_unit"
                 hint="Hasil hitungan timbang riil di dapur"
+                :error="$errors->first('actualStock')"
                 required
             />
 

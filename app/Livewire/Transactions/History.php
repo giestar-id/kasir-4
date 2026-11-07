@@ -32,8 +32,50 @@ class History extends Component
 
     public function mount(): void
     {
-        $this->startDate = Carbon::today()->subDays(30)->format('Y-m-d');
-        $this->endDate = Carbon::today()->format('Y-m-d');
+        if (auth()->user()?->isOwner()) {
+            $this->startDate = Carbon::today()->subDays(30)->format('Y-m-d');
+            $this->endDate = Carbon::today()->format('Y-m-d');
+        }
+    }
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingChannelFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStatusFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStartDate(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingEndDate(): void
+    {
+        $this->resetPage();
+    }
+
+    public function resetFilters(): void
+    {
+        $this->search = '';
+        $this->channelFilter = 'all';
+        $this->statusFilter = 'all';
+        if (auth()->user()?->isOwner()) {
+            $this->startDate = Carbon::today()->subDays(30)->format('Y-m-d');
+            $this->endDate = Carbon::today()->format('Y-m-d');
+        } else {
+            $this->startDate = null;
+            $this->endDate = null;
+        }
+        $this->resetPage();
     }
 
     public function openDetailModal(int $saleId): void
@@ -105,16 +147,22 @@ class History extends Component
 
     public function render()
     {
-        $query = Sale::with(['items', 'user', 'voidedBy'])->latest('ordered_at');
+        $query = Sale::with(['items.menu', 'user', 'voidedBy'])->latest('ordered_at');
 
         // If Cashier role, restrict to today's transactions only (PRD Section 4)
         if (auth()->user()?->isCashier()) {
             $query->whereDate('ordered_at', Carbon::today());
         } elseif ($this->startDate && $this->endDate) {
+            $start = min($this->startDate, $this->endDate);
+            $end = max($this->startDate, $this->endDate);
             $query->whereBetween('ordered_at', [
-                Carbon::parse($this->startDate)->startOfDay(),
-                Carbon::parse($this->endDate)->endOfDay(),
+                Carbon::parse($start)->startOfDay(),
+                Carbon::parse($end)->endOfDay(),
             ]);
+        } elseif ($this->startDate) {
+            $query->where('ordered_at', '>=', Carbon::parse($this->startDate)->startOfDay());
+        } elseif ($this->endDate) {
+            $query->where('ordered_at', '<=', Carbon::parse($this->endDate)->endOfDay());
         }
 
         if ($this->channelFilter !== 'all') {
@@ -126,10 +174,16 @@ class History extends Component
         }
 
         if (! empty(trim($this->search))) {
-            $term = '%'.$this->search.'%';
+            $term = '%'.trim($this->search).'%';
             $query->where(function ($q) use ($term) {
                 $q->where('number', 'like', $term)
-                    ->orWhere('external_order_id', 'like', $term);
+                    ->orWhere('external_order_id', 'like', $term)
+                    ->orWhereHas('items', function ($iq) use ($term) {
+                        $iq->where('menu_name_snapshot', 'like', $term)
+                            ->orWhereHas('menu', function ($mq) use ($term) {
+                                $mq->where('name', 'like', $term);
+                            });
+                    });
             });
         }
 

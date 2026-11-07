@@ -107,10 +107,12 @@ class Login extends Component
         ]);
 
         if ($user->isOwner()) {
-            $this->redirect(route('dashboard'), navigate: true);
-        } else {
-            $this->redirect(route('pos'), navigate: true);
+            $this->redirectIntended(default: route('dashboard'), navigate: false);
+
+            return;
         }
+
+        $this->redirect(route('pos'), navigate: false);
     }
 
     public function render()

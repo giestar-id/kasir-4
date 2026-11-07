@@ -94,10 +94,55 @@
         </form>
     </div>
 
-    <!-- Help note -->
-    <div class="mt-4 flex items-center gap-1.5 text-xs text-[#4E5262]">
-        <x-ui.icon name="help-circle" class="w-3.5 h-3.5" />
-        <span>Kendala akses? Gunakan akun default <b>owner@outlet.id</b> (pass: password123)</span>
+    <!-- Akun Demo (To the point) -->
+    <div class="mt-4 w-full p-3.5 rounded-2xl bg-white/80 border border-[#ECEEF2] shadow-2xs flex flex-col gap-2 text-xs">
+        <div class="flex items-center justify-between text-[#1E2029]">
+            <span class="font-bold flex items-center gap-1.5">
+                <x-ui.icon name="key" class="w-3.5 h-3.5 text-[#5E63E8]" />
+                Akun Demo
+            </span>
+            <span class="text-[10px] text-[#4E5262]">Klik untuk isi otomatis</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-[#ECEEF2]">
+            <!-- Owner Demo -->
+            <button
+                type="button"
+                @click="$wire.set('identifier', 'owner@outlet.id'); $wire.set('password', 'password123')"
+                class="flex flex-col text-left p-2.5 rounded-xl bg-white hover:bg-[#5E63E8]/8 border border-[#ECEEF2] hover:border-[#5E63E8]/30 transition-all cursor-pointer group shadow-2xs"
+                title="Gunakan akun Pemilik"
+            >
+                <div class="flex items-center justify-between w-full">
+                    <span class="font-bold text-[#1E2029] group-hover:text-[#5E63E8]">Pemilik (Owner)</span>
+                    <span class="text-[10px] text-[#5E63E8] opacity-0 group-hover:opacity-100 transition-opacity font-semibold">Gunakan &rarr;</span>
+                </div>
+                <div class="text-[11px] text-[#4E5262] mt-1 font-mono">
+                    Email: <b class="text-[#1E2029]">owner@outlet.id</b>
+                </div>
+                <div class="text-[11px] text-[#4E5262] font-mono">
+                    Password: <b class="text-[#1E2029]">password123</b>
+                </div>
+            </button>
+
+            <!-- Cashier Demo -->
+            <button
+                type="button"
+                @click="$wire.set('identifier', 'kasir@outlet.id'); $wire.set('password', 'password123')"
+                class="flex flex-col text-left p-2.5 rounded-xl bg-white hover:bg-[#5E63E8]/8 border border-[#ECEEF2] hover:border-[#5E63E8]/30 transition-all cursor-pointer group shadow-2xs"
+                title="Gunakan akun Kasir"
+            >
+                <div class="flex items-center justify-between w-full">
+                    <span class="font-bold text-[#1E2029] group-hover:text-[#5E63E8]">Staf Kasir</span>
+                    <span class="text-[10px] text-[#5E63E8] opacity-0 group-hover:opacity-100 transition-opacity font-semibold">Gunakan &rarr;</span>
+                </div>
+                <div class="text-[11px] text-[#4E5262] mt-1 font-mono">
+                    Email: <b class="text-[#1E2029]">kasir@outlet.id</b>
+                </div>
+                <div class="text-[11px] text-[#4E5262] font-mono">
+                    Password: <b class="text-[#1E2029]">password123</b>
+                </div>
+            </button>
+        </div>
     </div>
 </div>
 

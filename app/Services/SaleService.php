@@ -103,7 +103,7 @@ class SaleService
                     $unitPrice = 0;
                 }
                 $unitHpp = $menu ? $menu->calculateHpp() : 0;
-                $menuName = $menu ? $menu->name : ($itemData['menu_name'] ?? 'Menu Tidak Dikenal');
+                $menuName = $menu ? $menu->name : ($itemData['menu_name'] ?? $itemData['name'] ?? $itemData['raw_name'] ?? 'Menu Tidak Dikenal');
                 $note = $itemData['note'] ?? null;
 
                 $itemSubtotal = $qty * $unitPrice;

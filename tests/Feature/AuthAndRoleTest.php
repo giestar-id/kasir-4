@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\Auth\Login;
 use App\Livewire\Categories\Index as CategoriesIndex;
 use App\Livewire\Ingredients\Index as IngredientsIndex;
 use App\Livewire\Menu\Index as MenuIndex;
@@ -237,5 +238,61 @@ class AuthAndRoleTest extends TestCase
             'discount' => 10000,
             'total' => 10000,
         ]);
+    }
+
+    public function test_owner_login_redirects_to_dashboard(): void
+    {
+        $owner = User::factory()->create([
+            'email' => 'owner.test@outlet.com',
+            'role' => 'owner',
+            'password' => bcrypt('password123'),
+            'is_active' => true,
+        ]);
+
+        Livewire::test(Login::class)
+            ->set('identifier', 'owner.test@outlet.com')
+            ->set('password', 'password123')
+            ->call('login')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('dashboard'));
+
+        $this->assertAuthenticatedAs($owner);
+    }
+
+    public function test_cashier_login_redirects_to_pos(): void
+    {
+        $cashier = User::factory()->create([
+            'email' => 'cashier.test@outlet.com',
+            'role' => 'cashier',
+            'password' => bcrypt('password123'),
+            'is_active' => true,
+        ]);
+
+        Livewire::test(Login::class)
+            ->set('identifier', 'cashier.test@outlet.com')
+            ->set('password', 'password123')
+            ->call('login')
+            ->assertHasNoErrors()
+            ->assertRedirect(route('pos'));
+
+        $this->assertAuthenticatedAs($cashier);
+    }
+
+    public function test_inactive_employee_cannot_login(): void
+    {
+        User::factory()->create([
+            'email' => 'inactive.cashier@outlet.com',
+            'role' => 'cashier',
+            'password' => bcrypt('password123'),
+            'is_active' => false,
+        ]);
+
+        Livewire::test(Login::class)
+            ->set('identifier', 'inactive.cashier@outlet.com')
+            ->set('password', 'password123')
+            ->call('login')
+            ->assertDispatched('toast');
+
+        $this->assertGuest();
     }
 }

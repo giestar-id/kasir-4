@@ -1,13 +1,17 @@
 import './bootstrap';
 import { createIcons, icons } from 'lucide';
 
-// Global Lucide Icon helper
+// Global Lucide Icon helper (Optimized with requestAnimationFrame debouncing)
+let iconRaf = null;
 window.refreshIcons = () => {
-    try {
-        createIcons({ icons });
-    } catch (e) {
-        console.error('Lucide render error', e);
-    }
+    if (iconRaf) cancelAnimationFrame(iconRaf);
+    iconRaf = requestAnimationFrame(() => {
+        try {
+            createIcons({ icons });
+        } catch (e) {
+            console.error('Lucide render error', e);
+        }
+    });
 };
 
 document.addEventListener('DOMContentLoaded', () => {

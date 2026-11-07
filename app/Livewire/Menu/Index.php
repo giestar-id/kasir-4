@@ -23,6 +23,29 @@ class Index extends Component
 
     public string $recipeStatusFilter = 'all'; // all, complete, incomplete
 
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingCategoryFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingRecipeStatusFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function resetFilters(): void
+    {
+        $this->search = '';
+        $this->categoryFilter = null;
+        $this->recipeStatusFilter = 'all';
+        $this->resetPage();
+    }
+
     // Modal M9: Tambah/Edit Menu
     public ?int $editingMenuId = null;
 
@@ -289,12 +312,18 @@ class Index extends Component
     public function render()
     {
         $categories = Category::orderBy('sort_order')->get();
-        $ingredients = Ingredient::where('is_active', true)->orderBy('name')->get();
+        $ingredients = $this->recipeMenuId ? Ingredient::where('is_active', true)->orderBy('name')->get() : collect();
 
         $query = Menu::with(['category', 'aliases', 'recipes.ingredient', 'extraCosts']);
 
         if ($this->categoryFilter) {
             $query->where('category_id', $this->categoryFilter);
+        }
+
+        if ($this->recipeStatusFilter === 'complete') {
+            $query->whereHas('recipes');
+        } elseif ($this->recipeStatusFilter === 'incomplete') {
+            $query->whereDoesntHave('recipes');
         }
 
         if (! empty(trim($this->search))) {

@@ -19,6 +19,10 @@ class Dashboard extends Component
 
     public ?string $endDate = null;
 
+    public string $customStartDate = '';
+
+    public string $customEndDate = '';
+
     public string $chartMetric = 'omzet'; // omzet, profit, count
 
     public string $rightTab = 'critical_stock'; // critical_stock, pending_orders
@@ -28,6 +32,8 @@ class Dashboard extends Component
         abort_unless(auth()->user()?->isOwner(), 403);
         $this->startDate = Carbon::today()->format('Y-m-d');
         $this->endDate = Carbon::today()->format('Y-m-d');
+        $this->customStartDate = $this->startDate;
+        $this->customEndDate = $this->endDate;
     }
 
     public function setPeriod(string $period): void
@@ -53,12 +59,33 @@ class Dashboard extends Component
         };
     }
 
-    public function applyCustomPeriod(string $start, string $end): void
+    public function openCustomDateModal(): void
+    {
+        $this->customStartDate = $this->startDate ?: Carbon::today()->format('Y-m-d');
+        $this->customEndDate = $this->endDate ?: Carbon::today()->format('Y-m-d');
+        $this->dispatch('open-modal', 'custom-date-modal');
+    }
+
+    public function applyCustomPeriod(?string $start = null, ?string $end = null): void
     {
         abort_unless(auth()->user()?->isOwner(), 403);
-        $this->startDate = $start;
-        $this->endDate = $end;
-        $this->period = 'custom';
+
+        $startDate = $start ?: $this->customStartDate;
+        $endDate = $end ?: $this->customEndDate;
+
+        if ($startDate && $endDate) {
+            if ($startDate > $endDate) {
+                $temp = $startDate;
+                $startDate = $endDate;
+                $endDate = $temp;
+            }
+            $this->startDate = $startDate;
+            $this->endDate = $endDate;
+            $this->customStartDate = $startDate;
+            $this->customEndDate = $endDate;
+            $this->period = 'custom';
+        }
+
         $this->dispatch('close-modal', 'custom-date-modal');
         $this->dispatch('toast', [
             'type' => 'success',
@@ -79,18 +106,17 @@ class Dashboard extends Component
         $totalOmzet = (int) (clone $salesQuery)->sum('total');
         $totalTransactions = (int) (clone $salesQuery)->count();
 
-        // 2. Gross Profit Calculation (Omzet - Total HPP from SaleItems)
-        $saleIdsSubquery = (clone $salesQuery)->select('id');
-        $totalHpp = (int) SaleItem::whereIn('sale_id', $saleIdsSubquery)
+        // 2. Gross Profit Calculation
+        $saleIds = (clone $salesQuery)->pluck('id');
+        $totalHpp = (int) SaleItem::whereIn('sale_id', $saleIds)
             ->sum(DB::raw('qty * unit_hpp'));
+
+        $incompleteHppCount = SaleItem::whereIn('sale_id', $saleIds)
+            ->where('unit_hpp', '<=', 0)
+            ->count();
 
         $grossProfit = max(0, $totalOmzet - $totalHpp);
         $profitMarginPct = $totalOmzet > 0 ? round(($grossProfit / $totalOmzet) * 100, 1) : 0;
-
-        // Check if any sold menu had incomplete recipe (HPP = 0)
-        $incompleteHppCount = SaleItem::whereIn('sale_id', $saleIdsSubquery)
-            ->where('unit_hpp', '<=', 0)
-            ->count();
 
         // 3. Pending Online Orders
         $pendingOrdersCount = ScreenshotImport::whereIn('status', [
@@ -133,7 +159,7 @@ class Dashboard extends Component
         ];
 
         // 5. Top 5 Menus Sold
-        $topMenus = SaleItem::whereIn('sale_id', $saleIdsSubquery)
+        $topMenus = SaleItem::whereIn('sale_id', $saleIds)
             ->select('menu_name_snapshot', DB::raw('SUM(qty) as total_qty'), DB::raw('SUM(qty * unit_price) as total_revenue'))
             ->groupBy('menu_name_snapshot')
             ->orderByDesc('total_qty')

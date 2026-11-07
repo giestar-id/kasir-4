@@ -21,13 +21,15 @@
 </head>
 <body class="glass-canvas min-h-screen text-[#1E2029] antialiased selection:bg-[#5E63E8]/20 selection:text-[#5E63E8]">
 
-    <!-- Soft Ambient Mesh Blobs (Pure CSS decorative layer under glass UI) -->
+    <!-- Soft Ambient Mesh Blobs (Pure CSS decorative layer under glass UI, persisted across SPA navigation) -->
+    @persist('ambient-blobs')
     <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
         <div class="absolute -top-32 -left-32 w-[520px] h-[520px] bg-[#5E63E8]/16 rounded-full blur-[110px]"></div>
         <div class="absolute top-1/4 -right-24 w-[560px] h-[560px] bg-[#F4A261]/15 rounded-full blur-[120px]"></div>
         <div class="absolute bottom-10 left-1/4 w-[600px] h-[600px] bg-[#64CCF3]/16 rounded-full blur-[130px]"></div>
         <div class="absolute -bottom-24 right-10 w-[500px] h-[500px] bg-[#2EB872]/12 rounded-full blur-[110px]"></div>
     </div>
+    @endpersist
 
     <div
         x-data="{

@@ -41,11 +41,14 @@ RUN docker-php-ext-configure intl \
         zip \
         opcache
 
-# Enable Apache rewrite and headers modules
-RUN a2enmod rewrite headers
+# Enable Apache rewrite, headers, deflate (gzip), and expires modules
+RUN a2enmod rewrite headers deflate expires
 
 # Configure Apache DocumentRoot to Laravel /public
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
+
+# Copy production OPcache configuration
+COPY docker/opcache.ini $PHP_INI_DIR/conf.d/opcache.ini
 
 # Install Composer from official image
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer

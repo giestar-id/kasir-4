@@ -1,4 +1,4 @@
-﻿<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -33,8 +33,8 @@
     </div>
 
     <!-- Filter Bar Card -->
-    <div class="glass-card rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-3">
-        <div class="relative w-full sm:w-72">
+    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 min-w-0">
+        <div class="relative flex-1 min-w-[240px]">
             <x-ui.input
                 wire:model.live.debounce.250ms="search"
                 icon="search"
@@ -42,15 +42,32 @@
             />
         </div>
 
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-            <select
-                wire:model.live="stockStatusFilter"
-                class="bg-white/80 border border-[#ECEEF2] text-xs rounded-xl px-3 py-2 text-[#5A5D6C] focus:outline-none focus:border-[#5E63E8]"
-            >
-                <option value="all">Semua Kondisi Stok</option>
-                <option value="low">Stok Menipis (≤ Minimum)</option>
-                <option value="negative">Stok Negatif (< 0)</option>
-            </select>
+        <div class="flex items-center gap-2.5 w-full sm:w-auto shrink-0">
+            <div class="relative w-full sm:w-60 shrink-0">
+                <select
+                    wire:model.live="stockStatusFilter"
+                    class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
+                >
+                    <option value="all">Semua Kondisi Stok</option>
+                    <option value="low">Stok Menipis (≤ Minimum)</option>
+                    <option value="negative">Stok Negatif (< 0)</option>
+                </select>
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
+                    <x-ui.icon name="chevron-down" class="w-3.5 h-3.5 shrink-0" />
+                </div>
+            </div>
+
+            @if($search || ($stockStatusFilter ?? 'all') !== 'all')
+                <button
+                    type="button"
+                    wire:click="resetFilters"
+                    class="h-10 px-3.5 text-xs font-bold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 bg-white/80 border border-[#ECEEF2] rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0 shadow-2xs"
+                    title="Reset Filter"
+                >
+                    <x-ui.icon name="rotate-ccw" class="w-3.5 h-3.5 shrink-0" />
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
+            @endif
         </div>
     </div>
 
@@ -180,6 +197,7 @@
                     wire:model="baseUnit"
                     placeholder="gram / ml / pcs"
                     hint="Dipakai saat meracik resep"
+                    :error="$errors->first('baseUnit')"
                     required
                 />
 
@@ -188,6 +206,7 @@
                     wire:model="purchaseUnit"
                     placeholder="kg / liter / dus / karung"
                     hint="Dipakai saat belanja stok"
+                    :error="$errors->first('purchaseUnit')"
                     required
                 />
             </div>
@@ -199,6 +218,7 @@
                     step="0.001"
                     wire:model="unitFactor"
                     hint="Contoh: 1 kg = 1000 gram"
+                    :error="$errors->first('unitFactor')"
                     required
                 />
 
@@ -208,6 +228,7 @@
                     step="0.01"
                     wire:model="minStock"
                     hint="Peringatan saat stok di bawah nilai ini"
+                    :error="$errors->first('minStock')"
                     required
                 />
             </div>

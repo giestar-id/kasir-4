@@ -181,6 +181,8 @@ class Cashier extends Component
 
     public function processSale(SaleService $saleService): void
     {
+        $this->resetValidation();
+
         if (empty($this->cart)) {
             return;
         }
@@ -192,6 +194,7 @@ class Cashier extends Component
             abort_unless($user->isOwner() || $user->can_give_discount, 403, 'Akun kasir ini tidak memiliki izin untuk memberikan diskon.');
 
             if (empty(trim($this->discountReason))) {
+                $this->addError('discountReason', 'Alasan pemberian diskon wajib diisi.');
                 $this->dispatch('toast', [
                     'type' => 'error',
                     'title' => 'Alasan Wajib',
@@ -204,6 +207,7 @@ class Cashier extends Component
 
         // Validate cash payment
         if ($this->paymentMethod === 'cash' && $this->paidAmount < $this->total) {
+            $this->addError('paidAmount', 'Uang tunai yang diterima kurang dari total tagihan.');
             $this->dispatch('toast', [
                 'type' => 'error',
                 'title' => 'Uang Kurang',
@@ -263,7 +267,7 @@ class Cashier extends Component
         $categories = Category::orderBy('sort_order')->get();
 
         $menusQuery = Menu::where('is_active', true)
-            ->with(['category', 'recipes']);
+            ->with(['category']);
 
         if ($this->selectedCategory) {
             $menusQuery->where('category_id', $this->selectedCategory);

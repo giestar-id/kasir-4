@@ -58,7 +58,8 @@ class EmployeeManagementTest extends TestCase
             ->test(EmployeesIndex::class)
             ->assertOk()
             ->assertSee('Kelola Pekerja')
-            ->assertSee($this->cashier->name);
+            ->assertSee($this->cashier->name)
+            ->assertDontSee($this->owner->email);
     }
 
     /**

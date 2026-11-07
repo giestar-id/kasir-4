@@ -4,12 +4,15 @@ namespace Tests\Feature;
 
 use App\Livewire\Auth\Login;
 use App\Livewire\Categories\Index as CategoriesIndex;
+use App\Livewire\Dashboard;
 use App\Livewire\Ingredients\Index as IngredientsIndex;
 use App\Livewire\Menu\Index as MenuIndex;
 use App\Livewire\Pos\Cashier;
 use App\Livewire\Purchases\Index as PurchasesIndex;
+use App\Livewire\Reports\Index;
 use App\Livewire\Settings\Index as SettingsIndex;
 use App\Livewire\StockOpname\Index as StockOpnameIndex;
+use App\Livewire\Transactions\History;
 use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Menu;
@@ -257,5 +260,74 @@ class LivewirePagesTest extends TestCase
             ->assertDispatched('toast');
 
         $this->assertDatabaseHas('users', ['email' => 'kasir_siang@outlet.id', 'role' => 'cashier']);
+    }
+
+    public function test_dashboard_custom_date_filter_modal_and_apply(): void
+    {
+        $owner = User::factory()->create(['role' => 'owner']);
+        $this->actingAs($owner);
+
+        Livewire::test(Dashboard::class)
+            ->call('openCustomDateModal')
+            ->assertDispatched('open-modal', 'custom-date-modal')
+            ->set('customStartDate', '2026-01-01')
+            ->set('customEndDate', '2026-01-15')
+            ->call('applyCustomPeriod')
+            ->assertSet('period', 'custom')
+            ->assertSet('startDate', '2026-01-01')
+            ->assertSet('endDate', '2026-01-15')
+            ->assertDispatched('close-modal', 'custom-date-modal');
+    }
+
+    public function test_reports_custom_date_filter_modal_and_apply(): void
+    {
+        $owner = User::factory()->create(['role' => 'owner']);
+        $this->actingAs($owner);
+
+        Livewire::test(Index::class)
+            ->call('openCustomDateModal')
+            ->assertDispatched('open-modal', 'custom-date-modal')
+            ->set('customStartDate', '2026-02-01')
+            ->set('customEndDate', '2026-02-10')
+            ->call('applyCustomPeriod')
+            ->assertSet('period', 'custom')
+            ->assertSet('startDate', '2026-02-01')
+            ->assertSet('endDate', '2026-02-10')
+            ->assertDispatched('close-modal', 'custom-date-modal');
+    }
+
+    public function test_transactions_history_filter_and_reset(): void
+    {
+        $owner = User::factory()->create(['role' => 'owner']);
+        $this->actingAs($owner);
+
+        Livewire::test(History::class)
+            ->set('search', 'TRX-123')
+            ->set('channelFilter', 'gofood')
+            ->set('statusFilter', 'completed')
+            ->call('resetFilters')
+            ->assertSet('search', '')
+            ->assertSet('channelFilter', 'all')
+            ->assertSet('statusFilter', 'all');
+    }
+
+    public function test_ingredients_and_menu_filter_reset(): void
+    {
+        $owner = User::factory()->create(['role' => 'owner']);
+        $this->actingAs($owner);
+
+        Livewire::test(IngredientsIndex::class)
+            ->set('search', 'Kopi')
+            ->set('stockStatusFilter', 'low')
+            ->call('resetFilters')
+            ->assertSet('search', '')
+            ->assertSet('stockStatusFilter', 'all');
+
+        Livewire::test(MenuIndex::class)
+            ->set('search', 'Espresso')
+            ->set('categoryFilter', 1)
+            ->call('resetFilters')
+            ->assertSet('search', '')
+            ->assertSet('categoryFilter', null);
     }
 }

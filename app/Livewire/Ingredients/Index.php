@@ -33,6 +33,23 @@ class Index extends Component
     // Modal M15: Riwayat Kartu Stok
     public ?int $selectedIngredientId = null;
 
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingStockStatusFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function resetFilters(): void
+    {
+        $this->search = '';
+        $this->stockStatusFilter = 'all';
+        $this->resetPage();
+    }
+
     public function openCreateModal(): void
     {
         abort_unless(auth()->user()?->isOwner(), 403);

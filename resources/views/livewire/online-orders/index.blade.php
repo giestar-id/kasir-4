@@ -1,4 +1,4 @@
-﻿<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-5">
 
     <!-- Header & Action Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -42,7 +42,7 @@
         @foreach($tabs as $tabKey => $tabLabel)
             <button
                 type="button"
-                wire:click="$set('statusFilter', '{{ $tabKey }}')"
+                wire:click="setStatusFilter('{{ $tabKey }}')"
                 class="px-3.5 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-all cursor-pointer {{ $statusFilter === $tabKey ? 'bg-[#5E63E8] text-white shadow-xs' : 'text-[#5A5D6C] hover:text-[#1E2029] hover:bg-white/60' }}"
             >
                 {{ $tabLabel }}
@@ -387,6 +387,7 @@
                     <x-ui.input
                         label="Nomor Pesanan Eksternal"
                         wire:model="confirmExternalId"
+                        :error="$errors->first('confirmExternalId')"
                         required
                     />
 
@@ -394,16 +395,25 @@
                         <x-ui.input
                             label="Waktu Pesanan"
                             type="datetime-local"
-                            wire:model="confirmOrderTime"
+                            wire:model.live="confirmOrderTime"
+                            :error="$errors->first('confirmOrderTime')"
                             required
                         />
-                        <button
-                            type="button"
-                            wire:click="$set('confirmOrderTime', '{{ now()->format('Y-m-d\TH:i') }}')"
-                            class="text-[11px] text-[#5E63E8] hover:underline font-medium mt-1 cursor-pointer block"
-                        >
-                            &bull; Gunakan Waktu Sekarang (Hari Ini)
-                        </button>
+                        <div class="flex items-center justify-between mt-1">
+                            <button
+                                type="button"
+                                wire:click="useCurrentTime"
+                                class="text-[11px] text-[#5E63E8] hover:underline font-semibold cursor-pointer block"
+                            >
+                                &bull; Gunakan Waktu Sekarang (Hari Ini)
+                            </button>
+                        </div>
+                        @if($confirmOrderTime && !\Carbon\Carbon::parse($confirmOrderTime)->isToday())
+                            <p class="text-[11px] text-[#D97706] mt-1.5 flex items-center gap-1 font-medium bg-[#F59E0B]/10 p-2 rounded-lg border border-[#F59E0B]/20">
+                                <x-ui.icon name="alert-triangle" class="w-3.5 h-3.5 shrink-0 text-[#D97706]" />
+                                <span>Tanggal struk terbaca bukan hari ini (<b>{{ \Carbon\Carbon::parse($confirmOrderTime)->format('d M Y') }}</b>). Transaksi akan tercatat pada tanggal tersebut di Dashboard.</span>
+                            </p>
+                        @endif
                     </div>
 
                     <x-ui.input
@@ -411,6 +421,7 @@
                         type="number"
                         wire:model.live="confirmPlatformTotal"
                         prefix="Rp"
+                        :error="$errors->first('confirmPlatformTotal')"
                         required
                     />
                 </div>
@@ -503,7 +514,7 @@
     <x-ui.modal name="manual-online-modal" title="Input Pesanan Online Manual" size="md">
         <form wire:submit.prevent="saveManualOrder" class="flex flex-col gap-4">
             
-            <x-ui.select label="Kanal Penjualan" wire:model="manualChannel" required>
+            <x-ui.select label="Kanal Penjualan" wire:model="manualChannel" :error="$errors->first('manualChannel')" required>
                 <option value="gofood">GoFood</option>
                 <option value="shopeefood">ShopeeFood</option>
             </x-ui.select>
@@ -520,6 +531,7 @@
                 label="Waktu Pesanan"
                 type="datetime-local"
                 wire:model="manualOrderTime"
+                :error="$errors->first('manualOrderTime')"
                 required
             />
 
@@ -572,6 +584,7 @@
                 type="number"
                 wire:model.live="manualPlatformTotal"
                 prefix="Rp"
+                :error="$errors->first('manualPlatformTotal')"
                 required
             />
 

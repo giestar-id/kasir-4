@@ -1,4 +1,4 @@
-﻿@props([
+@props([
     'label' => null,
     'error' => null,
     'hint' => null,
@@ -32,7 +32,7 @@ $selectId = $id ?? 'select_' . substr(md5($seed), 0, 10);
         <select
             id="{{ $selectId }}"
             {{ $attributes->merge([
-                'class' => 'w-full bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2.5 pl-3.5 pr-9 ' .
+                'class' => 'w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-9 ' .
                     ($error ? 'border-[#E5484D] focus:ring-[#E5484D]/20 focus:border-[#E5484D] ' : 'border-[#ECEEF2] focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] ') .
                     'border shadow-2xs focus:bg-white focus:outline-none focus:ring-3 transition-all appearance-none cursor-pointer'
             ]) }}

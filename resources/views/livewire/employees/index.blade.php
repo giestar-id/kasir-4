@@ -1,10 +1,10 @@
-﻿<div class="flex flex-col gap-5 sm:gap-6">
+<div class="flex flex-col gap-5 sm:gap-6">
 
     @php
-        $metricTotal = $totalCount ?? \App\Models\User::count();
-        $metricActiveCashier = \App\Models\User::whereIn('role', ['cashier', 'kasir'])->where('is_active', true)->count();
-        $metricInactiveCashier = \App\Models\User::whereIn('role', ['cashier', 'kasir'])->where('is_active', false)->count();
-        $metricCanDiscount = \App\Models\User::where('can_give_discount', true)->count();
+        $metricTotal = $totalCount ?? \App\Models\User::where('role', '!=', 'owner')->count();
+        $metricActiveCashier = $activeCount ?? \App\Models\User::where('role', '!=', 'owner')->where('is_active', true)->count();
+        $metricInactiveCashier = $inactiveCount ?? \App\Models\User::where('role', '!=', 'owner')->where('is_active', false)->count();
+        $metricCanDiscount = $discountCount ?? \App\Models\User::where('role', '!=', 'owner')->where('can_give_discount', true)->count();
     @endphp
 
     <!-- Top Bar: Header & Action Button -->
@@ -48,7 +48,7 @@
                 </div>
                 <div class="flex items-center gap-1.5 mt-1 text-[11px] text-[#4E5262] min-w-0 truncate">
                     <x-ui.icon name="shield-check" class="w-3.5 h-3.5 text-[#5E63E8] shrink-0" />
-                    <span class="truncate">Owner & kasir terdaftar</span>
+                    <span class="truncate">Total kasir terdaftar</span>
                 </div>
             </div>
         </div>
@@ -113,10 +113,10 @@
     </div>
 
     <!-- Filter Bar Card -->
-    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3 min-w-0">
+    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-3 min-w-0">
         
         <!-- Search Input -->
-        <div class="relative flex-1 min-w-0">
+        <div class="relative flex-1 min-w-[240px]">
             <x-ui.input
                 wire:model.live.debounce.300ms="search"
                 icon="search"
@@ -128,10 +128,10 @@
         <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0">
             
             <!-- Filter Status -->
-            <div class="relative w-full sm:w-44 shrink-0">
+            <div class="relative w-full sm:w-48 md:w-52 shrink-0">
                 <select
                     wire:model.live="statusFilter"
-                    class="w-full bg-white/90 text-[#1E2029] text-xs rounded-xl py-2.5 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
+                    class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
                 >
                     <option value="all">Semua Status</option>
                     <option value="active">Status: Aktif</option>
@@ -143,10 +143,10 @@
             </div>
 
             <!-- Filter Hak Diskon -->
-            <div class="relative w-full sm:w-48 shrink-0">
+            <div class="relative w-full sm:w-48 md:w-52 shrink-0">
                 <select
                     wire:model.live="discountFilter"
-                    class="w-full bg-white/90 text-[#1E2029] text-xs rounded-xl py-2.5 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
+                    class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
                 >
                     <option value="all">Semua Hak Diskon</option>
                     <option value="allowed">Boleh Beri Diskon</option>
@@ -161,8 +161,8 @@
             @if($search || $statusFilter !== 'all' || $discountFilter !== 'all')
                 <button
                     type="button"
-                    wire:click="$set('search', ''); $set('statusFilter', 'all'); $set('discountFilter', 'all');"
-                    class="h-9 px-3 text-xs font-semibold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0"
+                    wire:click="resetFilters"
+                    class="h-10 px-3.5 text-xs font-bold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 bg-white/80 border border-[#ECEEF2] rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0 shadow-2xs"
                     title="Reset Filter"
                 >
                     <x-ui.icon name="rotate-ccw" class="w-3.5 h-3.5 shrink-0" />
@@ -191,25 +191,18 @@
                 </thead>
                 <tbody class="divide-y divide-[#ECEEF2]/70 text-xs">
                     @forelse($employees as $emp)
-                        <tr wire:key="employee-{{ $emp->id }}" class="hover:bg-white/50 transition-colors {{ $emp->id === auth()->id() ? 'bg-[#5E63E8]/[0.02]' : '' }}">
+                        <tr wire:key="employee-{{ $emp->id }}" class="hover:bg-white/50 transition-colors">
                             
                             <!-- Kolom 1: Nama & Email -->
                             <td class="py-3.5 px-4 sm:px-5">
                                 <div class="flex items-center gap-3 min-w-0">
-                                    <div class="w-10 h-10 rounded-xl {{ $emp->isOwner() ? 'bg-[#5E63E8]/12 text-[#5E63E8]' : 'bg-[#64CCF3]/15 text-[#0284C7]' }} flex items-center justify-center font-bold text-sm shrink-0 shadow-2xs">
+                                    <div class="w-10 h-10 rounded-xl bg-[#5E63E8]/10 text-[#5E63E8] flex items-center justify-center font-bold text-sm shrink-0 shadow-2xs">
                                         {{ strtoupper(substr($emp->name, 0, 1)) }}
                                     </div>
                                     <div class="flex flex-col min-w-0">
-                                        <div class="flex items-center gap-1.5 min-w-0">
-                                            <span class="font-bold text-[#1E2029] truncate text-sm" title="{{ $emp->name }}">
-                                                {{ $emp->name }}
-                                            </span>
-                                            @if($emp->id === auth()->id())
-                                                <span class="px-1.5 py-0.5 rounded-md bg-[#5E63E8]/10 text-[#5E63E8] text-[10px] font-bold shrink-0">
-                                                    Anda
-                                                </span>
-                                            @endif
-                                        </div>
+                                        <span class="font-bold text-[#1E2029] truncate text-sm" title="{{ $emp->name }}">
+                                            {{ $emp->name }}
+                                        </span>
                                         <span class="text-xs text-[#4E5262] truncate" title="{{ $emp->email }}">
                                             {{ $emp->email }}
                                         </span>
@@ -219,20 +212,14 @@
 
                             <!-- Kolom 2: Role / Jabatan (Badge) -->
                             <td class="py-3.5 px-4 whitespace-nowrap">
-                                @if($emp->isOwner())
-                                    <x-ui.badge variant="info" size="sm" dot>
-                                        Pemilik Outlet
-                                    </x-ui.badge>
-                                @else
-                                    <x-ui.badge variant="neutral" size="sm" dot>
-                                        Kasir Outlet
-                                    </x-ui.badge>
-                                @endif
+                                <x-ui.badge variant="neutral" size="sm" dot>
+                                    Kasir Outlet
+                                </x-ui.badge>
                             </td>
 
                             <!-- Kolom 3: Hak Diskon (Badge success / neutral) -->
                             <td class="py-3.5 px-4 whitespace-nowrap">
-                                @if($emp->isOwner() || $emp->can_give_discount)
+                                @if($emp->can_give_discount)
                                     <x-ui.badge variant="success" size="sm" dot>
                                         Boleh Diskon
                                     </x-ui.badge>
@@ -243,40 +230,29 @@
                                 @endif
                             </td>
 
-                            <!-- Kolom 4: Status Aktif (Toggle switch / Badge click) -->
+                            <!-- Kolom 4: Status Aktif (Toggle switch interaktif) -->
                             <td class="py-3.5 px-4 whitespace-nowrap">
-                                @if($emp->id === auth()->id())
-                                    <!-- Status akun sendiri: Disabled / Tidak dapat dinonaktifkan -->
-                                    <div class="inline-flex items-center gap-2 select-none" title="Akun Anda selalu aktif">
-                                        <div class="relative inline-flex h-5 w-9 shrink-0 rounded-full bg-[#2EB872]/40 opacity-70 cursor-not-allowed items-center px-0.5">
-                                            <span class="h-4 w-4 rounded-full bg-white shadow-xs transform translate-x-4"></span>
-                                        </div>
-                                        <x-ui.badge variant="success" size="sm">Aktif (Anda)</x-ui.badge>
-                                    </div>
-                                @else
-                                    <!-- Toggle switch interaktif untuk pekerja lain -->
-                                    <div class="inline-flex items-center gap-2">
-                                        <button
-                                            type="button"
-                                            wire:click="toggleStatus({{ $emp->id }})"
-                                            wire:loading.attr="disabled"
-                                            class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/30 items-center px-0.5 {{ $emp->is_active ? 'bg-[#2EB872]' : 'bg-[#D1D5DB]' }}"
-                                            role="switch"
-                                            aria-checked="{{ $emp->is_active ? 'true' : 'false' }}"
-                                            title="{{ $emp->is_active ? 'Klik untuk menonaktifkan akun pekerja' : 'Klik untuk mengaktifkan akun pekerja' }}"
-                                        >
-                                            <span class="sr-only">Toggle Status</span>
-                                            <span
-                                                class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-xs transition duration-200 ease-in-out {{ $emp->is_active ? 'translate-x-4' : 'translate-x-0' }}"
-                                            ></span>
-                                        </button>
-                                        @if($emp->is_active)
-                                            <x-ui.badge variant="success" size="sm">Aktif</x-ui.badge>
-                                        @else
-                                            <x-ui.badge variant="neutral" size="sm">Nonaktif</x-ui.badge>
-                                        @endif
-                                    </div>
-                                @endif
+                                <div class="inline-flex items-center gap-2">
+                                    <button
+                                        type="button"
+                                        wire:click="toggleStatus({{ $emp->id }})"
+                                        wire:loading.attr="disabled"
+                                        class="relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/30 items-center px-0.5 {{ $emp->is_active ? 'bg-[#2EB872]' : 'bg-[#D1D5DB]' }}"
+                                        role="switch"
+                                        aria-checked="{{ $emp->is_active ? 'true' : 'false' }}"
+                                        title="{{ $emp->is_active ? 'Klik untuk menonaktifkan akun pekerja' : 'Klik untuk mengaktifkan akun pekerja' }}"
+                                    >
+                                        <span class="sr-only">Toggle Status</span>
+                                        <span
+                                            class="pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-xs transition duration-200 ease-in-out {{ $emp->is_active ? 'translate-x-4' : 'translate-x-0' }}"
+                                        ></span>
+                                    </button>
+                                    @if($emp->is_active)
+                                        <x-ui.badge variant="success" size="sm">Aktif</x-ui.badge>
+                                    @else
+                                        <x-ui.badge variant="neutral" size="sm">Nonaktif</x-ui.badge>
+                                    @endif
+                                </div>
                             </td>
 
                             <!-- Kolom 5: Terakhir Login / Tanggal Bergabung -->
@@ -301,6 +277,7 @@
                                     <button
                                         type="button"
                                         wire:click="openEditModal({{ $emp->id }})"
+                                        @click="$dispatch('open-modal', 'employee-form-modal')"
                                         class="p-2 text-[#5A5D6C] hover:text-[#5E63E8] hover:bg-[#5E63E8]/10 rounded-xl transition-all cursor-pointer shrink-0"
                                         title="Edit Data Pekerja"
                                     >
@@ -311,6 +288,7 @@
                                     <button
                                         type="button"
                                         wire:click="openPasswordModal({{ $emp->id }})"
+                                        @click="$dispatch('open-modal', 'employee-password-modal')"
                                         class="p-2 text-[#5A5D6C] hover:text-[#D97706] hover:bg-[#F59E0B]/10 rounded-xl transition-all cursor-pointer shrink-0"
                                         title="Ubah Password"
                                     >
@@ -318,24 +296,15 @@
                                     </button>
 
                                     <!-- Tombol Hapus (buka modal konfirmasi hapus) -->
-                                    @if($emp->id === auth()->id())
-                                        <!-- Mencegah tombol hapus pada akun sendiri -->
-                                        <span
-                                            class="p-2 text-[#ECEEF2] cursor-not-allowed rounded-xl shrink-0 inline-flex"
-                                            title="Tidak dapat menghapus akun Anda sendiri"
-                                        >
-                                            <x-ui.icon name="trash-2" class="w-4 h-4 shrink-0" />
-                                        </span>
-                                    @else
-                                        <button
-                                            type="button"
-                                            wire:click="openDeleteModal({{ $emp->id }})"
-                                            class="p-2 text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 rounded-xl transition-all cursor-pointer shrink-0"
-                                            title="Hapus Pekerja"
-                                        >
-                                            <x-ui.icon name="trash-2" class="w-4 h-4 shrink-0" />
-                                        </button>
-                                    @endif
+                                    <button
+                                        type="button"
+                                        wire:click="openDeleteModal({{ $emp->id }})"
+                                        @click="$dispatch('open-modal', 'employee-delete-modal')"
+                                        class="p-2 text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 rounded-xl transition-all cursor-pointer shrink-0"
+                                        title="Hapus Pekerja"
+                                    >
+                                        <x-ui.icon name="trash-2" class="w-4 h-4 shrink-0" />
+                                    </button>
 
                                 </div>
                             </td>
@@ -410,17 +379,16 @@
             />
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <x-ui.select
-                    label="Role / Jabatan"
-                    wire:model="role"
-                    :error="$errors->first('role')"
-                    :disabled="$editingEmployeeId === auth()->id()"
-                    hint="{{ $editingEmployeeId === auth()->id() ? 'Role akun utama tidak dapat diubah' : '' }}"
-                    required
-                >
-                    <option value="cashier">Kasir Outlet</option>
-                    <option value="owner">Pemilik (Owner)</option>
-                </x-ui.select>
+                <div class="flex flex-col gap-1.5">
+                    <label class="text-xs font-semibold text-[#5A5D6C]">Role / Jabatan</label>
+                    <div class="h-10 px-3.5 rounded-xl bg-[#ECEEF2]/40 border border-[#ECEEF2] flex items-center justify-between text-xs text-[#1E2029]">
+                        <span class="font-bold flex items-center gap-1.5">
+                            <x-ui.icon name="user" class="w-3.5 h-3.5 text-[#5E63E8]" />
+                            Kasir Outlet
+                        </span>
+                        <span class="text-[10px] text-[#4E5262] font-semibold">Staf Kasir POS</span>
+                    </div>
+                </div>
 
                 @if(!$editingEmployeeId)
                     <x-ui.input
@@ -459,18 +427,17 @@
             </div>
 
             <!-- Status Akun Aktif -->
-            <div class="p-3.5 rounded-xl bg-white/60 border border-[#ECEEF2] flex items-start gap-3 {{ $editingEmployeeId === auth()->id() ? 'opacity-60 pointer-events-none' : '' }}">
+            <div class="p-3.5 rounded-xl bg-white/60 border border-[#ECEEF2] flex items-start gap-3">
                 <input
                     id="is_active_input"
                     type="checkbox"
                     wire:model="is_active"
-                    {{ $editingEmployeeId === auth()->id() ? 'disabled' : '' }}
                     class="w-4 h-4 mt-0.5 rounded text-[#5E63E8] accent-[#5E63E8] cursor-pointer"
                 />
                 <label for="is_active_input" class="flex flex-col text-xs cursor-pointer select-none">
                     <span class="font-bold text-[#1E2029]">Status Akun Aktif</span>
                     <span class="text-[#4E5262] mt-0.5">
-                        {{ $editingEmployeeId === auth()->id() ? 'Akun pemilik Anda selalu aktif.' : 'Pekerja hanya dapat masuk dan mengoperasikan kasir jika akun berstatus aktif.' }}
+                        Pekerja hanya dapat masuk dan mengoperasikan kasir jika akun berstatus aktif.
                     </span>
                 </label>
             </div>

@@ -1,4 +1,4 @@
-﻿<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-5">
 
     <!-- Header Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -27,8 +27,9 @@
     </div>
 
     <!-- Filter Bar Card -->
-    <div class="glass-card rounded-2xl p-4 flex flex-col sm:flex-row items-center gap-3">
-        <div class="relative w-full sm:w-72">
+    <!-- Search & Filter Bar -->
+    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 min-w-0">
+        <div class="relative flex-1 min-w-[240px]">
             <x-ui.input
                 wire:model.live.debounce.250ms="search"
                 icon="search"
@@ -36,16 +37,47 @@
             />
         </div>
 
-        <div class="flex items-center gap-2 w-full sm:w-auto">
-            <select
-                wire:model.live="categoryFilter"
-                class="bg-white/80 border border-[#ECEEF2] text-xs rounded-xl px-3 py-2 text-[#5A5D6C] focus:outline-none focus:border-[#5E63E8]"
-            >
-                <option value="">Semua Kategori</option>
-                @foreach($categories as $cat)
-                    <option value="{{ $cat->id }}">{{ $cat->name }}</option>
-                @endforeach
-            </select>
+        <div class="flex items-center gap-2.5 w-full sm:w-auto shrink-0 flex-wrap sm:flex-nowrap">
+            <div class="relative w-full sm:w-48 shrink-0">
+                <select
+                    wire:model.live="categoryFilter"
+                    class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
+                >
+                    <option value="">Semua Kategori</option>
+                    @foreach($categories as $cat)
+                        <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+                    @endforeach
+                </select>
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
+                    <x-ui.icon name="chevron-down" class="w-3.5 h-3.5 shrink-0" />
+                </div>
+            </div>
+
+            <div class="relative w-full sm:w-48 shrink-0">
+                <select
+                    wire:model.live="recipeStatusFilter"
+                    class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
+                >
+                    <option value="all">Semua Resep</option>
+                    <option value="complete">Resep Lengkap</option>
+                    <option value="incomplete">Belum Ada Resep</option>
+                </select>
+                <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
+                    <x-ui.icon name="chevron-down" class="w-3.5 h-3.5 shrink-0" />
+                </div>
+            </div>
+
+            @if($search || $categoryFilter || ($recipeStatusFilter ?? 'all') !== 'all')
+                <button
+                    type="button"
+                    wire:click="resetFilters"
+                    class="h-10 px-3.5 text-xs font-bold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 bg-white/80 border border-[#ECEEF2] rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0 shadow-2xs"
+                    title="Reset Filter"
+                >
+                    <x-ui.icon name="rotate-ccw" class="w-3.5 h-3.5 shrink-0" />
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
+            @endif
         </div>
     </div>
 
@@ -176,7 +208,7 @@
                 required
             />
 
-            <x-ui.select label="Kategori" wire:model="menuCategoryId" required>
+            <x-ui.select label="Kategori" wire:model="menuCategoryId" :error="$errors->first('menuCategoryId')" required>
                 @foreach($categories as $cat)
                     <option value="{{ $cat->id }}">{{ $cat->name }}</option>
                 @endforeach

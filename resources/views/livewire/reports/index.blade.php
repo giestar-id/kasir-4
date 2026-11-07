@@ -1,4 +1,4 @@
-﻿<div class="flex flex-col gap-5">
+<div class="flex flex-col gap-5">
 
     <!-- Header & Period Filter Row -->
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -36,6 +36,7 @@
                 variant="secondary"
                 size="md"
                 icon="calendar"
+                wire:click="openCustomDateModal"
                 @click="$dispatch('open-modal', 'custom-date-modal')"
             >
                 <span>{{ $period === 'custom' ? date('d M', strtotime($startDate)) . ' - ' . date('d M', strtotime($endDate)) : 'Kustom' }}</span>
@@ -280,26 +281,27 @@
 
     <!-- Modal M1: Rentang Tanggal Kustom -->
     <x-ui.modal name="custom-date-modal" title="Pilih Rentang Tanggal Laporan" size="md">
-        <form x-data="{ start: '{{ $startDate }}', end: '{{ $endDate }}' }" @submit.prevent="$wire.applyCustomPeriod(start, end)" class="flex flex-col gap-4">
+        <form wire:submit="applyCustomPeriod" class="flex flex-col gap-4">
             <x-ui.input
                 label="Tanggal Mulai"
                 type="date"
-                x-model="start"
+                wire:model="customStartDate"
                 required
             />
             <x-ui.input
                 label="Tanggal Selesai"
                 type="date"
-                x-model="end"
+                wire:model="customEndDate"
                 required
             />
 
-            <div class="flex items-center justify-end gap-2.5 mt-4">
-                <x-ui.button variant="secondary" size="md" @click="$dispatch('close-modal', 'custom-date-modal')">
+            <div class="flex items-center justify-end gap-2.5 mt-2 pt-3 border-t border-[#ECEEF2]">
+                <x-ui.button variant="secondary" size="md" type="button" @click="$dispatch('close-modal', 'custom-date-modal')">
                     Batal
                 </x-ui.button>
-                <x-ui.button variant="primary" size="md" type="submit">
-                    Terapkan Rentang
+                <x-ui.button variant="primary" size="md" type="submit" wire:loading.attr="disabled">
+                    <span wire:loading.remove wire:target="applyCustomPeriod">Terapkan Rentang</span>
+                    <span wire:loading wire:target="applyCustomPeriod">Menerapkan...</span>
                 </x-ui.button>
             </div>
         </form>

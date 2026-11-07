@@ -33,10 +33,12 @@ chmod -R 755 /var/www/html/public
 # 5. Run database migrations and initial seeders
 php artisan migrate --force --seed
 
-# 6. Optimize Laravel caches for production performance
+# 6. Optimize Laravel caches & SQLite WAL mode for peak production performance
 php artisan config:cache || true
 php artisan route:cache || true
 php artisan view:cache || true
+php artisan event:cache || true
+sqlite3 /var/www/html/database/database.sqlite "PRAGMA journal_mode=WAL; PRAGMA synchronous=NORMAL;" || true
 
 # 7. Start Apache in foreground
 exec apache2-foreground

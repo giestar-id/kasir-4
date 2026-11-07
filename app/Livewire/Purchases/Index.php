@@ -17,6 +17,23 @@ class Index extends Component
 
     public ?int $ingredientFilter = null;
 
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingIngredientFilter(): void
+    {
+        $this->resetPage();
+    }
+
+    public function resetFilters(): void
+    {
+        $this->search = '';
+        $this->ingredientFilter = null;
+        $this->resetPage();
+    }
+
     // Modal M16: Catat Pembelian
     public ?int $purchaseIngredientId = null;
 

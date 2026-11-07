@@ -21,6 +21,14 @@ class Index extends Component
 
     public string $discountFilter = 'all'; // all, allowed, not_allowed
 
+    public function resetFilters(): void
+    {
+        $this->search = '';
+        $this->statusFilter = 'all';
+        $this->discountFilter = 'all';
+        $this->resetPage();
+    }
+
     // Form Tambah / Edit Pekerja
     public ?int $editingEmployeeId = null;
 
@@ -87,23 +95,25 @@ class Index extends Component
         $this->is_active = true;
         $this->resetValidation();
         $this->dispatch('open-modal', 'employee-form-modal');
+        $this->dispatch('open-modal-employee-form-modal');
     }
 
     public function openEditModal(int $id): void
     {
         abort_unless(auth()->user()?->isOwner(), 403, 'Akses khusus Pemilik outlet.');
 
-        $employee = User::findOrFail($id);
+        $employee = User::where('role', '!=', 'owner')->findOrFail($id);
         $this->editingEmployeeId = $employee->id;
         $this->name = $employee->name;
         $this->email = $employee->email;
         $this->password = '';
-        $this->role = $employee->role ?? 'cashier';
+        $this->role = 'cashier';
         $this->can_give_discount = (bool) $employee->can_give_discount;
         $this->is_active = (bool) $employee->is_active;
 
         $this->resetValidation();
         $this->dispatch('open-modal', 'employee-form-modal');
+        $this->dispatch('open-modal-employee-form-modal');
     }
 
     public function saveEmployee(): void
@@ -144,16 +154,10 @@ class Index extends Component
         $data = [
             'name' => trim($this->name),
             'email' => strtolower(trim($this->email)),
-            'role' => $this->role,
+            'role' => 'cashier',
             'can_give_discount' => (bool) $this->can_give_discount,
             'is_active' => (bool) $this->is_active,
         ];
-
-        // Owner tidak dapat menonaktifkan diri sendiri atau mendowngrade rolenya di form edit
-        if ($this->editingEmployeeId === (int) auth()->id()) {
-            $data['is_active'] = true;
-            $data['role'] = 'owner';
-        }
 
         if (! empty($this->password)) {
             $data['password'] = Hash::make($this->password);
@@ -163,7 +167,7 @@ class Index extends Component
         if ($isNew) {
             $employee = User::create($data);
         } else {
-            $employee = User::findOrFail($this->editingEmployeeId);
+            $employee = User::where('role', '!=', 'owner')->findOrFail($this->editingEmployeeId);
             $employee->update($data);
         }
 
@@ -183,6 +187,7 @@ class Index extends Component
         ]);
 
         $this->dispatch('close-modal', 'employee-form-modal');
+        $this->dispatch('close-modal-employee-form-modal');
         $this->dispatch('toast', [
             'type' => 'success',
             'title' => $isNew ? 'Pekerja Ditambahkan' : 'Pekerja Diperbarui',
@@ -206,7 +211,7 @@ class Index extends Component
     {
         abort_unless(auth()->user()?->isOwner(), 403, 'Akses khusus Pemilik outlet.');
 
-        $employee = User::findOrFail($id);
+        $employee = User::where('role', '!=', 'owner')->findOrFail($id);
         $this->passwordEmployeeId = $employee->id;
         $this->passwordEmployeeName = $employee->name;
         $this->newEmployeePassword = '';
@@ -214,6 +219,7 @@ class Index extends Component
 
         $this->resetValidation();
         $this->dispatch('open-modal', 'employee-password-modal');
+        $this->dispatch('open-modal-employee-password-modal');
     }
 
     public function changeEmployeePassword(): void
@@ -230,7 +236,7 @@ class Index extends Component
             'confirmEmployeePassword.same' => 'Konfirmasi password tidak cocok dengan password baru.',
         ]);
 
-        $employee = User::findOrFail($this->passwordEmployeeId);
+        $employee = User::where('role', '!=', 'owner')->findOrFail($this->passwordEmployeeId);
         $employee->update([
             'password' => Hash::make($this->newEmployeePassword),
         ]);
@@ -255,6 +261,7 @@ class Index extends Component
         ]);
 
         $this->dispatch('close-modal', 'employee-password-modal');
+        $this->dispatch('close-modal-employee-password-modal');
         $this->dispatch('toast', [
             'type' => 'success',
             'title' => 'Password Diperbarui',
@@ -271,17 +278,18 @@ class Index extends Component
     {
         abort_unless(auth()->user()?->isOwner(), 403, 'Akses khusus Pemilik outlet.');
 
-        if ($id === (int) auth()->id()) {
+        $employee = User::findOrFail($id);
+
+        if ($employee->isOwner() || $id === (int) auth()->id()) {
             $this->dispatch('toast', [
                 'type' => 'error',
                 'title' => 'Tindakan Ditolak',
-                'message' => 'Anda tidak dapat menonaktifkan akun Pemilik Anda sendiri.',
+                'message' => 'Anda tidak dapat menonaktifkan akun Pemilik.',
             ]);
 
             return;
         }
 
-        $employee = User::findOrFail($id);
         $employee->update([
             'is_active' => ! $employee->is_active,
         ]);
@@ -311,27 +319,30 @@ class Index extends Component
     {
         abort_unless(auth()->user()?->isOwner(), 403, 'Akses khusus Pemilik outlet.');
 
-        if ($id === (int) auth()->id()) {
-            abort(400, 'Anda tidak dapat menghapus akun Anda sendiri.');
+        $employee = User::findOrFail($id);
+
+        if ($employee->isOwner() || $id === (int) auth()->id()) {
+            abort(400, 'Anda tidak dapat menghapus akun Pemilik.');
         }
 
-        $employee = User::findOrFail($id);
         $this->deletingEmployeeId = $employee->id;
         $this->deletingEmployeeName = $employee->name;
         $this->deletingEmployeeHasSales = Sale::where('user_id', $id)->exists();
 
         $this->dispatch('open-modal', 'employee-delete-modal');
+        $this->dispatch('open-modal-employee-delete-modal');
     }
 
     public function deleteEmployee(int $id): void
     {
         abort_unless(auth()->user()?->isOwner(), 403, 'Akses khusus Pemilik outlet.');
 
-        if ($id === (int) auth()->id()) {
-            abort(400, 'Anda tidak dapat menghapus akun Anda sendiri.');
+        $employee = User::findOrFail($id);
+
+        if ($employee->isOwner() || $id === (int) auth()->id()) {
+            abort(400, 'Anda tidak dapat menghapus akun Pemilik.');
         }
 
-        $employee = User::findOrFail($id);
         $hasSales = Sale::where('user_id', $id)->exists();
 
         if ($hasSales) {
@@ -351,6 +362,7 @@ class Index extends Component
             ]);
 
             $this->dispatch('close-modal', 'employee-delete-modal');
+            $this->dispatch('close-modal-employee-delete-modal');
             $this->dispatch('toast', [
                 'type' => 'warning',
                 'title' => 'Akun Dinonaktifkan',
@@ -376,6 +388,7 @@ class Index extends Component
             ]);
 
             $this->dispatch('close-modal', 'employee-delete-modal');
+            $this->dispatch('close-modal-employee-delete-modal');
             $this->dispatch('toast', [
                 'type' => 'success',
                 'title' => 'Pekerja Dihapus',
@@ -400,7 +413,9 @@ class Index extends Component
 
     public function render(): View
     {
-        $query = User::query()->withCount('sales');
+        $query = User::query()
+            ->where('role', '!=', 'owner')
+            ->withCount('sales');
 
         if (! empty(trim($this->search))) {
             $term = '%'.trim($this->search).'%';
@@ -424,11 +439,24 @@ class Index extends Component
 
         $employees = $query->orderBy('name')->paginate(10);
 
+        // Combined metrics in a single database query for speed
+        $metrics = User::where('role', '!=', 'owner')
+            ->selectRaw("
+                COUNT(*) as total_count,
+                SUM(CASE WHEN is_active = 1 THEN 1 ELSE 0 END) as active_count,
+                SUM(CASE WHEN is_active = 0 THEN 1 ELSE 0 END) as inactive_count,
+                SUM(CASE WHEN role = 'cashier' THEN 1 ELSE 0 END) as cashier_count,
+                SUM(CASE WHEN can_give_discount = 1 THEN 1 ELSE 0 END) as discount_count
+            ")
+            ->first();
+
         return view('livewire.employees.index', [
             'employees' => $employees,
-            'totalCount' => User::count(),
-            'activeCount' => User::where('is_active', true)->count(),
-            'cashierCount' => User::where('role', 'cashier')->count(),
+            'totalCount' => (int) ($metrics->total_count ?? 0),
+            'activeCount' => (int) ($metrics->active_count ?? 0),
+            'inactiveCount' => (int) ($metrics->inactive_count ?? 0),
+            'cashierCount' => (int) ($metrics->cashier_count ?? 0),
+            'discountCount' => (int) ($metrics->discount_count ?? 0),
         ])->layout('layouts.app', ['title' => 'Kelola Pekerja']);
     }
 }

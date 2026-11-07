@@ -12,16 +12,17 @@ primary_region = 'sin'
   APP_DEBUG = 'false'
   DB_CONNECTION = 'sqlite'
   DB_DATABASE = '/var/www/html/database/database.sqlite'
-  SESSION_DRIVER = 'database'
+  SESSION_DRIVER = 'cookie'
+  SESSION_LIFETIME = '10080'
   CACHE_STORE = 'database'
   QUEUE_CONNECTION = 'sync'
 
 [http_service]
   internal_port = 80
   force_https = true
-  auto_stop_machines = 'stop'
+  auto_stop_machines = 'off'
   auto_start_machines = true
-  min_machines_running = 0
+  min_machines_running = 1
   processes = ['app']
 
 [[vm]]
