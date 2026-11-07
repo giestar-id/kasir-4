@@ -185,7 +185,7 @@
                             <button
                                 type="button"
                                 wire:click="clearCart"
-                                class="inline-flex items-center gap-1.5 rounded-lg border border-red-100 bg-red-50 hover:bg-red-100 text-[#E5484D] px-2.5 py-1.5 text-xs font-semibold transition-colors cursor-pointer"
+                                class="inline-flex items-center gap-1.5 rounded-lg border border-[#E5484D]/20 bg-[#E5484D]/10 hover:bg-[#E5484D]/20 text-[#E5484D] px-2.5 py-1.5 text-xs font-semibold transition-colors cursor-pointer"
                                 title="Kosongkan seluruh isi keranjang"
                             >
                                 <x-ui.icon name="trash-2" class="w-3.5 h-3.5 shrink-0" />
@@ -244,7 +244,7 @@
                                 <button
                                     type="button"
                                     wire:click="removeFromCart({{ $item['menu_id'] }})"
-                                    class="text-[#4E5262] hover:text-[#E5484D] hover:bg-red-50 p-1.5 rounded-lg transition-colors cursor-pointer"
+                                    class="text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 p-1.5 rounded-lg transition-colors cursor-pointer"
                                     title="Hapus item dari keranjang"
                                 >
                                     <x-ui.icon name="trash-2" class="w-3.5 h-3.5" />

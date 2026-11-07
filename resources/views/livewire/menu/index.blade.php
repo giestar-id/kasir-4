@@ -156,7 +156,7 @@
                                     <button
                                         type="button"
                                         wire:click="openDeleteModal({{ $menu->id }})"
-                                        class="p-1.5 text-[#4E5262] hover:text-[#E5484D] rounded-lg transition-colors cursor-pointer"
+                                        class="p-1.5 text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 rounded-lg transition-colors cursor-pointer"
                                         title="Hapus / Nonaktifkan"
                                     >
                                         <x-ui.icon name="trash-2" class="w-4 h-4" />
@@ -308,7 +308,8 @@
                         <button
                             type="button"
                             wire:click="removeRecipeIngredientRow({{ $rIdx }})"
-                            class="p-2 text-[#4E5262] hover:text-[#E5484D] rounded-lg"
+                            class="p-2 text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 rounded-lg transition-colors cursor-pointer shrink-0"
+                            title="Hapus Bahan"
                         >
                             <x-ui.icon name="trash" class="w-4 h-4" />
                         </button>
@@ -346,7 +347,8 @@
                         <button
                             type="button"
                             wire:click="removeExtraCostRow({{ $eIdx }})"
-                            class="p-2 text-[#4E5262] hover:text-[#E5484D]"
+                            class="p-2 text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 rounded-lg transition-colors cursor-pointer shrink-0"
+                            title="Hapus Biaya"
                         >
                             <x-ui.icon name="trash" class="w-4 h-4" />
                         </button>

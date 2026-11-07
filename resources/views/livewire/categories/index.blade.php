@@ -56,7 +56,7 @@
                                     <button
                                         type="button"
                                         wire:click="openDeleteModal({{ $category->id }})"
-                                        class="p-1.5 text-[#4E5262] hover:text-[#E5484D] rounded-lg transition-colors cursor-pointer"
+                                        class="p-1.5 text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 rounded-lg transition-colors cursor-pointer"
                                         title="Hapus Kategori"
                                     >
                                         <x-ui.icon name="trash-2" class="w-4 h-4" />

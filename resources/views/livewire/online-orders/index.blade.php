@@ -307,7 +307,7 @@
                         <button
                             type="button"
                             wire:click="$set('uploadedFiles', [])"
-                            class="text-[11px] font-semibold text-[#E5484D] hover:underline cursor-pointer"
+                            class="text-[11px] font-semibold text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
                         >
                             Hapus Semua
                         </button>
@@ -324,7 +324,7 @@
                                     <button
                                         type="button"
                                         wire:click="removeUploadedFile({{ $idx }})"
-                                        class="p-1 text-[#4E5262] hover:text-[#E5484D] rounded cursor-pointer shrink-0 ml-2"
+                                        class="p-1 text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 rounded-md cursor-pointer shrink-0 ml-2 transition-colors"
                                         title="Hapus file ini"
                                     >
                                         <x-ui.icon name="x" class="w-3.5 h-3.5" />
@@ -570,7 +570,8 @@
                             <button
                                 type="button"
                                 wire:click="removeManualItem({{ $mIdx }})"
-                                class="p-2 text-[#4E5262] hover:text-[#E5484D]"
+                                class="p-2 text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 rounded-xl transition-all cursor-pointer shrink-0"
+                                title="Hapus Baris Menu"
                             >
                                 <x-ui.icon name="trash" class="w-4 h-4" />
                             </button>

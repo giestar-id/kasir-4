@@ -300,7 +300,7 @@
                                         type="button"
                                         wire:click="openDeleteModal({{ $emp->id }})"
                                         @click="$dispatch('open-modal', 'employee-delete-modal')"
-                                        class="p-2 text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 rounded-xl transition-all cursor-pointer shrink-0"
+                                        class="p-2 text-[#E5484D] hover:text-[#D03B40] bg-[#E5484D]/10 hover:bg-[#E5484D]/20 border border-[#E5484D]/20 rounded-xl transition-all cursor-pointer shrink-0"
                                         title="Hapus Pekerja"
                                     >
                                         <x-ui.icon name="trash-2" class="w-4 h-4 shrink-0" />
