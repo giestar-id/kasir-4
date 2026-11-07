@@ -1,5 +1,6 @@
 <div
     x-data="{
+        cartOpen: false,
         initShortcuts() {
             window.addEventListener('keydown', (e) => {
                 if (e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
@@ -9,6 +10,9 @@
                 if (e.key === 'F2') {
                     e.preventDefault();
                     $wire.openPaymentModal();
+                }
+                if (e.key === 'Escape') {
+                    this.cartOpen = false;
                 }
             });
         }
@@ -76,17 +80,28 @@
             @if($menus->isNotEmpty())
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                     @foreach($menus as $menu)
+                        @php
+                            $inCart = isset($cart[$menu->id]);
+                            $cartQty = $inCart ? ($cart[$menu->id]['qty'] ?? 0) : 0;
+                        @endphp
                         <div
                             wire:key="menu-{{ $menu->id }}"
                             wire:click="addToCart({{ $menu->id }})"
-                            class="glass-card glass-card-hover rounded-2xl p-4 flex flex-col justify-between cursor-pointer select-none group"
+                            class="glass-card glass-card-hover rounded-2xl p-4 flex flex-col justify-between cursor-pointer select-none group transition-all duration-200 relative overflow-hidden {{ $inCart ? 'border-[#5E63E8] bg-[#5E63E8]/[0.05] ring-2 ring-[#5E63E8]/30 shadow-md' : 'hover:border-[#5E63E8]/40' }}"
                         >
                             <div>
                                 <div class="flex items-start justify-between gap-2 mb-2">
                                     <span class="text-[11px] font-semibold text-[#4E5262] truncate">{{ $menu->category?->name ?? 'Menu' }}</span>
-                                    @if(! $menu->isRecipeComplete())
-                                        <x-ui.badge variant="warning" size="sm">No Resep</x-ui.badge>
-                                    @endif
+                                    <div class="flex items-center gap-1.5 shrink-0">
+                                        @if(! $menu->isRecipeComplete())
+                                            <x-ui.badge variant="warning" size="sm">No Resep</x-ui.badge>
+                                        @endif
+                                        @if($inCart)
+                                            <span class="px-2 py-0.5 rounded-lg bg-[#5E63E8] text-white font-bold text-[10px] tracking-tight shadow-xs flex items-center gap-1">
+                                                <span>{{ $cartQty }}x</span>
+                                            </span>
+                                        @endif
+                                    </div>
                                 </div>
                                 <h4 class="text-sm font-bold text-[#1E2029] group-hover:text-[#5E63E8] transition-colors leading-snug line-clamp-2">
                                     {{ $menu->name }}
@@ -94,11 +109,15 @@
                             </div>
 
                             <div class="mt-4 pt-3 border-t border-[#ECEEF2]/70 flex items-center justify-between">
-                                <span class="text-sm font-bold text-[#1E2029] tabular-nums">
+                                <span class="text-sm font-bold {{ $inCart ? 'text-[#5E63E8]' : 'text-[#1E2029]' }} tabular-nums">
                                     Rp{{ number_format($menu->price, 0, ',', '.') }}
                                 </span>
-                                <div class="w-7 h-7 rounded-lg bg-[#5E63E8]/10 text-[#5E63E8] group-hover:bg-[#5E63E8] group-hover:text-white transition-all flex items-center justify-center">
-                                    <x-ui.icon name="plus" class="w-4 h-4" />
+                                <div class="w-7 h-7 rounded-lg {{ $inCart ? 'bg-[#5E63E8] text-white shadow-xs scale-105' : 'bg-[#5E63E8]/10 text-[#5E63E8] group-hover:bg-[#5E63E8] group-hover:text-white' }} transition-all flex items-center justify-center">
+                                    @if($inCart)
+                                        <x-ui.icon name="check" class="w-4 h-4" />
+                                    @else
+                                        <x-ui.icon name="plus" class="w-4 h-4" />
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -122,62 +141,100 @@
 
         </div>
 
-        <!-- Right 4 Columns: Sticky Keranjang Aktif -->
-        <div id="cart-container" class="col-span-12 lg:col-span-4 sticky top-20 scroll-mt-20">
-            <div class="glass-card rounded-2xl flex flex-col shadow-lg overflow-hidden">
+        <!-- Mobile Drawer Backdrop Scrim -->
+        <div
+            x-show="cartOpen"
+            x-cloak
+            x-transition:enter="transition-opacity ease-linear duration-200"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition-opacity ease-linear duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            @click="cartOpen = false"
+            class="fixed inset-0 z-40 bg-[#183247]/30 backdrop-blur-[2px] lg:hidden"
+        ></div>
+
+        <!-- Right 4 Columns: Keranjang Aktif (Drawer on mobile/tablet, Sticky Sidebar on Desktop) -->
+        <div
+            id="cart-container"
+            :class="cartOpen ? 'translate-y-0 shadow-2xl' : 'translate-y-full lg:translate-y-0'"
+            class="fixed inset-x-0 bottom-0 z-50 lg:static lg:z-auto lg:col-span-4 max-h-[88vh] lg:max-h-none flex flex-col transition-transform duration-300 ease-out"
+        >
+            <div class="glass-card rounded-t-3xl lg:rounded-2xl flex flex-col shadow-2xl lg:shadow-lg overflow-hidden max-h-[88vh] lg:max-h-none border-t border-[#ECEEF2] lg:border-t-0">
                 
+                <!-- Mobile Drag Handle -->
+                <div class="w-12 h-1.5 bg-[#D9DCE3] rounded-full mx-auto mt-2.5 mb-1 lg:hidden cursor-pointer" @click="cartOpen = false"></div>
+
                 <!-- Cart Header -->
-                <div class="px-5 py-4 border-b border-[#ECEEF2]/80 flex items-center justify-between">
-                    <div class="flex items-center gap-2">
-                        <div class="w-8 h-8 rounded-lg bg-[#5E63E8]/10 text-[#5E63E8] flex items-center justify-center">
+                <div class="px-5 py-3.5 border-b border-[#ECEEF2]/80 flex items-center justify-between bg-white/50">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl bg-[#5E63E8]/10 text-[#5E63E8] flex items-center justify-center shrink-0">
                             <x-ui.icon name="shopping-bag" class="w-4 h-4" />
                         </div>
                         <div>
                             <h3 class="text-sm font-bold text-[#1E2029]">Keranjang Aktif</h3>
-                            <span class="text-[11px] text-[#4E5262]">{{ count($cart) }} Item dipilih</span>
+                            <p class="text-[11px] text-[#4E5262]">
+                                {{ count($cart) }} menu dipilih ({{ array_sum(array_column($cart, 'qty')) }} porsi)
+                            </p>
                         </div>
                     </div>
-                    @if(!empty($cart))
+                    
+                    <div class="flex items-center gap-2">
+                        @if(!empty($cart))
+                            <button
+                                type="button"
+                                wire:click="clearCart"
+                                class="inline-flex items-center gap-1.5 rounded-lg border border-red-100 bg-red-50 hover:bg-red-100 text-[#E5484D] px-2.5 py-1.5 text-xs font-semibold transition-colors cursor-pointer"
+                                title="Kosongkan seluruh isi keranjang"
+                            >
+                                <x-ui.icon name="trash-2" class="w-3.5 h-3.5 shrink-0" />
+                                <span>Kosongkan</span>
+                            </button>
+                        @endif
+
+                        <!-- Close button on Mobile Drawer -->
                         <button
                             type="button"
-                            wire:click="clearCart"
-                            class="text-xs font-semibold text-[#E5484D] hover:underline cursor-pointer"
+                            @click="cartOpen = false"
+                            class="lg:hidden p-1.5 rounded-lg text-[#5A5D6C] hover:text-[#1E2029] hover:bg-black/5 cursor-pointer"
+                            title="Tutup keranjang"
                         >
-                            Kosongkan
+                            <x-ui.icon name="x" class="w-5 h-5" />
                         </button>
-                    @endif
+                    </div>
                 </div>
 
                 <!-- Cart Items List -->
-                <div class="p-4 flex flex-col gap-3 max-h-[380px] overflow-y-auto">
+                <div class="p-4 flex flex-col gap-3 overflow-y-auto max-h-[calc(88vh-290px)] lg:max-h-[380px] overscroll-contain">
                     @forelse($cart as $itemKey => $item)
-                        <div wire:key="cart-{{ $item['menu_id'] }}" class="p-3 rounded-xl bg-white/70 border border-[#ECEEF2] flex flex-col gap-2">
+                        <div wire:key="cart-{{ $item['menu_id'] }}" class="p-3.5 rounded-xl bg-white/80 border border-[#ECEEF2] flex flex-col gap-2 hover:border-[#5E63E8]/30 transition-colors shadow-2xs">
                             <div class="flex items-start justify-between gap-2">
-                                <div class="flex-1">
-                                    <h4 class="text-xs font-bold text-[#1E2029] leading-snug">{{ $item['name'] }}</h4>
+                                <div class="flex-1 min-w-0">
+                                    <h4 class="text-xs font-bold text-[#1E2029] leading-snug truncate">{{ $item['name'] }}</h4>
                                     <span class="text-[11px] text-[#4E5262] tabular-nums">@ Rp{{ number_format($item['price'], 0, ',', '.') }}</span>
                                 </div>
-                                <span class="text-xs font-bold text-[#1E2029] tabular-nums">
+                                <span class="text-xs font-bold text-[#1E2029] tabular-nums shrink-0">
                                     Rp{{ number_format($item['price'] * $item['qty'], 0, ',', '.') }}
                                 </span>
                             </div>
 
-                            <!-- Qty steppers & Notes -->
-                            <div class="flex items-center justify-between pt-1 border-t border-[#ECEEF2]/60">
+                            <!-- Qty steppers & Actions -->
+                            <div class="flex items-center justify-between pt-1.5 border-t border-[#ECEEF2]/70">
                                 <div class="flex items-center gap-1.5">
                                     <button
                                         type="button"
                                         wire:click="decreaseQty({{ $item['menu_id'] }})"
-                                        class="w-7 h-7 sm:w-6 sm:h-6 rounded-lg sm:rounded-md bg-[#ECEEF2] hover:bg-[#D9DCE3] active:scale-95 text-[#1E2029] font-bold text-xs flex items-center justify-center cursor-pointer transition-all"
+                                        class="w-7 h-7 rounded-lg bg-[#ECEEF2] hover:bg-[#D9DCE3] active:scale-95 text-[#1E2029] font-bold text-xs flex items-center justify-center cursor-pointer transition-all"
                                         title="Kurangi jumlah"
                                     >
                                         -
                                     </button>
-                                    <span class="w-7 sm:w-6 text-center text-xs font-bold text-[#1E2029] tabular-nums">{{ $item['qty'] }}</span>
+                                    <span class="w-8 text-center text-xs font-bold text-[#1E2029] tabular-nums">{{ $item['qty'] }}</span>
                                     <button
                                         type="button"
                                         wire:click="increaseQty({{ $item['menu_id'] }})"
-                                        class="w-7 h-7 sm:w-6 sm:h-6 rounded-lg sm:rounded-md bg-[#ECEEF2] hover:bg-[#D9DCE3] active:scale-95 text-[#1E2029] font-bold text-xs flex items-center justify-center cursor-pointer transition-all"
+                                        class="w-7 h-7 rounded-lg bg-[#ECEEF2] hover:bg-[#D9DCE3] active:scale-95 text-[#1E2029] font-bold text-xs flex items-center justify-center cursor-pointer transition-all"
                                         title="Tambah jumlah"
                                     >
                                         +
@@ -187,32 +244,36 @@
                                 <button
                                     type="button"
                                     wire:click="removeFromCart({{ $item['menu_id'] }})"
-                                    class="text-[#4E5262] hover:text-[#E5484D] p-1.5 rounded-lg transition-colors cursor-pointer"
-                                    title="Hapus item"
+                                    class="text-[#4E5262] hover:text-[#E5484D] hover:bg-red-50 p-1.5 rounded-lg transition-colors cursor-pointer"
+                                    title="Hapus item dari keranjang"
                                 >
                                     <x-ui.icon name="trash-2" class="w-3.5 h-3.5" />
                                 </button>
                             </div>
 
                             <!-- Per item note -->
-                            <input
-                                type="text"
-                                wire:model.blur="cart.{{ $itemKey }}.note"
-                                placeholder="Catatan item (pedas, tanpa es, dll)..."
-                                class="w-full text-[11px] bg-transparent text-[#5A5D6C] placeholder:text-[#4E5262]/60 border-none outline-none pt-1"
-                            />
+                            <div class="pt-0.5">
+                                <input
+                                    type="text"
+                                    wire:model.blur="cart.{{ $itemKey }}.note"
+                                    placeholder="Catatan item (pedas, tanpa es, dll)..."
+                                    class="w-full text-[11px] bg-[#F8F9FB] rounded-lg px-2.5 py-1 text-[#5A5D6C] placeholder:text-[#4E5262]/60 border border-[#ECEEF2] focus:border-[#5E63E8] focus:bg-white outline-none transition-all"
+                                />
+                            </div>
                         </div>
                     @empty
-                        <div class="py-10 flex flex-col items-center justify-center text-center text-[#4E5262]">
-                            <x-ui.icon name="shopping-cart" class="w-10 h-10 stroke-1 text-[#4E5262]/40 mb-2" />
-                            <span class="text-xs font-semibold text-[#1E2029]">Keranjang masih kosong</span>
-                            <span class="text-[11px] text-[#4E5262] mt-0.5">Klik menu di sebelah kiri untuk menambahkan pesanan.</span>
+                        <div class="py-12 flex flex-col items-center justify-center text-center text-[#4E5262]">
+                            <div class="w-12 h-12 rounded-2xl bg-[#ECEEF2]/60 text-[#4E5262]/60 flex items-center justify-center mb-2.5">
+                                <x-ui.icon name="shopping-bag" class="w-6 h-6 stroke-1" />
+                            </div>
+                            <span class="text-xs font-bold text-[#1E2029]">Keranjang masih kosong</span>
+                            <span class="text-[11px] text-[#4E5262] mt-0.5 max-w-[200px]">Pilih menu di sebelah kiri untuk memulai transaksi baru.</span>
                         </div>
                     @endforelse
                 </div>
 
                 <!-- Transaction Summary Calculation -->
-                <div class="p-5 bg-white/60 border-t border-[#ECEEF2]/80 flex flex-col gap-2.5">
+                <div class="p-4 sm:p-5 bg-white/70 border-t border-[#ECEEF2] flex flex-col gap-2.5 shrink-0">
                     
                     <div class="flex items-center justify-between text-xs text-[#5A5D6C]">
                         <span>Subtotal</span>
@@ -232,12 +293,12 @@
                     </div>
 
                     <!-- Note input -->
-                    <div class="mt-1">
+                    <div class="mt-0.5">
                         <input
                             type="text"
                             wire:model.defer="transactionNote"
                             placeholder="Catatan pesanan / nama meja (opsional)..."
-                            class="w-full text-xs bg-white/80 border border-[#ECEEF2] rounded-xl px-3 py-2 text-[#1E2029] placeholder:text-[#4E5262] focus:outline-none focus:border-[#5E63E8]"
+                            class="w-full text-xs bg-white/90 border border-[#ECEEF2] rounded-xl px-3 py-2 text-[#1E2029] placeholder:text-[#4E5262] focus:outline-none focus:border-[#5E63E8] shadow-2xs"
                         />
                     </div>
 
@@ -246,10 +307,10 @@
                         type="button"
                         wire:click="openPaymentModal"
                         {{ empty($cart) ? 'disabled' : '' }}
-                        class="w-full mt-2 bg-[#5E63E8] hover:bg-[#4D52D6] active:bg-[#4448CE] disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm py-3 px-4 rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        class="w-full mt-1.5 bg-[#5E63E8] hover:bg-[#4D52D6] active:bg-[#4448CE] disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold text-sm py-3 px-4 rounded-xl shadow-md shadow-[#5E63E8]/20 transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
                     >
                         <x-ui.icon name="credit-card" class="w-4 h-4" />
-                        <span>Bayar (F2)</span>
+                        <span>Bayar Sekarang (F2)</span>
                     </button>
                 </div>
 
@@ -258,35 +319,35 @@
 
     </div>
 
-    <!-- Mobile Floating Checkout Bar (Visible on mobile/tablet screens when cart has items) -->
+    <!-- Mobile Floating Cart Toggle Bar (Like project_lumbung_padi, visible on mobile/tablet when cart has items) -->
     @if(!empty($cart))
-        <div class="fixed bottom-4 inset-x-4 z-20 lg:hidden">
-            <div class="glass-modal bg-white/95 border border-[#5E63E8]/30 shadow-2xl p-3.5 rounded-2xl flex items-center justify-between gap-3 backdrop-blur-xl">
-                <div
-                    class="flex items-center gap-2.5 min-w-0 cursor-pointer group"
-                    @click="document.getElementById('cart-container')?.scrollIntoView({ behavior: 'smooth' })"
-                    title="Gulir ke keranjang"
-                >
-                    <div class="w-9 h-9 rounded-xl bg-[#5E63E8] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm shadow-[#5E63E8]/30 group-hover:scale-105 transition-transform">
-                        {{ count($cart) }}
+        <div
+            x-show="!cartOpen"
+            x-cloak
+            x-transition:enter="transition ease-out duration-200"
+            x-transition:enter-start="opacity-0 translate-y-6"
+            x-transition:enter-end="opacity-100 translate-y-0"
+            class="fixed bottom-4 inset-x-4 z-30 lg:hidden"
+        >
+            <button
+                type="button"
+                @click="cartOpen = true"
+                class="w-full bg-[#5E63E8] hover:bg-[#4D52D6] active:bg-[#4448CE] text-white p-3.5 rounded-2xl shadow-xl shadow-[#5E63E8]/30 flex items-center justify-between cursor-pointer transition-transform active:scale-[0.99]"
+            >
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center font-bold text-xs shrink-0">
+                        {{ array_sum(array_column($cart, 'qty')) }}
                     </div>
-                    <div class="flex flex-col min-w-0">
-                        <span class="text-[10px] text-[#4E5262] font-medium uppercase tracking-wider flex items-center gap-1">
-                            <span>Total Tagihan</span>
-                            <x-ui.icon name="chevron-down" class="w-3 h-3 text-[#4E5262] group-hover:text-[#5E63E8]" />
-                        </span>
-                        <span class="text-sm font-bold text-[#5E63E8] tabular-nums truncate">Rp{{ number_format($this->total, 0, ',', '.') }}</span>
+                    <div class="flex flex-col text-left">
+                        <span class="text-xs font-bold leading-tight">Keranjang ({{ count($cart) }} menu)</span>
+                        <span class="text-[10px] text-white/80">Buka rincian & bayar</span>
                     </div>
                 </div>
-                <button
-                    type="button"
-                    wire:click="openPaymentModal"
-                    class="bg-[#5E63E8] hover:bg-[#4D52D6] active:bg-[#4448CE] text-white font-bold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 cursor-pointer shrink-0 transition-transform active:scale-95"
-                >
-                    <x-ui.icon name="credit-card" class="w-4 h-4" />
-                    <span>Bayar (F2) &rarr;</span>
-                </button>
-            </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm font-bold tabular-nums">Rp{{ number_format($this->total, 0, ',', '.') }}</span>
+                    <x-ui.icon name="chevron-up" class="w-4 h-4" />
+                </div>
+            </button>
         </div>
     @endif
 
