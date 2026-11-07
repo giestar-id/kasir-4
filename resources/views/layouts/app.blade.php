@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" class="overflow-x-hidden">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,11 +19,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
 </head>
-<body class="glass-canvas min-h-screen text-[#1E2029] antialiased selection:bg-[#5E63E8]/20 selection:text-[#5E63E8]">
+<body class="glass-canvas min-h-screen text-[#1E2029] antialiased selection:bg-[#5E63E8]/20 selection:text-[#5E63E8] overflow-x-hidden w-full max-w-full">
 
     <!-- Soft Ambient Mesh Blobs (Pure CSS decorative layer under glass UI, persisted across SPA navigation) -->
     @persist('ambient-blobs')
-    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0 max-w-full w-full">
         <div class="absolute -top-32 -left-32 w-[520px] h-[520px] bg-[#5E63E8]/16 rounded-full blur-[110px]"></div>
         <div class="absolute top-1/4 -right-24 w-[560px] h-[560px] bg-[#F4A261]/15 rounded-full blur-[120px]"></div>
         <div class="absolute bottom-10 left-1/4 w-[600px] h-[600px] bg-[#64CCF3]/16 rounded-full blur-[130px]"></div>
@@ -34,7 +34,7 @@
     <div
         x-data="{
             mobileNavOpen: false,
-            desktopCollapsed: localStorage.getItem('pos_sidebar_collapsed') === 'true',
+            desktopCollapsed: localStorage.getItem('pos_sidebar_collapsed') !== null ? localStorage.getItem('pos_sidebar_collapsed') === 'true' : (window.innerWidth < 1024),
             isDesktop: window.innerWidth >= 768,
             toggleDesktopSidebar() {
                 this.desktopCollapsed = !this.desktopCollapsed;
@@ -56,7 +56,7 @@
         "
         @resize.window.debounce.100ms="isDesktop = (window.innerWidth >= 768); if (isDesktop) { mobileNavOpen = false; document.body.classList.remove('overflow-hidden'); }"
         @keydown.escape.window="mobileNavOpen = false"
-        class="relative z-10 min-h-screen flex flex-col md:flex-row"
+        class="relative z-10 min-h-screen flex flex-col md:flex-row w-full max-w-full min-w-0 overflow-x-hidden"
     >
 
         <!-- Mobile Drawer Overlay -->
@@ -155,7 +155,7 @@
         <!-- Main Workspace Area -->
         <div
             :class="(isDesktop && desktopCollapsed) ? 'md:pl-[76px]' : 'md:pl-[240px]'"
-            class="flex-1 flex flex-col min-h-screen transition-all duration-300 ease-in-out"
+            class="flex-1 flex flex-col min-h-screen min-w-0 max-w-full w-full transition-all duration-300 ease-in-out"
         >
 
             <!-- Top Header Glass Navbar -->
@@ -230,7 +230,7 @@
             </header>
 
             <!-- Page Dynamic Body -->
-            <main class="flex-1 p-4 sm:p-7 max-w-7xl w-full mx-auto">
+            <main class="flex-1 p-4 sm:p-7 max-w-7xl w-full mx-auto min-w-0">
                 {{ $slot }}
             </main>
         </div>
