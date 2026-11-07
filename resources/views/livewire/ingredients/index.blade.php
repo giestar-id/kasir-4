@@ -9,16 +9,6 @@
 
         @if(auth()->user()?->isOwner())
             <div class="flex items-center gap-2.5">
-                <a href="{{ route('purchases') }}" wire:navigate>
-                    <x-ui.button variant="secondary" size="md" icon="shopping-bag">
-                        Catat Pembelian
-                    </x-ui.button>
-                </a>
-                <a href="{{ route('stock-opname') }}" wire:navigate>
-                    <x-ui.button variant="secondary" size="md" icon="clipboard-check">
-                        Stok Opname
-                    </x-ui.button>
-                </a>
                 <x-ui.button
                     variant="primary"
                     size="md"
