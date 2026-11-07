@@ -1,37 +1,71 @@
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-5">
 
-    <!-- Top Action & Period Filter Bar -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div class="flex items-center gap-3 flex-wrap">
+    <!-- Header Row -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
             <h1 class="text-xl sm:text-2xl font-bold text-[#1E2029] tracking-tight">Dashboard</h1>
-            
+            <p class="text-xs text-[#4E5262] mt-0.5">Ringkasan performa penjualan, laba kotor, dan operasional outlet</p>
+        </div>
+
+        <a href="{{ route('pos') }}" wire:navigate class="shrink-0">
+            <x-ui.button variant="primary" size="md" icon="plus">
+                Transaksi Baru
+            </x-ui.button>
+        </a>
+    </div>
+
+    <!-- Period Filter Bar Card (Unified & Symmetrical) -->
+    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 min-w-0">
+        
+        <!-- Active Period Info -->
+        <div class="flex items-center gap-2.5 text-xs text-[#4E5262]">
+            <div class="w-8 h-8 rounded-xl bg-[#5E63E8]/10 text-[#5E63E8] flex items-center justify-center shrink-0">
+                <x-ui.icon name="calendar" class="w-4 h-4" />
+            </div>
+            <div class="flex flex-col">
+                <span class="text-[11px] text-[#4E5262] font-medium">Periode Aktif:</span>
+                <span class="font-bold text-[#1E2029]">
+                    @if($period === 'today')
+                        Hari Ini &bull; {{ \Carbon\Carbon::parse($startDate)->format('d M Y') }}
+                    @elseif($period === '7_days')
+                        7 Hari Terakhir &bull; {{ \Carbon\Carbon::parse($startDate)->format('d M') }} – {{ \Carbon\Carbon::parse($endDate)->format('d M Y') }}
+                    @elseif($period === 'month')
+                        Bulan Ini &bull; {{ \Carbon\Carbon::parse($startDate)->format('d M') }} – {{ \Carbon\Carbon::parse($endDate)->format('d M Y') }}
+                    @else
+                        Kustom &bull; {{ \Carbon\Carbon::parse($startDate)->format('d M') }} – {{ \Carbon\Carbon::parse($endDate)->format('d M Y') }}
+                    @endif
+                </span>
+            </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
             <!-- Period Selector Tabs -->
-            <div class="flex items-center bg-white/70 border border-[#ECEEF2] p-1 rounded-xl shadow-2xs">
+            <div class="flex items-center bg-[#F8F8FA] border border-[#ECEEF2] p-1 rounded-xl shadow-2xs">
                 <button
                     type="button"
                     wire:click="setPeriod('today')"
-                    class="px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $period === 'today' ? 'bg-[#5E63E8] text-white shadow-xs' : 'text-[#5A5D6C] hover:text-[#1E2029]' }}"
+                    class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $period === 'today' ? 'bg-white text-[#5E63E8] shadow-xs font-bold' : 'text-[#5A5D6C] hover:text-[#1E2029]' }}"
                 >
                     Hari Ini
                 </button>
                 <button
                     type="button"
                     wire:click="setPeriod('7_days')"
-                    class="px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $period === '7_days' ? 'bg-[#5E63E8] text-white shadow-xs' : 'text-[#5A5D6C] hover:text-[#1E2029]' }}"
+                    class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $period === '7_days' ? 'bg-white text-[#5E63E8] shadow-xs font-bold' : 'text-[#5A5D6C] hover:text-[#1E2029]' }}"
                 >
                     7 Hari
                 </button>
                 <button
                     type="button"
                     wire:click="setPeriod('month')"
-                    class="px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $period === 'month' ? 'bg-[#5E63E8] text-white shadow-xs' : 'text-[#5A5D6C] hover:text-[#1E2029]' }}"
+                    class="px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer {{ $period === 'month' ? 'bg-white text-[#5E63E8] shadow-xs font-bold' : 'text-[#5A5D6C] hover:text-[#1E2029]' }}"
                 >
                     Bulan Ini
                 </button>
             </div>
-        </div>
 
-        <div class="flex items-center gap-2.5">
+            <!-- Custom Date Modal Button -->
             <x-ui.button
                 variant="secondary"
                 size="md"
@@ -41,12 +75,6 @@
             >
                 <span>{{ $period === 'custom' ? date('d M', strtotime($startDate)) . ' - ' . date('d M', strtotime($endDate)) : 'Rentang Kustom' }}</span>
             </x-ui.button>
-
-            <a href="{{ route('pos') }}" wire:navigate>
-                <x-ui.button variant="primary" size="md" icon="plus">
-                    Transaksi Baru
-                </x-ui.button>
-            </a>
         </div>
     </div>
 
