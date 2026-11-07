@@ -15,10 +15,10 @@
     </div>
 
     <!-- Filters Bar Card -->
-    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-3 min-w-0">
+    <div class="glass-card rounded-2xl p-3.5 sm:p-4 flex flex-col gap-3 min-w-0">
         
-        <!-- Search Input -->
-        <div class="relative flex-1 min-w-[240px]">
+        <!-- Search Input Row -->
+        <div class="relative w-full">
             <x-ui.input
                 wire:model.live.debounce.300ms="search"
                 icon="search"
@@ -26,11 +26,11 @@
             />
         </div>
 
-        <!-- Filters Group -->
-        <div class="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0">
+        <!-- Filters & Actions Row (Naturally wrapping, perfectly balanced) -->
+        <div class="flex flex-wrap items-center gap-2.5 w-full min-w-0">
             @if(auth()->user()?->isOwner())
-                <div class="flex items-center gap-1.5 w-full sm:w-auto">
-                    <div class="relative w-full sm:w-36 shrink-0">
+                <div class="flex items-center gap-1.5 w-full sm:w-auto min-w-0">
+                    <div class="relative flex-1 sm:w-36 sm:flex-initial">
                         <input
                             type="date"
                             wire:model.live="startDate"
@@ -38,8 +38,8 @@
                             title="Tanggal Mulai"
                         />
                     </div>
-                    <span class="text-xs font-semibold text-[#4E5262] shrink-0">s/d</span>
-                    <div class="relative w-full sm:w-36 shrink-0">
+                    <span class="text-xs font-semibold text-[#4E5262] shrink-0 px-0.5">s/d</span>
+                    <div class="relative flex-1 sm:w-36 sm:flex-initial">
                         <input
                             type="date"
                             wire:model.live="endDate"
@@ -51,7 +51,7 @@
             @endif
 
             <!-- Channel Filter -->
-            <div class="relative w-full sm:w-40 md:w-44 shrink-0">
+            <div class="relative flex-1 sm:flex-initial sm:w-40 md:w-44 min-w-[130px]">
                 <select
                     wire:model.live="channelFilter"
                     class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
@@ -67,7 +67,7 @@
             </div>
 
             <!-- Status Filter -->
-            <div class="relative w-full sm:w-40 md:w-44 shrink-0">
+            <div class="relative flex-1 sm:flex-initial sm:w-40 md:w-44 min-w-[130px]">
                 <select
                     wire:model.live="statusFilter"
                     class="w-full h-10 bg-white/90 text-[#1E2029] text-xs sm:text-sm rounded-xl py-2 pl-3.5 pr-8 border border-[#ECEEF2] shadow-2xs focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#5E63E8]/20 focus:border-[#5E63E8] transition-all appearance-none cursor-pointer"
@@ -85,44 +85,44 @@
                 <button
                     type="button"
                     wire:click="resetFilters"
-                    class="h-10 px-3.5 text-xs font-bold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 bg-white/80 border border-[#ECEEF2] rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0 shadow-2xs"
+                    class="h-10 px-3.5 text-xs font-bold text-[#4E5262] hover:text-[#E5484D] hover:bg-[#E5484D]/10 bg-white/80 border border-[#ECEEF2] rounded-xl transition-all cursor-pointer flex items-center gap-1.5 shrink-0 shadow-2xs ml-auto sm:ml-0"
                     title="Reset Filter"
                 >
                     <x-ui.icon name="rotate-ccw" class="w-3.5 h-3.5 shrink-0" />
-                    <span class="hidden sm:inline">Reset</span>
+                    <span>Reset</span>
                 </button>
             @endif
         </div>
     </div>
 
     <!-- Transactions Table Card -->
-    <div class="glass-card rounded-2xl overflow-hidden flex flex-col">
-        <div class="overflow-x-auto">
-            <table class="w-full text-left border-collapse">
+    <div class="glass-card rounded-2xl overflow-hidden flex flex-col min-w-0">
+        <div class="overflow-x-auto w-full">
+            <table class="w-full text-left border-collapse min-w-[1000px]">
                 <thead>
                     <tr class="border-b border-[#ECEEF2] text-[11px] font-bold text-[#4E5262] uppercase tracking-wider bg-white/40">
-                        <th class="py-3 px-4">No. Transaksi</th>
-                        <th class="py-3 px-4">Waktu</th>
-                        <th class="py-3 px-4">Kanal</th>
-                        <th class="py-3 px-4">Nama Barang</th>
-                        <th class="py-3 px-4">No. Eksternal</th>
-                        <th class="py-3 px-4">Metode</th>
-                        <th class="py-3 px-4 text-right">Total (Rp)</th>
-                        <th class="py-3 px-4">Status</th>
-                        <th class="py-3 px-4">Kasir</th>
-                        <th class="py-3 px-4 text-right">Aksi</th>
+                        <th class="py-3 px-4 whitespace-nowrap">No. Transaksi</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Waktu</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Kanal</th>
+                        <th class="py-3 px-4 min-w-[200px]">Nama Barang</th>
+                        <th class="py-3 px-4 whitespace-nowrap">No. Eksternal</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Metode</th>
+                        <th class="py-3 px-4 text-right whitespace-nowrap">Total (Rp)</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Status</th>
+                        <th class="py-3 px-4 whitespace-nowrap">Kasir</th>
+                        <th class="py-3 px-4 text-right whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#ECEEF2]/70 text-xs">
                     @forelse($sales as $sale)
                         <tr wire:key="sale-{{ $sale->id }}" class="hover:bg-white/50 transition-colors {{ $sale->isVoid() ? 'opacity-60 bg-red-50/20' : '' }}">
-                            <td class="py-3.5 px-4 font-bold text-[#1E2029]">
+                            <td class="py-3.5 px-4 font-bold text-[#1E2029] whitespace-nowrap">
                                 {{ $sale->number }}
                             </td>
-                            <td class="py-3.5 px-4 text-[#4E5262]">
+                            <td class="py-3.5 px-4 text-[#4E5262] whitespace-nowrap">
                                 {{ $sale->ordered_at->format('d/m/Y, H:i') }}
                             </td>
-                            <td class="py-3.5 px-4">
+                            <td class="py-3.5 px-4 whitespace-nowrap">
                                 @if($sale->channel === 'offline')
                                     <x-ui.badge variant="info" size="sm">Offline</x-ui.badge>
                                 @elseif($sale->channel === 'gofood')
@@ -136,7 +136,7 @@
                                     $itemsCount = $sale->items->count();
                                 @endphp
                                 @if($itemsCount > 0)
-                                    <div class="flex flex-col gap-0.5 max-w-[200px] xl:max-w-[240px]">
+                                    <div class="flex flex-col gap-0.5 max-w-[220px]">
                                         <div class="font-bold text-xs text-[#1E2029] truncate" title="{{ $sale->items->map(fn($it) => $it->qty . 'x ' . ($it->menu_name_snapshot ?: ($it->menu?->name ?? 'Barang')))->implode(', ') }}">
                                             @php
                                                 $itemSummaries = $sale->items->take(2)->map(function($it) {
@@ -148,7 +148,7 @@
                                                 <span class="text-[11px] text-[#5E63E8] font-bold">+{{ $itemsCount - 2 }}</span>
                                             @endif
                                         </div>
-                                        <span class="text-[11px] text-[#4E5262]">
+                                        <span class="text-[11px] text-[#4E5262] whitespace-nowrap">
                                             Total {{ $sale->items->sum('qty') }} porsi/item
                                         </span>
                                     </div>
@@ -156,26 +156,26 @@
                                     <span class="text-[#8C90A0] italic text-[11px]">-</span>
                                 @endif
                             </td>
-                            <td class="py-3.5 px-4 text-[#5A5D6C]">
+                            <td class="py-3.5 px-4 text-[#5A5D6C] whitespace-nowrap">
                                 {{ $sale->external_order_id ?? '-' }}
                             </td>
-                            <td class="py-3.5 px-4 uppercase text-[#5A5D6C] font-semibold">
+                            <td class="py-3.5 px-4 uppercase text-[#5A5D6C] font-semibold whitespace-nowrap">
                                 {{ $sale->payment_method }}
                             </td>
-                            <td class="py-3.5 px-4 text-right font-bold text-[#1E2029] tabular-nums">
+                            <td class="py-3.5 px-4 text-right font-bold text-[#1E2029] tabular-nums whitespace-nowrap">
                                 Rp{{ number_format($sale->total, 0, ',', '.') }}
                             </td>
-                            <td class="py-3.5 px-4">
+                            <td class="py-3.5 px-4 whitespace-nowrap">
                                 @if($sale->isVoid())
                                     <x-ui.badge variant="error" size="sm">Void</x-ui.badge>
                                 @else
                                     <x-ui.badge variant="success" size="sm">Selesai</x-ui.badge>
                                 @endif
                             </td>
-                            <td class="py-3.5 px-4 text-[#5A5D6C]">
+                            <td class="py-3.5 px-4 text-[#5A5D6C] whitespace-nowrap">
                                 {{ $sale->user?->name ?? 'Kasir' }}
                             </td>
-                            <td class="py-3.5 px-4 text-right">
+                            <td class="py-3.5 px-4 text-right whitespace-nowrap">
                                 <div class="flex items-center justify-end gap-1.5">
                                     <x-ui.button
                                         variant="secondary"
@@ -212,7 +212,7 @@
         </div>
 
         @if($sales->hasPages())
-            <div class="p-4 border-t border-[#ECEEF2]">
+            <div class="p-4 border-t border-[#ECEEF2] overflow-x-auto">
                 {{ $sales->links() }}
             </div>
         @endif
@@ -225,27 +225,27 @@
                 
                 <!-- Status & Meta Grid -->
                 <div class="p-4 rounded-xl bg-white/70 border border-[#ECEEF2] grid grid-cols-2 sm:grid-cols-3 gap-3 text-xs">
-                    <div>
+                    <div class="min-w-0">
                         <span class="text-[#4E5262]">Nomor Transaksi</span>
-                        <div class="font-bold text-[#1E2029] mt-0.5">{{ $selectedSale->number }}</div>
+                        <div class="font-bold text-[#1E2029] mt-0.5 truncate" title="{{ $selectedSale->number }}">{{ $selectedSale->number }}</div>
                     </div>
-                    <div>
+                    <div class="min-w-0">
                         <span class="text-[#4E5262]">Waktu Pesanan</span>
-                        <div class="font-bold text-[#1E2029] mt-0.5">{{ $selectedSale->ordered_at->format('d M Y, H:i') }}</div>
+                        <div class="font-bold text-[#1E2029] mt-0.5 truncate">{{ $selectedSale->ordered_at->format('d M Y, H:i') }}</div>
                     </div>
-                    <div>
+                    <div class="min-w-0">
                         <span class="text-[#4E5262]">Kanal</span>
-                        <div class="font-bold text-[#1E2029] uppercase mt-0.5">{{ $selectedSale->channel }}</div>
+                        <div class="font-bold text-[#1E2029] uppercase mt-0.5 truncate">{{ $selectedSale->channel }}</div>
                     </div>
-                    <div>
+                    <div class="min-w-0">
                         <span class="text-[#4E5262]">Nomor Eksternal</span>
-                        <div class="font-bold text-[#1E2029] mt-0.5">{{ $selectedSale->external_order_id ?? '-' }}</div>
+                        <div class="font-bold text-[#1E2029] mt-0.5 truncate" title="{{ $selectedSale->external_order_id ?? '-' }}">{{ $selectedSale->external_order_id ?? '-' }}</div>
                     </div>
-                    <div>
+                    <div class="min-w-0">
                         <span class="text-[#4E5262]">Kasir</span>
-                        <div class="font-bold text-[#1E2029] mt-0.5">{{ $selectedSale->user?->name ?? 'Kasir' }}</div>
+                        <div class="font-bold text-[#1E2029] mt-0.5 truncate">{{ $selectedSale->user?->name ?? 'Kasir' }}</div>
                     </div>
-                    <div>
+                    <div class="min-w-0">
                         <span class="text-[#4E5262]">Status</span>
                         <div class="mt-0.5">
                             @if($selectedSale->isVoid())
@@ -278,7 +278,7 @@
                     </div>
 
                     <div class="border border-[#ECEEF2] rounded-xl overflow-x-auto">
-                        <table class="w-full text-left text-xs">
+                        <table class="w-full text-left text-xs min-w-[500px]">
                             <thead class="bg-white/60 text-[#4E5262] border-b border-[#ECEEF2]">
                                 <tr>
                                     <th class="py-2.5 px-3">Nama Barang / Menu</th>
