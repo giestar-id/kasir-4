@@ -19,6 +19,7 @@ primary_region = 'sin'
   QUEUE_CONNECTION = 'sync'
   MCP_ENABLED = 'true'
   MCP_BASE_URL = 'https://kasir-4.fly.dev/mcp/pos'
+  MCP_API_KEY = 'pos_sec_b6v7yfJm8BVhIwOXASL3SeiCGqhpXEVf'
 
 [http_service]
   internal_port = 80
