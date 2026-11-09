@@ -55,12 +55,25 @@ class ManageMenuTool extends Tool
                     return Response::text(json_encode(['status' => 'success', 'menu' => $menu], JSON_PRETTY_PRINT));
 
                 case 'create':
-                    $name = $request->get('name');
-                    $price = $request->get('price');
-                    $categoryId = $request->get('category_id');
+                    $name = $request->get('name') ?? $request->get('nama');
+                    $price = $request->get('price') ?? $request->get('selling_price') ?? $request->get('harga');
+                    $categoryId = $request->get('category_id') ?? $request->get('kategori_id') ?? $request->get('category') ?? $request->get('kategori');
 
-                    if (! $name || ! $price || ! $categoryId) {
-                        return Response::error(json_encode(['status' => 'error', 'message' => 'name, price, dan category_id wajib diisi']));
+                    if (is_string($price)) {
+                        $price = (int) preg_replace('/[^0-9]/', '', $price);
+                    }
+
+                    if ($categoryId && ! is_numeric($categoryId)) {
+                        $cat = \App\Models\Category::where('name', 'like', "%{$categoryId}%")->first();
+                        $categoryId = $cat?->id;
+                    }
+
+                    if (! $categoryId) {
+                        $categoryId = \App\Models\Category::first()?->id ?? 1;
+                    }
+
+                    if (! $name || ! $price) {
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'name dan price wajib diisi']));
                     }
 
                     $menu = Menu::create([
@@ -68,7 +81,7 @@ class ManageMenuTool extends Tool
                         'price' => (int) $price,
                         'category_id' => (int) $categoryId,
                         'is_active' => $request->get('is_active', true),
-                        'note' => $request->get('note'),
+                        'note' => $request->get('note') ?? $request->get('catatan'),
                     ]);
 
                     return Response::text(json_encode(['status' => 'success', 'message' => "Menu {$menu->name} berhasil dibuat", 'menu' => $menu], JSON_PRETTY_PRINT));
@@ -83,20 +96,28 @@ class ManageMenuTool extends Tool
                     }
 
                     $data = [];
-                    if ($request->has('name')) {
-                        $data['name'] = $request->get('name');
+                    if ($request->has('name') || $request->has('nama')) {
+                        $data['name'] = $request->get('name') ?? $request->get('nama');
                     }
-                    if ($request->has('price')) {
-                        $data['price'] = (int) $request->get('price');
+                    if ($request->has('price') || $request->has('selling_price') || $request->has('harga')) {
+                        $p = $request->get('price') ?? $request->get('selling_price') ?? $request->get('harga');
+                        $data['price'] = is_string($p) ? (int) preg_replace('/[^0-9]/', '', $p) : (int) $p;
                     }
-                    if ($request->has('category_id')) {
-                        $data['category_id'] = (int) $request->get('category_id');
+                    if ($request->has('category_id') || $request->has('category')) {
+                        $c = $request->get('category_id') ?? $request->get('category');
+                        if (! is_numeric($c)) {
+                            $cat = \App\Models\Category::where('name', 'like', "%{$c}%")->first();
+                            $c = $cat?->id;
+                        }
+                        if ($c) {
+                            $data['category_id'] = (int) $c;
+                        }
                     }
                     if ($request->has('is_active')) {
                         $data['is_active'] = (bool) $request->get('is_active');
                     }
-                    if ($request->has('note')) {
-                        $data['note'] = $request->get('note');
+                    if ($request->has('note') || $request->has('catatan')) {
+                        $data['note'] = $request->get('note') ?? $request->get('catatan');
                     }
 
                     $menu->update($data);

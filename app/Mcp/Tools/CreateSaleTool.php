@@ -18,9 +18,31 @@ class CreateSaleTool extends Tool
     public function handle(Request $request, SaleService $saleService): Response
     {
         try {
-            $items = $request->get('items');
-            if (empty($items) || ! is_array($items)) {
+            $rawItems = $request->get('items');
+            if (empty($rawItems) || ! is_array($rawItems)) {
                 return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter items wajib diisi berupa array dari menu']));
+            }
+
+            // Normalize items so menu_id can be auto-resolved from name/menu if missing
+            $items = [];
+            foreach ($rawItems as $it) {
+                $menuId = $it['menu_id'] ?? $it['id'] ?? null;
+                if (! $menuId && (! empty($it['name']) || ! empty($it['menu']))) {
+                    $searchName = $it['name'] ?? $it['menu'];
+                    $foundMenu = \App\Models\Menu::where('name', 'like', "%{$searchName}%")->first();
+                    $menuId = $foundMenu?->id;
+                }
+                if ($menuId) {
+                    $items[] = [
+                        'menu_id' => (int) $menuId,
+                        'qty' => (int) ($it['qty'] ?? $it['quantity'] ?? 1),
+                        'note' => $it['note'] ?? $it['notes'] ?? null,
+                    ];
+                }
+            }
+
+            if (empty($items)) {
+                return Response::error(json_encode(['status' => 'error', 'message' => 'Tidak ada item menu valid yang ditemukan dalam pesanan']));
             }
 
             // Get acting user (default to first active user or owner)
