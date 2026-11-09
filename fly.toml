@@ -1,7 +1,7 @@
 # fly.toml app configuration file for kasir-4
 
 app = 'kasir-4'
-primary_region = 'sin'
+primary_region = 'nrt'
 
 [build]
   dockerfile = 'Dockerfile'
@@ -19,7 +19,11 @@ primary_region = 'sin'
   QUEUE_CONNECTION = 'sync'
   MCP_ENABLED = 'true'
   MCP_BASE_URL = 'https://kasir-4.fly.dev/mcp/pos'
-  MCP_API_KEY = 'pos_sec_b6v7yfJm8BVhIwOXASL3SeiCGqhpXEVf'
+  MCP_API_KEY = 'pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf'
+
+[mounts]
+  source = 'pos_data'
+  destination = '/var/www/html/database'
 
 [http_service]
   internal_port = 80
