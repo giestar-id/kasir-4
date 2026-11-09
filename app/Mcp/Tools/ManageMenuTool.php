@@ -45,11 +45,11 @@ class ManageMenuTool extends Tool
 
                 case 'get':
                     if (! $id) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter id wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter id wajib diisi']));
                     }
                     $menu = Menu::with(['category', 'recipes.ingredient', 'extraCosts', 'aliases'])->find($id);
                     if (! $menu) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => "Menu #{$id} tidak ditemukan"]));
+                        return Response::error(json_encode(['status' => 'error', 'message' => "Menu #{$id} tidak ditemukan"]));
                     }
 
                     return Response::text(json_encode(['status' => 'success', 'menu' => $menu], JSON_PRETTY_PRINT));
@@ -60,7 +60,7 @@ class ManageMenuTool extends Tool
                     $categoryId = $request->get('category_id');
 
                     if (! $name || ! $price || ! $categoryId) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'name, price, dan category_id wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'name, price, dan category_id wajib diisi']));
                     }
 
                     $menu = Menu::create([
@@ -79,7 +79,7 @@ class ManageMenuTool extends Tool
                     }
                     $menu = Menu::find($id);
                     if (! $menu) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => "Menu #{$id} tidak ditemukan"]));
+                        return Response::error(json_encode(['status' => 'error', 'message' => "Menu #{$id} tidak ditemukan"]));
                     }
 
                     $data = [];
@@ -105,11 +105,11 @@ class ManageMenuTool extends Tool
 
                 case 'delete':
                     if (! $id) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter id wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter id wajib diisi']));
                     }
                     $menu = Menu::find($id);
                     if (! $menu) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => "Menu #{$id} tidak ditemukan"]));
+                        return Response::error(json_encode(['status' => 'error', 'message' => "Menu #{$id} tidak ditemukan"]));
                     }
 
                     // If menu has sales, deactivate instead of delete
@@ -124,10 +124,10 @@ class ManageMenuTool extends Tool
                     return Response::text(json_encode(['status' => 'success', 'message' => "Menu #{$id} berhasil dihapus permanen"]));
 
                 default:
-                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: list, get, create, update, delete"]));
+                    return Response::error(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: list, get, create, update, delete"]));
             }
         } catch (\Throwable $e) {
-            return Response::text(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
+            return Response::error(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         }
     }
 

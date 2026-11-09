@@ -513,4 +513,143 @@ class McpServerTest extends TestCase
             ->expectsOutputToContain(config('mcp.api_key'))
             ->assertSuccessful();
     }
+
+    public function test_web_mcp_full_jsonrpc_protocol_standards(): void
+    {
+        $validKey = config('mcp.api_key');
+        $authHeader = ['Authorization' => 'Bearer '.$validKey];
+
+        // 1. MCP Standard: initialize handshake
+        $initRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 1,
+            'method' => 'initialize',
+            'params' => [
+                'protocolVersion' => '2024-11-05',
+                'capabilities' => (object) [],
+                'clientInfo' => ['name' => 'cursor', 'version' => '0.45.0'],
+            ],
+        ]);
+
+        $initRes->assertStatus(200);
+        $initRes->assertJsonPath('jsonrpc', '2.0');
+        $initRes->assertJsonPath('id', 1);
+        $initRes->assertJsonPath('result.serverInfo.name', 'POS Kuliner MCP Server');
+        $initRes->assertJsonPath('result.serverInfo.version', '1.1.0');
+        $this->assertNotNull($initRes->json('result.capabilities.tools'));
+        $this->assertNotNull($initRes->json('result.capabilities.resources'));
+        $this->assertNotNull($initRes->json('result.capabilities.prompts'));
+
+        // 2. MCP Standard: ping
+        $pingRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 2,
+            'method' => 'ping',
+            'params' => (object) [],
+        ]);
+        $pingRes->assertStatus(200);
+        $pingRes->assertJsonPath('jsonrpc', '2.0');
+        $pingRes->assertJsonPath('id', 2);
+
+        // 3. MCP Standard: tools/list
+        $toolsRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 3,
+            'method' => 'tools/list',
+            'params' => (object) [],
+        ]);
+        $toolsRes->assertStatus(200);
+        $tools = $toolsRes->json('result.tools');
+        $this->assertIsArray($tools);
+        $this->assertCount(9, $tools);
+
+        // Verify each tool has compliant name, description, and inputSchema with type object
+        foreach ($tools as $t) {
+            $this->assertArrayHasKey('name', $t);
+            $this->assertArrayHasKey('description', $t);
+            $this->assertArrayHasKey('inputSchema', $t);
+            $this->assertEquals('object', $t['inputSchema']['type'] ?? null);
+        }
+
+        // 4. MCP Standard: tools/call
+        $callRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 4,
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'manage-category-tool',
+                'arguments' => ['action' => 'list'],
+            ],
+        ]);
+        $callRes->assertStatus(200);
+        $callRes->assertJsonPath('jsonrpc', '2.0');
+        $callRes->assertJsonPath('id', 4);
+        $callRes->assertJsonPath('result.isError', false);
+        $this->assertNotEmpty($callRes->json('result.content'));
+        $this->assertEquals('text', $callRes->json('result.content.0.type'));
+
+        // 5. MCP Standard: resources/list
+        $resListRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 5,
+            'method' => 'resources/list',
+            'params' => (object) [],
+        ]);
+        $resListRes->assertStatus(200);
+        $resources = $resListRes->json('result.resources');
+        $this->assertIsArray($resources);
+        $this->assertCount(3, $resources);
+
+        // 6. MCP Standard: resources/read
+        $readRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 6,
+            'method' => 'resources/read',
+            'params' => ['uri' => 'pos://system/status'],
+        ]);
+        $readRes->assertStatus(200);
+        $contents = $readRes->json('result.contents');
+        $this->assertNotEmpty($contents);
+        $this->assertEquals('pos://system/status', $contents[0]['uri']);
+
+        // 7. MCP Standard: prompts/list
+        $promptsRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 7,
+            'method' => 'prompts/list',
+            'params' => (object) [],
+        ]);
+        $promptsRes->assertStatus(200);
+        $prompts = $promptsRes->json('result.prompts');
+        $this->assertIsArray($prompts);
+        $this->assertCount(2, $prompts);
+
+        // 8. MCP Standard: prompts/get
+        $getPromptRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 8,
+            'method' => 'prompts/get',
+            'params' => [
+                'name' => 'pos-daily-analysis',
+                'arguments' => ['date' => '2026-11-09'],
+            ],
+        ]);
+        $getPromptRes->assertStatus(200);
+        $messages = $getPromptRes->json('result.messages');
+        $this->assertNotEmpty($messages);
+
+        // 9. MCP Standard: tool error sets isError to true
+        $errorCallRes = $this->withHeaders($authHeader)->postJson('/mcp/pos', [
+            'jsonrpc' => '2.0',
+            'id' => 9,
+            'method' => 'tools/call',
+            'params' => [
+                'name' => 'manage-menu-tool',
+                'arguments' => ['action' => 'get', 'id' => 999999], // Not found
+            ],
+        ]);
+        $errorCallRes->assertStatus(200);
+        $errorCallRes->assertJsonPath('result.isError', true);
+        $this->assertStringContainsString('tidak ditemukan', $errorCallRes->json('result.content.0.text'));
+    }
 }

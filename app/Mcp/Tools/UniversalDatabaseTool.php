@@ -31,7 +31,7 @@ class UniversalDatabaseTool extends Tool
 
                 case 'describe':
                     if (! $table) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
                     }
                     $columns = Schema::getColumnListing($table);
                     $columnDetails = [];
@@ -52,11 +52,11 @@ class UniversalDatabaseTool extends Tool
                     if (! $table) {
                         $rawQuery = $request->get('raw_query', $request->get('query'));
                         if (! $rawQuery) {
-                            return Response::text(json_encode(['status' => 'error', 'message' => 'table atau raw_query wajib diisi']));
+                            return Response::error(json_encode(['status' => 'error', 'message' => 'table atau raw_query wajib diisi']));
                         }
                         // Only allow SELECT statements in raw query for safety
                         if (! str_starts_with(trim(strtolower($rawQuery)), 'select')) {
-                            return Response::text(json_encode(['status' => 'error', 'message' => 'raw_query hanya mengizinkan perintah SELECT']));
+                            return Response::error(json_encode(['status' => 'error', 'message' => 'raw_query hanya mengizinkan perintah SELECT']));
                         }
                         $rows = DB::select($rawQuery);
 
@@ -84,11 +84,11 @@ class UniversalDatabaseTool extends Tool
 
                 case 'insert':
                     if (! $table) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
                     }
                     $data = $request->get('data');
                     if (empty($data) || ! is_array($data)) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter data (array key-value) wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter data (array key-value) wajib diisi']));
                     }
 
                     // Auto timestamp if exists in schema
@@ -109,14 +109,14 @@ class UniversalDatabaseTool extends Tool
 
                 case 'update':
                     if (! $table) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
                     }
                     $id = $request->get('id');
                     $where = $request->get('where');
                     $data = $request->get('data');
 
                     if (empty($data) || ! is_array($data)) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter data (array key-value yang akan diubah) wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter data (array key-value yang akan diubah) wajib diisi']));
                     }
 
                     if (Schema::hasColumn($table, 'updated_at') && ! isset($data['updated_at'])) {
@@ -131,7 +131,7 @@ class UniversalDatabaseTool extends Tool
                             $query->where($k, $v);
                         }
                     } else {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Harus menyertakan id atau where clause untuk update data']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Harus menyertakan id atau where clause untuk update data']));
                     }
 
                     $affected = $query->update($data);
@@ -144,7 +144,7 @@ class UniversalDatabaseTool extends Tool
 
                 case 'delete':
                     if (! $table) {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
                     }
                     $id = $request->get('id');
                     $where = $request->get('where');
@@ -157,7 +157,7 @@ class UniversalDatabaseTool extends Tool
                             $query->where($k, $v);
                         }
                     } else {
-                        return Response::text(json_encode(['status' => 'error', 'message' => 'Harus menyertakan id atau where clause untuk menghapus data']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Harus menyertakan id atau where clause untuk menghapus data']));
                     }
 
                     $deleted = $query->delete();
@@ -168,10 +168,10 @@ class UniversalDatabaseTool extends Tool
                     ], JSON_PRETTY_PRINT));
 
                 default:
-                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: tables, describe, select, insert, update, delete"]));
+                    return Response::error(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: tables, describe, select, insert, update, delete"]));
             }
         } catch (\Throwable $e) {
-            return Response::text(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
+            return Response::error(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         }
     }
 

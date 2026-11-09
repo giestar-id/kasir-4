@@ -20,13 +20,13 @@ class CreateSaleTool extends Tool
         try {
             $items = $request->get('items');
             if (empty($items) || ! is_array($items)) {
-                return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter items wajib diisi berupa array dari menu']));
+                return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter items wajib diisi berupa array dari menu']));
             }
 
             // Get acting user (default to first active user or owner)
             $user = User::where('role', 'owner')->first() ?? User::first();
             if (! $user) {
-                return Response::text(json_encode(['status' => 'error', 'message' => 'Tidak ada user aktif dalam database']));
+                return Response::error(json_encode(['status' => 'error', 'message' => 'Tidak ada user aktif dalam database']));
             }
 
             $channel = $request->get('channel', Sale::CHANNEL_OFFLINE);
@@ -69,7 +69,7 @@ class CreateSaleTool extends Tool
             ], JSON_PRETTY_PRINT));
 
         } catch (\Throwable $e) {
-            return Response::text(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
+            return Response::error(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         }
     }
 
