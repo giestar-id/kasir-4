@@ -60,6 +60,12 @@ class ManageIngredientTool extends Tool
                     return Response::text(json_encode(['status' => 'success', 'ingredient' => $ing], JSON_PRETTY_PRINT));
 
                 case 'create':
+                    // Auto-detect bulk if ingredients/items array is passed
+                    if ($request->has('ingredients') || ($request->has('items') && is_array($request->get('items')))) {
+                        $items = $request->get('ingredients') ?? $request->get('items');
+                        return $this->handleBulkCreate($items, (bool) $request->get('update_existing', true));
+                    }
+
                     $name = $request->get('name') ?? $request->get('nama');
                     $baseUnit = $request->get('base_unit') ?? $request->get('satuan_dasar') ?? 'gram';
                     $purchaseUnit = $request->get('purchase_unit') ?? $request->get('satuan_beli') ?? 'kg';
@@ -83,6 +89,14 @@ class ManageIngredientTool extends Tool
                     ]);
 
                     return Response::text(json_encode(['status' => 'success', 'message' => "Bahan baku {$ing->name} berhasil ditambahkan", 'ingredient' => $ing], JSON_PRETTY_PRINT));
+
+                case 'bulk_create':
+                case 'batch_create':
+                    $items = $request->get('ingredients') ?? $request->get('items') ?? $request->get('data');
+                    if (empty($items) || ! is_array($items)) {
+                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter ingredients (array of objects) wajib diisi untuk bulk_create']));
+                    }
+                    return $this->handleBulkCreate($items, (bool) $request->get('update_existing', true));
 
                 case 'update':
                     if (! $id) {
@@ -130,19 +144,88 @@ class ManageIngredientTool extends Tool
                     return Response::text(json_encode(['status' => 'success', 'message' => "Bahan baku #{$id} ({$ing->name}) berhasil dihapus"]));
 
                 default:
-                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: list, get, create, update, delete"]));
+                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: list, get, create, bulk_create, update, delete"]));
             }
         } catch (\Throwable $e) {
             return Response::text(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         }
     }
 
+    protected function handleBulkCreate(array $items, bool $updateExisting): Response
+    {
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+
+            $created = 0;
+            $updated = 0;
+
+            foreach ($items as $it) {
+                $name = trim($it['name'] ?? $it['nama'] ?? '');
+                if (! $name) {
+                    continue;
+                }
+
+                $baseUnit = $it['base_unit'] ?? $it['satuan_dasar'] ?? 'gram';
+                $purchaseUnit = $it['purchase_unit'] ?? $it['satuan_beli'] ?? 'kg';
+                $unitFactor = (float) ($it['unit_factor'] ?? $it['faktor_konversi'] ?? 1000);
+                $minStock = (float) ($it['min_stock'] ?? $it['stok_minimal'] ?? 0);
+                $initialStock = (float) ($it['initial_stock'] ?? $it['stok_awal'] ?? $it['current_stock'] ?? $it['stok'] ?? 0);
+                $initialAvgCost = (int) ($it['initial_avg_cost'] ?? $it['harga_satuan'] ?? $it['avg_cost_per_base'] ?? $it['hpp'] ?? 0);
+
+                $existing = Ingredient::whereRaw('LOWER(name) = ?', [strtolower($name)])->first();
+                if ($existing) {
+                    if ($updateExisting) {
+                        $updateData = [];
+                        if (isset($it['base_unit']) || isset($it['satuan_dasar'])) $updateData['base_unit'] = $baseUnit;
+                        if (isset($it['purchase_unit']) || isset($it['satuan_beli'])) $updateData['purchase_unit'] = $purchaseUnit;
+                        if (isset($it['unit_factor']) || isset($it['faktor_konversi'])) $updateData['unit_factor'] = $unitFactor;
+                        if (isset($it['min_stock']) || isset($it['stok_minimal'])) $updateData['min_stock'] = $minStock;
+                        if ($initialStock > 0 && $existing->current_stock == 0) $updateData['current_stock'] = $initialStock;
+                        if ($initialAvgCost > 0) $updateData['avg_cost_per_base'] = $initialAvgCost;
+
+                        if (! empty($updateData)) {
+                            $existing->update($updateData);
+                        }
+                        $updated++;
+                    }
+                } else {
+                    Ingredient::create([
+                        'name' => $name,
+                        'base_unit' => $baseUnit,
+                        'purchase_unit' => $purchaseUnit,
+                        'unit_factor' => $unitFactor,
+                        'min_stock' => $minStock,
+                        'current_stock' => $initialStock,
+                        'avg_cost_per_base' => $initialAvgCost,
+                    ]);
+                    $created++;
+                }
+            }
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return Response::text(json_encode([
+                'status' => 'success',
+                'message' => "Bulk import bahan baku berhasil: {$created} baru dibuat, {$updated} diperbarui",
+                'created_count' => $created,
+                'updated_count' => $updated,
+                'total_processed' => count($items),
+            ], JSON_PRETTY_PRINT));
+
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return Response::text(json_encode(['status' => 'error', 'message' => 'Gagal bulk create bahan: ' . $e->getMessage()]));
+        }
+    }
+
     public function schema(JsonSchema $schema): array
     {
         return [
-            'action' => $schema->string()->description("Aksi: 'list', 'get', 'create', 'update'")->required(),
-            'id' => $schema->integer()->description('ID Bahan Baku'),
+            'action' => $schema->string()->description("Aksi: 'list', 'get', 'create', 'bulk_create', 'update', 'delete'")->required(),
+            'id' => $schema->integer()->description('ID Bahan Baku (untuk get/update/delete)'),
             'name' => $schema->string()->description('Nama bahan baku (misal: Beras, Ayam, Minyak Goreng)'),
+            'ingredients' => $schema->array()->description('Array of objects bahan baku untuk bulk_create: [{"name": "Beras", "base_unit": "gram", "purchase_unit": "kg", "unit_factor": 1000, "initial_stock": 5000}, ...]'),
+            'update_existing' => $schema->boolean()->description('Untuk bulk_create: perbarui jika nama bahan sudah ada (default: true)'),
             'base_unit' => $schema->string()->description('Satuan dasar pemakaian (misal: gram, ml, butir, lembar)'),
             'purchase_unit' => $schema->string()->description('Satuan saat belanja (misal: kg, liter, dus)'),
             'unit_factor' => $schema->number()->description('Faktor konversi dari satuan beli ke satuan dasar (misal 1 kg = 1000 gram)'),

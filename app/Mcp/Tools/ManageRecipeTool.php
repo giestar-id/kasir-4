@@ -17,6 +17,13 @@ class ManageRecipeTool extends Tool
     public function handle(Request $request): Response
     {
         $action = $request->get('action', 'get');
+
+        // Support bulk recipe setting
+        if ($action === 'bulk_set' || ($request->has('recipes') && is_array($request->get('recipes')))) {
+            $recipes = $request->get('recipes') ?? $request->get('items');
+            return $this->handleBulkSet($recipes);
+        }
+
         $menuId = $request->get('menu_id') ?? $request->get('id');
 
         if (! $menuId && ($request->has('menu_name') || $request->has('name') || $request->has('nama'))) {
@@ -121,20 +128,102 @@ class ManageRecipeTool extends Tool
                     ], JSON_PRETTY_PRINT));
 
                 default:
-                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: get, set"]));
+                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: get, set, bulk_set"]));
             }
         } catch (\Throwable $e) {
             return Response::text(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         }
     }
 
+    protected function handleBulkSet(?array $recipes): Response
+    {
+        if (empty($recipes)) {
+            return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter recipes (array) wajib diisi untuk bulk_set']));
+        }
+
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+            $configured = 0;
+
+            foreach ($recipes as $item) {
+                $menuId = $item['menu_id'] ?? $item['id'] ?? null;
+                if (! $menuId && (! empty($item['menu']) || ! empty($item['name']) || ! empty($item['nama']))) {
+                    $search = $item['menu'] ?? $item['name'] ?? $item['nama'];
+                    $menuId = Menu::where('name', 'like', "%{$search}%")->value('id');
+                }
+
+                if (! $menuId) {
+                    continue;
+                }
+
+                $targetMenu = Menu::find($menuId);
+                if (! $targetMenu) {
+                    continue;
+                }
+
+                // Process ingredients
+                $ingredientsInput = $item['ingredients'] ?? $item['recipe'] ?? null;
+                if (! empty($ingredientsInput) && is_array($ingredientsInput)) {
+                    $targetMenu->recipes()->delete();
+                    foreach ($ingredientsInput as $ing) {
+                        $qty = (float) ($ing['qty_per_portion'] ?? $ing['qty'] ?? 0);
+                        $ingId = $ing['ingredient_id'] ?? $ing['id'] ?? null;
+                        if (! $ingId && (! empty($ing['name']) || ! empty($ing['ingredient']) || ! empty($ing['nama']))) {
+                            $searchIng = $ing['name'] ?? $ing['ingredient'] ?? $ing['nama'];
+                            $ingId = \App\Models\Ingredient::where('name', 'like', "%{$searchIng}%")->value('id');
+                        }
+                        if ($ingId && $qty > 0) {
+                            Recipe::create([
+                                'menu_id' => $targetMenu->id,
+                                'ingredient_id' => (int) $ingId,
+                                'qty_per_portion' => $qty,
+                            ]);
+                        }
+                    }
+                }
+
+                // Process extra costs
+                $extraCostsInput = $item['extra_costs'] ?? null;
+                if (! empty($extraCostsInput) && is_array($extraCostsInput)) {
+                    $targetMenu->extraCosts()->delete();
+                    foreach ($extraCostsInput as $ec) {
+                        $label = trim($ec['label'] ?? $ec['name'] ?? '');
+                        $amount = (int) ($ec['amount'] ?? 0);
+                        if ($label && $amount > 0) {
+                            MenuExtraCost::create([
+                                'menu_id' => $targetMenu->id,
+                                'label' => $label,
+                                'amount' => $amount,
+                            ]);
+                        }
+                    }
+                }
+
+                $configured++;
+            }
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return Response::text(json_encode([
+                'status' => 'success',
+                'message' => "Berhasil mengatur resep & HPP untuk {$configured} menu sekaligus secara massal",
+                'configured_count' => $configured,
+                'total_submitted' => count($recipes),
+            ], JSON_PRETTY_PRINT));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return Response::text(json_encode(['status' => 'error', 'message' => 'Gagal bulk set resep: ' . $e->getMessage()]));
+        }
+    }
+
     public function schema(JsonSchema $schema): array
     {
         return [
-            'action' => $schema->string()->description("Aksi: 'get' (lihat resep & kalkulasi HPP) atau 'set' (atur resep baru)")->required(),
-            'menu_id' => $schema->integer()->description('ID Menu yang akan dikelola resepnya')->required(),
-            'ingredients' => $schema->array()->description('Daftar bahan per porsi, array dari object: [{"ingredient_id": 1, "qty_per_portion": 150}]'),
-            'extra_costs' => $schema->array()->description('Daftar biaya ekstra kemasan, array dari object: [{"label": "Kotak Box", "amount": 1500}]'),
+            'action' => $schema->string()->description("Aksi: 'get' (lihat resep & kalkulasi HPP), 'set' (atur resep 1 menu), 'bulk_set' (atur resep banyak menu sekaligus)")->required(),
+            'menu_id' => $schema->integer()->description('ID Menu (untuk get dan set tunggal)'),
+            'ingredients' => $schema->array()->description('Daftar bahan per porsi untuk 1 menu: [{"name": "Biji Kopi", "qty": 18}]'),
+            'extra_costs' => $schema->array()->description('Daftar biaya ekstra kemasan untuk 1 menu: [{"label": "Cup Box", "amount": 1500}]'),
+            'recipes' => $schema->array()->description('Array of objects untuk bulk_set banyak menu sekaligus: [{"menu": "Kopi Susu", "ingredients": [{"name": "Biji Kopi", "qty": 18}], "extra_costs": [{"label": "Cup", "amount": 1000}]}, ...]'),
         ];
     }
 }

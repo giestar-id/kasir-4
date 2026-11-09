@@ -19,6 +19,20 @@ class ManageStockTool extends Tool
     public function handle(Request $request, StockService $stockService): Response
     {
         $action = $request->get('action');
+        $user = User::where('role', 'owner')->first() ?? User::first();
+
+        // 1. Bulk Purchase support
+        if ($action === 'bulk_purchase' || ($request->has('purchases') && is_array($request->get('purchases')))) {
+            $purchases = $request->get('purchases') ?? $request->get('items');
+            return $this->handleBulkPurchase($purchases, $stockService, $user);
+        }
+
+        // 2. Bulk Opname / Adjustment support
+        if ($action === 'bulk_opname' || ($request->has('adjustments') && is_array($request->get('adjustments')))) {
+            $adjustments = $request->get('adjustments') ?? $request->get('items');
+            return $this->handleBulkOpname($adjustments, $stockService, $user);
+        }
+
         $ingredientId = (int) ($request->get('ingredient_id') ?? $request->get('id'));
 
         if (! $ingredientId && ($request->has('ingredient_name') || $request->has('name') || $request->has('nama') || $request->has('ingredient'))) {
@@ -34,8 +48,6 @@ class ManageStockTool extends Tool
         if (! $ing) {
             return Response::text(json_encode(['status' => 'error', 'message' => "Bahan baku #{$ingredientId} tidak ditemukan"]));
         }
-
-        $user = User::where('role', 'owner')->first() ?? User::first();
 
         try {
             switch ($action) {
@@ -122,21 +134,129 @@ class ManageStockTool extends Tool
                     ], JSON_PRETTY_PRINT));
 
                 default:
-                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: purchase, adjustment, history"]));
+                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: purchase, bulk_purchase, adjustment, bulk_opname, history"]));
             }
         } catch (\Throwable $e) {
             return Response::text(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         }
     }
 
+    protected function handleBulkPurchase(?array $purchases, StockService $stockService, ?User $user): Response
+    {
+        if (empty($purchases)) {
+            return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter purchases (array) wajib diisi']));
+        }
+
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+            $results = [];
+            $totalNominal = 0;
+
+            foreach ($purchases as $p) {
+                $ingId = $p['ingredient_id'] ?? $p['id'] ?? null;
+                if (! $ingId && (! empty($p['ingredient']) || ! empty($p['name']) || ! empty($p['nama']))) {
+                    $search = $p['ingredient'] ?? $p['name'] ?? $p['nama'];
+                    $ingId = Ingredient::where('name', 'like', "%{$search}%")->value('id');
+                }
+
+                if (! $ingId) {
+                    continue;
+                }
+
+                $qty = (float) ($p['qty_purchase_unit'] ?? $p['purchase_qty'] ?? $p['qty'] ?? 0);
+                $cost = (int) ($p['total_cost'] ?? $p['cost'] ?? $p['harga'] ?? 0);
+                if ($qty <= 0 || $cost <= 0) {
+                    continue;
+                }
+
+                $purchasedAt = $p['purchased_at'] ?? Carbon::now()->format('Y-m-d');
+                $note = $p['note'] ?? $p['notes'] ?? 'Belanja massal';
+
+                $purchase = $stockService->recordPurchase($ingId, $qty, $cost, $purchasedAt, $note, $user?->id);
+                $totalNominal += $cost;
+
+                $ing = Ingredient::find($ingId);
+                $results[] = [
+                    'ingredient' => $ing->name,
+                    'qty_bought' => "{$qty} {$ing->purchase_unit}",
+                    'cost' => $cost,
+                    'new_stock' => "{$ing->current_stock} {$ing->base_unit}",
+                ];
+            }
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return Response::text(json_encode([
+                'status' => 'success',
+                'message' => 'Berhasil mencatat ' . count($results) . ' item belanja bahan massal',
+                'total_expense' => $totalNominal,
+                'formatted_total_expense' => 'Rp' . number_format($totalNominal, 0, ',', '.'),
+                'purchases' => $results,
+            ], JSON_PRETTY_PRINT));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return Response::text(json_encode(['status' => 'error', 'message' => 'Gagal mencatat belanja massal: ' . $e->getMessage()]));
+        }
+    }
+
+    protected function handleBulkOpname(?array $items, StockService $stockService, ?User $user): Response
+    {
+        if (empty($items)) {
+            return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter adjustments (array) wajib diisi']));
+        }
+
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+            $results = [];
+
+            foreach ($items as $item) {
+                $ingId = $item['ingredient_id'] ?? $item['id'] ?? null;
+                if (! $ingId && (! empty($item['ingredient']) || ! empty($item['name']) || ! empty($item['nama']))) {
+                    $search = $item['ingredient'] ?? $item['name'] ?? $item['nama'];
+                    $ingId = Ingredient::where('name', 'like', "%{$search}%")->value('id');
+                }
+
+                if (! $ingId || ! isset($item['actual_stock'])) {
+                    continue;
+                }
+
+                $type = $item['type'] ?? 'opname';
+                $actual = (float) $item['actual_stock'];
+                $reason = $item['reason'] ?? $item['notes'] ?? 'Opname massal';
+
+                $movement = $stockService->recordAdjustment($ingId, $type, $actual, $reason, $user?->id);
+                $ing = Ingredient::find($ingId);
+
+                $results[] = [
+                    'ingredient' => $ing->name,
+                    'difference' => "{$movement->qty_change} {$ing->base_unit}",
+                    'final_stock' => "{$ing->current_stock} {$ing->base_unit}",
+                ];
+            }
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return Response::text(json_encode([
+                'status' => 'success',
+                'message' => 'Berhasil memperbarui stok fisik (opname massal) untuk ' . count($results) . ' bahan',
+                'adjustments' => $results,
+            ], JSON_PRETTY_PRINT));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return Response::text(json_encode(['status' => 'error', 'message' => 'Gagal opname massal: ' . $e->getMessage()]));
+        }
+    }
+
     public function schema(JsonSchema $schema): array
     {
         return [
-            'action' => $schema->string()->description("Aksi: 'purchase' (catat belanja bahan), 'adjustment' (penyesuaian stok opname / waste), 'history' (kartu stok)")->required(),
-            'ingredient_id' => $schema->integer()->description('ID Bahan Baku')->required(),
+            'action' => $schema->string()->description("Aksi: 'purchase', 'bulk_purchase', 'adjustment', 'bulk_opname', 'history'")->required(),
+            'ingredient_id' => $schema->integer()->description('ID Bahan Baku (untuk aksi tunggal)'),
             'qty_purchase_unit' => $schema->number()->description('Jumlah belanja dalam satuan beli (misal 5 kg)'),
             'total_cost' => $schema->integer()->description('Total uang yang dibayarkan untuk belanja (Rp)'),
             'purchased_at' => $schema->string()->description('Tanggal belanja (YYYY-MM-DD, default hari ini)'),
+            'purchases' => $schema->array()->description('Array belanja massal untuk bulk_purchase: [{"name": "Beras", "qty_purchase_unit": 10, "total_cost": 150000}, ...]'),
+            'adjustments' => $schema->array()->description('Array opname massal untuk bulk_opname: [{"name": "Beras", "actual_stock": 25000, "reason": "Opname bulanan"}, ...]'),
             'actual_stock' => $schema->number()->description('Jumlah stok fisik hasil opname di lapangan (untuk action adjustment)'),
             'type' => $schema->string()->description("Tipe penyesuaian: 'opname' atau 'waste'"),
             'reason' => $schema->string()->description('Alasan penyesuaian stok (wajib untuk adjustment)'),

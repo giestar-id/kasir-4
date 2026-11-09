@@ -83,20 +83,60 @@ class UniversalDatabaseTool extends Tool
                     ], JSON_PRETTY_PRINT));
 
                 case 'insert':
+                case 'bulk_insert':
                     if (! $table) {
                         return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter table wajib diisi']));
                     }
-                    $data = $request->get('data');
+                    $data = $request->get('data') ?? $request->get('rows') ?? $request->get('items');
                     if (empty($data) || ! is_array($data)) {
-                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter data (array key-value) wajib diisi']));
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter data (array key-value atau array of objects) wajib diisi']));
                     }
 
-                    // Auto timestamp if exists in schema
-                    if (Schema::hasColumn($table, 'created_at') && ! isset($data['created_at'])) {
-                        $data['created_at'] = now();
+                    $hasCreatedAt = Schema::hasColumn($table, 'created_at');
+                    $hasUpdatedAt = Schema::hasColumn($table, 'updated_at');
+                    $now = now();
+
+                    // Check if multiple rows (array of arrays / bulk)
+                    $isMultiRow = ($action === 'bulk_insert') || (isset($data[0]) && is_array($data[0]));
+
+                    if ($isMultiRow) {
+                        $processedRows = [];
+                        foreach ($data as $row) {
+                            if (! is_array($row)) continue;
+                            if ($hasCreatedAt && ! isset($row['created_at'])) $row['created_at'] = $now;
+                            if ($hasUpdatedAt && ! isset($row['updated_at'])) $row['updated_at'] = $now;
+                            $processedRows[] = $row;
+                        }
+
+                        DB::beginTransaction();
+                        try {
+                            // Insert in chunks of 100 for safety and performance
+                            $chunks = array_chunk($processedRows, 100);
+                            $totalInserted = 0;
+                            foreach ($chunks as $chunk) {
+                                DB::table($table)->insert($chunk);
+                                $totalInserted += count($chunk);
+                            }
+                            DB::commit();
+
+                            return Response::text(json_encode([
+                                'status' => 'success',
+                                'message' => "Berhasil menambahkan {$totalInserted} baris data ke tabel {$table} secara massal",
+                                'table' => $table,
+                                'total_inserted' => $totalInserted,
+                            ], JSON_PRETTY_PRINT));
+                        } catch (\Throwable $e) {
+                            DB::rollBack();
+                            return Response::error(json_encode(['status' => 'error', 'message' => 'Gagal bulk insert: ' . $e->getMessage()]));
+                        }
                     }
-                    if (Schema::hasColumn($table, 'updated_at') && ! isset($data['updated_at'])) {
-                        $data['updated_at'] = now();
+
+                    // Single row insert
+                    if ($hasCreatedAt && ! isset($data['created_at'])) {
+                        $data['created_at'] = $now;
+                    }
+                    if ($hasUpdatedAt && ! isset($data['updated_at'])) {
+                        $data['updated_at'] = $now;
                     }
 
                     $insertedId = DB::table($table)->insertGetId($data);

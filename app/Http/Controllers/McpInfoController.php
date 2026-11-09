@@ -19,7 +19,7 @@ class McpInfoController extends Controller
         return response()->json([
             'status' => config('mcp.enabled', true) ? 'online' : 'disabled',
             'server' => config('mcp.server_name', 'POS Kuliner MCP Server'),
-            'version' => config('mcp.version', '1.1.0'),
+            'version' => config('mcp.version', '1.2.0'),
             'protocol' => 'Model Context Protocol (JSON-RPC 2.0)',
             'base_url' => $baseUrl,
             'authentication' => [
@@ -33,8 +33,9 @@ class McpInfoController extends Controller
             ],
             'capabilities' => [
                 'tools' => [
-                    'count' => 9,
+                    'count' => 10,
                     'items' => [
+                        'bulk-import-catalog-tool',
                         'manage-menu-tool',
                         'manage-category-tool',
                         'manage-ingredient-tool',

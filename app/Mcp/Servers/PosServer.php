@@ -7,6 +7,7 @@ use App\Mcp\Prompts\DailyAnalysisPrompt;
 use App\Mcp\Resources\ActiveCatalogResource;
 use App\Mcp\Resources\SystemStatusResource;
 use App\Mcp\Resources\TodaySummaryResource;
+use App\Mcp\Tools\BulkImportCatalogTool;
 use App\Mcp\Tools\CreateSaleTool;
 use App\Mcp\Tools\GetFinancialReportTool;
 use App\Mcp\Tools\ManageCategoryTool;
@@ -22,11 +23,12 @@ use Laravel\Mcp\Server\Attributes\Name;
 use Laravel\Mcp\Server\Attributes\Version;
 
 #[Name('POS Kuliner MCP Server')]
-#[Version('1.1.0')]
-#[Instructions('MCP Server resmi POS Kuliner Satu Outlet. Menyediakan kendali penuh (CRUD) atas menu, kategori, inventaris bahan baku, resep HPP, pencatatan transaksi kasir POS, stok opname, laporan keuangan, dan akses database universal.')]
+#[Version('1.2.0')]
+#[Instructions('MCP Server resmi POS Kuliner Satu Outlet. Menyediakan kendali penuh (CRUD & Bulk/Batch Import) atas menu, kategori, inventaris bahan baku, resep HPP, pencatatan transaksi kasir POS, stok opname, laporan keuangan, dan akses database universal.')]
 class PosServer extends Server
 {
     protected array $tools = [
+        BulkImportCatalogTool::class,
         ManageMenuTool::class,
         ManageCategoryTool::class,
         ManageIngredientTool::class,

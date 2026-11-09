@@ -55,6 +55,13 @@ class ManageMenuTool extends Tool
                     return Response::text(json_encode(['status' => 'success', 'menu' => $menu], JSON_PRETTY_PRINT));
 
                 case 'create':
+                    // Auto-detect bulk if menus/items array is passed
+                    if ($request->has('menus') || ($request->has('items') && is_array($request->get('items')))) {
+                        // Forward to bulk_create
+                        $items = $request->get('menus') ?? $request->get('items');
+                        return $this->handleBulkCreate($items, (bool) $request->get('update_existing', true));
+                    }
+
                     $name = $request->get('name') ?? $request->get('nama');
                     $price = $request->get('price') ?? $request->get('selling_price') ?? $request->get('harga');
                     $categoryId = $request->get('category_id') ?? $request->get('kategori_id') ?? $request->get('category') ?? $request->get('kategori');
@@ -85,6 +92,14 @@ class ManageMenuTool extends Tool
                     ]);
 
                     return Response::text(json_encode(['status' => 'success', 'message' => "Menu {$menu->name} berhasil dibuat", 'menu' => $menu], JSON_PRETTY_PRINT));
+
+                case 'bulk_create':
+                case 'batch_create':
+                    $items = $request->get('menus') ?? $request->get('items') ?? $request->get('data');
+                    if (empty($items) || ! is_array($items)) {
+                        return Response::error(json_encode(['status' => 'error', 'message' => 'Parameter menus (array of objects) wajib diisi untuk aksi bulk_create']));
+                    }
+                    return $this->handleBulkCreate($items, (bool) $request->get('update_existing', true));
 
                 case 'update':
                     if (! $id) {
@@ -145,21 +160,108 @@ class ManageMenuTool extends Tool
                     return Response::text(json_encode(['status' => 'success', 'message' => "Menu #{$id} berhasil dihapus permanen"]));
 
                 default:
-                    return Response::error(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: list, get, create, update, delete"]));
+                    return Response::error(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: list, get, create, bulk_create, update, delete"]));
             }
         } catch (\Throwable $e) {
             return Response::error(json_encode(['status' => 'error', 'message' => $e->getMessage()]));
         }
     }
 
+    protected function handleBulkCreate(array $items, bool $updateExisting): Response
+    {
+        try {
+            \Illuminate\Support\Facades\DB::beginTransaction();
+
+            $created = 0;
+            $updated = 0;
+            $categoryCache = [];
+
+            foreach ($items as $it) {
+                $name = trim($it['name'] ?? $it['nama'] ?? '');
+                if (! $name) {
+                    continue;
+                }
+
+                $rawPrice = $it['price'] ?? $it['harga'] ?? $it['selling_price'] ?? 0;
+                $price = is_string($rawPrice) ? (int) preg_replace('/[^0-9]/', '', $rawPrice) : (int) $rawPrice;
+
+                // Resolve category
+                $c = $it['category_id'] ?? $it['category'] ?? $it['kategori'] ?? null;
+                $catId = null;
+                if ($c) {
+                    if (is_numeric($c)) {
+                        $catId = (int) $c;
+                    } else {
+                        $lowerC = strtolower(trim($c));
+                        if (! isset($categoryCache[$lowerC])) {
+                            $found = \App\Models\Category::whereRaw('LOWER(name) = ?', [$lowerC])->first();
+                            if ($found) {
+                                $categoryCache[$lowerC] = $found->id;
+                            } else {
+                                $newCat = \App\Models\Category::create(['name' => trim($c), 'sort_order' => (\App\Models\Category::max('sort_order') ?? 0) + 1]);
+                                $categoryCache[$lowerC] = $newCat->id;
+                            }
+                        }
+                        $catId = $categoryCache[$lowerC];
+                    }
+                }
+
+                if (! $catId) {
+                    $catId = \App\Models\Category::first()?->id ?? 1;
+                }
+
+                $isActive = isset($it['is_active']) ? (bool) $it['is_active'] : true;
+                $note = $it['note'] ?? $it['catatan'] ?? null;
+
+                $existing = Menu::whereRaw('LOWER(name) = ?', [strtolower($name)])->first();
+                if ($existing) {
+                    if ($updateExisting) {
+                        $existing->update([
+                            'price' => $price > 0 ? $price : $existing->price,
+                            'category_id' => $catId,
+                            'is_active' => $isActive,
+                            'note' => $note ?? $existing->note,
+                        ]);
+                        $updated++;
+                    }
+                } else {
+                    Menu::create([
+                        'name' => $name,
+                        'price' => $price,
+                        'category_id' => $catId,
+                        'is_active' => $isActive,
+                        'note' => $note,
+                    ]);
+                    $created++;
+                }
+            }
+
+            \Illuminate\Support\Facades\DB::commit();
+
+            return Response::text(json_encode([
+                'status' => 'success',
+                'message' => "Bulk import berhasil: {$created} menu baru dibuat, {$updated} menu diperbarui",
+                'created_count' => $created,
+                'updated_count' => $updated,
+                'total_processed' => count($items),
+            ], JSON_PRETTY_PRINT));
+
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\DB::rollBack();
+            return Response::error(json_encode(['status' => 'error', 'message' => 'Gagal bulk create menu: ' . $e->getMessage()]));
+        }
+    }
+
     public function schema(JsonSchema $schema): array
     {
         return [
-            'action' => $schema->string()->description("Aksi yang ingin dilakukan: 'list', 'get', 'create', 'update', 'delete'")->required(),
+            'action' => $schema->string()->description("Aksi yang ingin dilakukan: 'list', 'get', 'create', 'bulk_create', 'update', 'delete'")->required(),
             'id' => $schema->integer()->description('ID Menu (wajib untuk get, update, delete)'),
-            'name' => $schema->string()->description('Nama menu kuliner'),
+            'name' => $schema->string()->description('Nama menu kuliner (untuk create/update tunggal)'),
             'price' => $schema->integer()->description('Harga jual dalam Rupiah (integer)'),
             'category_id' => $schema->integer()->description('ID Kategori menu'),
+            'menus' => $schema->array()->description('Array of objects menu untuk bulk_create: [{"name": "Kopi Susu", "price": 18000, "category": "Minuman"}, ...]'),
+            'update_existing' => $schema->boolean()->description('Untuk bulk_create: jika menu sudah ada, perbarui datanya bukan error (default: true)'),
             'is_active' => $schema->boolean()->description('Status aktif menu'),
             'search' => $schema->string()->description('Pencarian kata kunci nama menu untuk action list'),
             'note' => $schema->string()->description('Catatan menu (opsional)'),
