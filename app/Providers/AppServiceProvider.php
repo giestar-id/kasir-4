@@ -2,12 +2,14 @@
 
 namespace App\Providers;
 
+use App\Mcp\Servers\PosServer;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Mcp\Facades\Mcp;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,5 +46,10 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('give-discount', function (User $user) {
             return $user->isOwner() || $user->can_give_discount;
         });
+
+        if (class_exists(Mcp::class)) {
+            Mcp::local('pos', PosServer::class);
+            Mcp::web('/mcp/pos', PosServer::class);
+        }
     }
 }
