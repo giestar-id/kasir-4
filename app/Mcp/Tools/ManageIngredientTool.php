@@ -60,11 +60,13 @@ class ManageIngredientTool extends Tool
                     return Response::text(json_encode(['status' => 'success', 'ingredient' => $ing], JSON_PRETTY_PRINT));
 
                 case 'create':
-                    $name = $request->get('name');
-                    $baseUnit = $request->get('base_unit', 'gram');
-                    $purchaseUnit = $request->get('purchase_unit', 'kg');
-                    $unitFactor = (float) $request->get('unit_factor', 1000);
-                    $minStock = (float) $request->get('min_stock', 0);
+                    $name = $request->get('name') ?? $request->get('nama');
+                    $baseUnit = $request->get('base_unit') ?? $request->get('satuan_dasar') ?? 'gram';
+                    $purchaseUnit = $request->get('purchase_unit') ?? $request->get('satuan_beli') ?? 'kg';
+                    $unitFactor = (float) ($request->get('unit_factor') ?? $request->get('faktor_konversi') ?? 1000);
+                    $minStock = (float) ($request->get('min_stock') ?? $request->get('stok_minimal') ?? 0);
+                    $initialStock = (float) ($request->get('initial_stock') ?? $request->get('stok_awal') ?? $request->get('current_stock') ?? $request->get('stok') ?? 0);
+                    $initialAvgCost = (int) ($request->get('initial_avg_cost') ?? $request->get('harga_satuan') ?? $request->get('avg_cost_per_base') ?? $request->get('hpp') ?? 0);
 
                     if (! $name) {
                         return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter name wajib diisi']));
@@ -76,8 +78,8 @@ class ManageIngredientTool extends Tool
                         'purchase_unit' => $purchaseUnit,
                         'unit_factor' => $unitFactor,
                         'min_stock' => $minStock,
-                        'current_stock' => (float) $request->get('initial_stock', 0),
-                        'avg_cost_per_base' => (int) $request->get('initial_avg_cost', 0),
+                        'current_stock' => $initialStock,
+                        'avg_cost_per_base' => $initialAvgCost,
                     ]);
 
                     return Response::text(json_encode(['status' => 'success', 'message' => "Bahan baku {$ing->name} berhasil ditambahkan", 'ingredient' => $ing], JSON_PRETTY_PRINT));
@@ -92,28 +94,43 @@ class ManageIngredientTool extends Tool
                     }
 
                     $data = [];
-                    if ($request->has('name')) {
-                        $data['name'] = $request->get('name');
+                    if ($request->has('name') || $request->has('nama')) {
+                        $data['name'] = $request->get('name') ?? $request->get('nama');
                     }
-                    if ($request->has('base_unit')) {
-                        $data['base_unit'] = $request->get('base_unit');
+                    if ($request->has('base_unit') || $request->has('satuan_dasar')) {
+                        $data['base_unit'] = $request->get('base_unit') ?? $request->get('satuan_dasar');
                     }
-                    if ($request->has('purchase_unit')) {
-                        $data['purchase_unit'] = $request->get('purchase_unit');
+                    if ($request->has('purchase_unit') || $request->has('satuan_beli')) {
+                        $data['purchase_unit'] = $request->get('purchase_unit') ?? $request->get('satuan_beli');
                     }
-                    if ($request->has('unit_factor')) {
-                        $data['unit_factor'] = (float) $request->get('unit_factor');
+                    if ($request->has('unit_factor') || $request->has('faktor_konversi')) {
+                        $data['unit_factor'] = (float) ($request->get('unit_factor') ?? $request->get('faktor_konversi'));
                     }
-                    if ($request->has('min_stock')) {
-                        $data['min_stock'] = (float) $request->get('min_stock');
+                    if ($request->has('min_stock') || $request->has('stok_minimal')) {
+                        $data['min_stock'] = (float) ($request->get('min_stock') ?? $request->get('stok_minimal'));
                     }
 
                     $ing->update($data);
 
                     return Response::text(json_encode(['status' => 'success', 'message' => "Bahan baku #{$id} berhasil diperbarui", 'ingredient' => $ing], JSON_PRETTY_PRINT));
 
+                case 'delete':
+                    if (! $id) {
+                        return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter id wajib diisi']));
+                    }
+                    $ing = Ingredient::find($id);
+                    if (! $ing) {
+                        return Response::text(json_encode(['status' => 'error', 'message' => "Bahan baku #{$id} tidak ditemukan"]));
+                    }
+                    if ($ing->recipes()->exists()) {
+                        return Response::text(json_encode(['status' => 'error', 'message' => "Bahan baku #{$id} ({$ing->name}) tidak dapat dihapus karena masih digunakan dalam resep menu"]));
+                    }
+                    $ing->delete();
+
+                    return Response::text(json_encode(['status' => 'success', 'message' => "Bahan baku #{$id} ({$ing->name}) berhasil dihapus"]));
+
                 default:
-                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: list, get, create, update"]));
+                    return Response::text(json_encode(['status' => 'error', 'message' => "Aksi '{$action}' tidak dikenal. Pilihan: list, get, create, update, delete"]));
             }
         } catch (\Throwable $e) {
             return Response::text(json_encode(['status' => 'error', 'message' => $e->getMessage()]));

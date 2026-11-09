@@ -19,7 +19,12 @@ class ManageStockTool extends Tool
     public function handle(Request $request, StockService $stockService): Response
     {
         $action = $request->get('action');
-        $ingredientId = (int) $request->get('ingredient_id');
+        $ingredientId = (int) ($request->get('ingredient_id') ?? $request->get('id'));
+
+        if (! $ingredientId && ($request->has('ingredient_name') || $request->has('name') || $request->has('nama') || $request->has('ingredient'))) {
+            $searchIng = $request->get('ingredient_name') ?? $request->get('name') ?? $request->get('nama') ?? $request->get('ingredient');
+            $ingredientId = (int) Ingredient::where('name', 'like', "%{$searchIng}%")->value('id');
+        }
 
         if (! $ingredientId) {
             return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter ingredient_id wajib diisi']));

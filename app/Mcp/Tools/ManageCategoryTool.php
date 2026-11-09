@@ -25,7 +25,7 @@ class ManageCategoryTool extends Tool
                     return Response::text(json_encode(['status' => 'success', 'count' => $categories->count(), 'categories' => $categories], JSON_PRETTY_PRINT));
 
                 case 'create':
-                    $name = $request->get('name');
+                    $name = $request->get('name') ?? $request->get('nama');
                     if (! $name) {
                         return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter name wajib diisi']));
                     }
@@ -48,8 +48,8 @@ class ManageCategoryTool extends Tool
                     }
 
                     $data = [];
-                    if ($request->has('name')) {
-                        $data['name'] = $request->get('name');
+                    if ($request->has('name') || $request->has('nama')) {
+                        $data['name'] = $request->get('name') ?? $request->get('nama');
                     }
                     if ($request->has('sort_order')) {
                         $data['sort_order'] = (int) $request->get('sort_order');

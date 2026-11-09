@@ -17,7 +17,14 @@ class ManageRecipeTool extends Tool
     public function handle(Request $request): Response
     {
         $action = $request->get('action', 'get');
-        $menuId = $request->get('menu_id');
+        $menuId = $request->get('menu_id') ?? $request->get('id');
+
+        if (! $menuId && ($request->has('menu_name') || $request->has('name') || $request->has('nama'))) {
+            $search = $request->get('menu_name') ?? $request->get('name') ?? $request->get('nama');
+            $menuId = Menu::where('name', 'like', "%{$search}%")->value('id');
+        } elseif ($menuId && ! is_numeric($menuId)) {
+            $menuId = Menu::where('name', 'like', "%{$menuId}%")->value('id');
+        }
 
         if (! $menuId) {
             return Response::text(json_encode(['status' => 'error', 'message' => 'Parameter menu_id wajib diisi']));
@@ -68,10 +75,15 @@ class ManageRecipeTool extends Tool
                             $menu->recipes()->delete();
                             foreach ($ingredientsInput as $item) {
                                 $qty = (float) ($item['qty_per_portion'] ?? $item['amount_needed'] ?? $item['qty'] ?? 0);
-                                if (! empty($item['ingredient_id']) && $qty > 0) {
+                                $ingId = $item['ingredient_id'] ?? $item['id'] ?? null;
+                                if (! $ingId && (! empty($item['ingredient_name']) || ! empty($item['name']) || ! empty($item['nama']) || ! empty($item['ingredient']))) {
+                                    $searchIng = $item['ingredient_name'] ?? $item['name'] ?? $item['nama'] ?? $item['ingredient'];
+                                    $ingId = \App\Models\Ingredient::where('name', 'like', "%{$searchIng}%")->value('id');
+                                }
+                                if ($ingId && $qty > 0) {
                                     Recipe::create([
                                         'menu_id' => $menu->id,
-                                        'ingredient_id' => (int) $item['ingredient_id'],
+                                        'ingredient_id' => (int) $ingId,
                                         'qty_per_portion' => $qty,
                                     ]);
                                 }
