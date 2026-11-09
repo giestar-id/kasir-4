@@ -67,8 +67,10 @@ Route::middleware('auth')->group(function () {
     });
 });
 
-// Public MCP Server Information
+// MCP Server Endpoints
 Route::get('/mcp/info', [McpInfoController::class, 'index'])->name('mcp.info');
 
-// Public MCP Server Information
-Route::get('/mcp/info', [McpInfoController::class, 'index'])->name('mcp.info');
+if (class_exists(\Laravel\Mcp\Facades\Mcp::class)) {
+    \Laravel\Mcp\Facades\Mcp::web('/mcp/pos', \App\Mcp\Servers\PosServer::class)
+        ->middleware([\App\Http\Middleware\AuthenticateMcpKey::class]);
+}

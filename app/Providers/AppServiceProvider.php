@@ -50,8 +50,6 @@ class AppServiceProvider extends ServiceProvider
 
         if (class_exists(Mcp::class)) {
             Mcp::local('pos', PosServer::class);
-            Mcp::web('/mcp/pos', PosServer::class)
-                ->middleware([AuthenticateMcpKey::class]);
         }
     }
 }
