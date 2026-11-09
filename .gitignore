@@ -58,7 +58,8 @@ Homestead.yaml
 /.codex
 
 # --- Agent & AI System Files ---
-/.agents
+/.agents/*
+!/.agents/skills/
 /.ai
 
 # --- Package Manager Logs ---

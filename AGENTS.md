@@ -163,4 +163,23 @@ This project has domain-specific skills available in `**/skills/**`. You MUST ac
 - Rerun a test after each change to it.
 - Run `vendor/bin/phpunit` to call the test runner directly. It accepts the same file path and `--filter=testName` arguments.
 
+=== fly-io-mcp rules ===
+
+# Fly.io Deployment & MCP Architecture Guidelines
+
+## Production Dependencies
+- The `laravel/mcp` package must ALWAYS reside under "require" in `composer.json` (never "require-dev"), because the production Docker image builds with `composer install --no-dev`.
+
+## Storage & Persistent Volumes
+- NEVER mount persistent volumes over application directories containing migrations, seeders, or source code (e.g. `/var/www/html/database`).
+- Always mount SQLite storage volumes to `/data` (or `/var/www/html/storage/data`) and explicitly configure `DB_DATABASE=/data/database.sqlite`.
+- When using SQLite on Fly.io, maintain exactly ONE active machine (`min_machines_running = 1`, `auto_stop_machines = 'off'`) to prevent multi-instance split-brain.
+
+## Secrets Precedence
+- Remember that Fly.io Secrets take absolute precedence over `fly.toml` `[env]`. Always verify and update secrets via `fly secrets set` when changing database paths or credentials.
+
+## MCP Tool Design
+- MCP tools must be resilient to LLM inputs: accept localized parameter aliases (`nama`, `harga`, `kategori`), clean formatted numbers (strip `Rp` and dots), and auto-resolve entity names to foreign IDs.
+- High-volume data operations must provide bulk/batch actions (`bulk_create`, `bulk_set`, `bulk_purchase`, `bulk_import`) wrapped in atomic database transactions (`DB::transaction`).
+
 </laravel-boost-guidelines>

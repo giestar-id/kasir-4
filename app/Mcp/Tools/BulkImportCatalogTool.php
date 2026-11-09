@@ -283,3 +283,4 @@ class BulkImportCatalogTool extends Tool
         ];
     }
 }
+
