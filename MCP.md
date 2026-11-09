@@ -10,20 +10,21 @@ AI dapat melakukan **operasi apapun (CRUD penuh)** pada sistem POS Anda, mulai d
 
 Setiap koneksi HTTP/SSE dari AI Client ke MCP Server diamankan menggunakan **API Key**.
 
-| Parameter | Nilai Default / Format | Keterangan |
-|---|---|---|
-| **Base URL** | `http://localhost:8000/mcp/pos` | Endpoint POST utama untuk komunikasi JSON-RPC 2.0 |
-| **Info URL** | `http://localhost:8000/mcp/info` | Endpoint GET publik untuk mengecek status & kapabilitas server |
-| **Header Auth** | `Authorization: Bearer <MCP_API_KEY>` | Header otentikasi standar Bearer Token |
-| **Header Alternatif** | `X-MCP-KEY: <MCP_API_KEY>` | Header otentikasi alternatif |
-| **Query Auth** | `?api_key=<MCP_API_KEY>` | Parameter URL alternatif jika client tidak mendukung custom headers |
+| Parameter | Lingkungan Production (Fly.io) | Lingkungan Lokal | Keterangan |
+|---|---|---|---|
+| **Base URL** | `https://kasir-4.fly.dev/mcp/pos` | `http://localhost:8000/mcp/pos` | Endpoint POST utama untuk komunikasi JSON-RPC 2.0 |
+| **Info URL** | `https://kasir-4.fly.dev/mcp/info` | `http://localhost:8000/mcp/info` | Endpoint GET publik untuk mengecek status & kapabilitas server |
+| **Header Auth** | `Authorization: Bearer <MCP_API_KEY>` | `Authorization: Bearer <MCP_API_KEY>` | Header otentikasi standar Bearer Token |
+| **Header Alternatif** | `X-MCP-KEY: <MCP_API_KEY>` | `X-MCP-KEY: <MCP_API_KEY>` | Header otentikasi alternatif |
+| **Query Auth** | `?api_key=<MCP_API_KEY>` | `?api_key=<MCP_API_KEY>` | Parameter URL alternatif jika client tidak mendukung custom headers |
+| **Default API Key** | `pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf` | (Sesuai `.env` lokal Anda) | Kunci otentikasi tersimpan di `.env` / Fly Secrets |
 
 > 💡 **Cek atau Regenerate Kredensial via Terminal:**
 > ```powershell
 > # Melihat Base URL dan API Key aktif
 > php artisan mcp:credentials
 > 
-> # Membuat API Key baru yang aman dan otomatis menyimpan ke .env
+> # Membuat API Key baru yang aman dan otomatis menyimpan ke .env & database
 > php artisan mcp:credentials --generate
 > ```
 
@@ -31,37 +32,36 @@ Setiap koneksi HTTP/SSE dari AI Client ke MCP Server diamankan menggunakan **API
 
 ## 🚀 Cara Menghubungkan AI Client
 
-### 1. Cursor IDE (Mode HTTP Remote dengan Kredensial)
+### 1. Cursor IDE (Mode Remote Production di Fly.io)
 Buat atau edit file `.cursor/mcp.json` di root folder project:
 
 ```json
 {
   "mcpServers": {
-    "pos-laravel": {
-      "url": "http://localhost:8000/mcp/pos",
+    "pos-fly": {
+      "url": "https://kasir-4.fly.dev/mcp/pos",
       "headers": {
-        "Authorization": "Bearer pos_sec_hQueg7jqqeEnBSJMl57dGIAVN28BdUE0",
-        "X-MCP-KEY": "pos_sec_hQueg7jqqeEnBSJMl57dGIAVN28BdUE0"
+        "Authorization": "Bearer pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf",
+        "X-MCP-KEY": "pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf"
       }
     }
   }
 }
 ```
-*Ganti token di atas dengan API Key Anda yang tertera di `php artisan mcp:credentials`.*
 
 ---
 
 ### 2. Claude Desktop
 
-#### Opsi A: Remote HTTP (Jika Claude mendukung URL Transport)
+#### Opsi A: Remote Production di Fly.io
 Edit `%APPDATA%\Claude\claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "pos-laravel": {
-      "url": "http://localhost:8000/mcp/pos",
+    "pos-fly": {
+      "url": "https://kasir-4.fly.dev/mcp/pos",
       "headers": {
-        "Authorization": "Bearer pos_sec_hQueg7jqqeEnBSJMl57dGIAVN28BdUE0"
+        "Authorization": "Bearer pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf"
       }
     }
   }
