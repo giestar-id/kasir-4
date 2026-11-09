@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\Middleware\AuthenticateMcpKey;
 use App\Mcp\Servers\PosServer;
 use App\Models\User;
 use Carbon\Carbon;
@@ -49,7 +50,8 @@ class AppServiceProvider extends ServiceProvider
 
         if (class_exists(Mcp::class)) {
             Mcp::local('pos', PosServer::class);
-            Mcp::web('/mcp/pos', PosServer::class);
+            Mcp::web('/mcp/pos', PosServer::class)
+                ->middleware([AuthenticateMcpKey::class]);
         }
     }
 }

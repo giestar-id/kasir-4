@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\McpInfoController;
 use App\Livewire\Auth\Login;
 use App\Livewire\Categories\Index as CategoriesIndex;
 use App\Livewire\Dashboard;
@@ -65,3 +66,6 @@ Route::middleware('auth')->group(function () {
         Route::get('/pengaturan', SettingsIndex::class)->name('settings');
     });
 });
+
+// Public MCP Server Information
+Route::get('/mcp/info', [McpInfoController::class, 'index'])->name('mcp.info');

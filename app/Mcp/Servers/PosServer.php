@@ -2,6 +2,11 @@
 
 namespace App\Mcp\Servers;
 
+use App\Mcp\Prompts\CreateMenuWizardPrompt;
+use App\Mcp\Prompts\DailyAnalysisPrompt;
+use App\Mcp\Resources\ActiveCatalogResource;
+use App\Mcp\Resources\SystemStatusResource;
+use App\Mcp\Resources\TodaySummaryResource;
 use App\Mcp\Tools\CreateSaleTool;
 use App\Mcp\Tools\GetFinancialReportTool;
 use App\Mcp\Tools\ManageCategoryTool;
@@ -17,7 +22,7 @@ use Laravel\Mcp\Server\Attributes\Name;
 use Laravel\Mcp\Server\Attributes\Version;
 
 #[Name('POS Kuliner MCP Server')]
-#[Version('1.0.0')]
+#[Version('1.1.0')]
 #[Instructions('MCP Server resmi POS Kuliner Satu Outlet. Menyediakan kendali penuh (CRUD) atas menu, kategori, inventaris bahan baku, resep HPP, pencatatan transaksi kasir POS, stok opname, laporan keuangan, dan akses database universal.')]
 class PosServer extends Server
 {
@@ -34,10 +39,13 @@ class PosServer extends Server
     ];
 
     protected array $resources = [
-        //
+        SystemStatusResource::class,
+        TodaySummaryResource::class,
+        ActiveCatalogResource::class,
     ];
 
     protected array $prompts = [
-        //
+        DailyAnalysisPrompt::class,
+        CreateMenuWizardPrompt::class,
     ];
 }

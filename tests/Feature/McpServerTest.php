@@ -2,6 +2,11 @@
 
 namespace Tests\Feature;
 
+use App\Mcp\Prompts\CreateMenuWizardPrompt;
+use App\Mcp\Prompts\DailyAnalysisPrompt;
+use App\Mcp\Resources\ActiveCatalogResource;
+use App\Mcp\Resources\SystemStatusResource;
+use App\Mcp\Resources\TodaySummaryResource;
 use App\Mcp\Servers\PosServer;
 use App\Mcp\Tools\CreateSaleTool;
 use App\Mcp\Tools\GetFinancialReportTool;
@@ -391,5 +396,121 @@ class McpServerTest extends TestCase
         ]));
         $this->assertStringContainsString('Berhasil menghapus', $this->getResponseText($deleteRes));
         $this->assertDatabaseMissing('categories', ['name' => 'Snack Gurih']);
+    }
+
+    public function test_pos_server_registers_resources_and_prompts(): void
+    {
+        $resRef = new ReflectionProperty(PosServer::class, 'resources');
+        $this->assertCount(3, $resRef->getDefaultValue());
+
+        $promptRef = new ReflectionProperty(PosServer::class, 'prompts');
+        $this->assertCount(2, $promptRef->getDefaultValue());
+    }
+
+    public function test_mcp_resources(): void
+    {
+        Category::create(['name' => 'Kopi']);
+        $menu = Menu::create([
+            'name' => 'Americano',
+            'category_id' => 1,
+            'price' => 15000,
+            'is_active' => true,
+        ]);
+
+        Ingredient::create([
+            'name' => 'Biji Kopi Robusta',
+            'base_unit' => 'gram',
+            'purchase_unit' => 'kg',
+            'unit_factor' => 1000,
+            'min_stock' => 500,
+            'current_stock' => 100, // Trigger low stock alert!
+        ]);
+
+        // 1. SystemStatusResource
+        $statusResource = new SystemStatusResource;
+        $statusRes = $statusResource->handle();
+        $this->assertStringContainsString('outlet_metrics', $this->getResponseText($statusRes));
+        $this->assertStringContainsString('Biji Kopi Robusta', $this->getResponseText($statusRes));
+
+        // 2. TodaySummaryResource
+        $todayResource = new TodaySummaryResource;
+        $todayRes = $todayResource->handle();
+        $this->assertStringContainsString('total_omzet', $this->getResponseText($todayRes));
+
+        // 3. ActiveCatalogResource
+        $catalogResource = new ActiveCatalogResource;
+        $catalogRes = $catalogResource->handle();
+        $this->assertStringContainsString('Americano', $this->getResponseText($catalogRes));
+    }
+
+    public function test_mcp_prompts(): void
+    {
+        // 1. DailyAnalysisPrompt
+        $dailyPrompt = new DailyAnalysisPrompt;
+        $dailyRes = $dailyPrompt->handle(new Request(['date' => '2026-11-09']));
+        $this->assertStringContainsString('get-financial-report-tool', $this->getResponseText($dailyRes));
+        $this->assertStringContainsString('2026-11-09', $this->getResponseText($dailyRes));
+
+        // 2. CreateMenuWizardPrompt
+        $wizardPrompt = new CreateMenuWizardPrompt;
+        $wizardRes = $wizardPrompt->handle(new Request(['menu_name' => 'Matcha Latte', 'target_margin_pct' => 70]));
+        $this->assertStringContainsString('Matcha Latte', $this->getResponseText($wizardRes));
+        $this->assertStringContainsString('70%', $this->getResponseText($wizardRes));
+    }
+
+    public function test_mcp_public_info_endpoint(): void
+    {
+        $response = $this->getJson('/mcp/info');
+
+        $response->assertStatus(200);
+        $response->assertJsonPath('status', 'online');
+        $response->assertJsonPath('server', 'POS Kuliner MCP Server');
+        $response->assertJsonPath('capabilities.tools.count', 9);
+        $response->assertJsonPath('capabilities.resources.count', 3);
+        $response->assertJsonPath('capabilities.prompts.count', 2);
+    }
+
+    public function test_web_mcp_authentication_middleware(): void
+    {
+        $validKey = config('mcp.api_key');
+        $payload = [
+            'jsonrpc' => '2.0',
+            'id' => 1,
+            'method' => 'tools/list',
+            'params' => [],
+        ];
+
+        // 1. Unauthenticated request -> must return 401
+        $noAuthRes = $this->postJson('/mcp/pos', $payload);
+        $noAuthRes->assertStatus(401);
+        $noAuthRes->assertJsonPath('error.code', -32000);
+        $noAuthRes->assertHeader('WWW-Authenticate');
+
+        // 2. Invalid Bearer Token -> must return 401
+        $invalidAuthRes = $this->withHeader('Authorization', 'Bearer invalid_key_123')
+            ->postJson('/mcp/pos', $payload);
+        $invalidAuthRes->assertStatus(401);
+
+        // 3. Valid Bearer Token -> authentication passes (not 401)
+        $bearerRes = $this->withHeader('Authorization', 'Bearer '.$validKey)
+            ->postJson('/mcp/pos', $payload);
+        $this->assertNotEquals(401, $bearerRes->status());
+
+        // 4. Valid X-MCP-KEY Header -> authentication passes (not 401)
+        $headerRes = $this->withHeader('X-MCP-KEY', $validKey)
+            ->postJson('/mcp/pos', $payload);
+        $this->assertNotEquals(401, $headerRes->status());
+
+        // 5. Valid ?api_key= Query Parameter -> authentication passes (not 401)
+        $queryRes = $this->postJson('/mcp/pos?api_key='.$validKey, $payload);
+        $this->assertNotEquals(401, $queryRes->status());
+    }
+
+    public function test_artisan_mcp_credentials_command(): void
+    {
+        $this->artisan('mcp:credentials')
+            ->expectsOutputToContain('POS KULINER - MCP SERVER CREDENTIALS & BASE URL')
+            ->expectsOutputToContain(config('mcp.api_key'))
+            ->assertSuccessful();
     }
 }
