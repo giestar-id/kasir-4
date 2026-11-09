@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Illuminate\Http\JsonResponse;
 
 class McpInfoController extends Controller
@@ -9,7 +10,7 @@ class McpInfoController extends Controller
     public function index(): JsonResponse
     {
         $baseUrl = config('mcp.base_url', url('/mcp/pos'));
-        $apiKey = config('mcp.api_key');
+        $apiKey = Setting::get('mcp_api_key') ?: config('mcp.api_key');
         // Mask API key for safety on public info endpoint (show first 11 chars + ***)
         $maskedKey = strlen((string) $apiKey) > 12
             ? substr((string) $apiKey, 0, 11).'...'.substr((string) $apiKey, -4)

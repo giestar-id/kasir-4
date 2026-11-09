@@ -36,6 +36,7 @@
                 <option value="security">Keamanan Pemilik & Kasir</option>
                 <option value="ai">Integrasi AI Hybrid</option>
                 <option value="backup">Cadangan Data</option>
+                <option value="mcp">MCP Server (AI External)</option>
             </select>
             <div class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-[#4E5262]">
                 <x-ui.icon name="chevron-down" class="w-3.5 h-3.5" />
@@ -79,6 +80,15 @@
             >
                 <x-ui.icon name="database" class="w-4 h-4 shrink-0" />
                 <span>Cadangan Data</span>
+            </button>
+            <button
+                type="button"
+                @click="switchTab('mcp')"
+                :class="activeTab === 'mcp' ? 'bg-[#5E63E8] text-white shadow-xs' : 'text-[#5A5D6C] hover:bg-white/60 hover:text-[#1E2029]'"
+                class="h-10 px-4 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer flex items-center gap-2"
+            >
+                <x-ui.icon name="cpu" class="w-4 h-4 shrink-0" />
+                <span>MCP Server (AI)</span>
             </button>
         </div>
 
@@ -492,6 +502,196 @@
             >
                 Ekspor Database (.sql)
             </x-ui.button>
+        </div>
+    </div>
+
+    <!-- TAB 5: MCP Server (AI External Connection) -->
+    <div x-show="activeTab === 'mcp'" x-cloak class="glass-card rounded-2xl p-6 sm:p-7 w-full flex flex-col gap-6" x-data="{ showKey: false, copiedUrl: false, copiedKey: false }">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-[#ECEEF2]">
+            <div>
+                <div class="flex items-center gap-2">
+                    <h3 class="text-base font-bold text-[#1E2029]">Model Context Protocol (MCP) Server</h3>
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-2xs font-bold bg-[#2EB872]/15 text-[#2EB872]">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#2EB872] animate-pulse"></span>
+                        Aktif (Online)
+                    </span>
+                </div>
+                <p class="text-xs text-[#4E5262] mt-1 leading-relaxed">
+                    Hubungkan AI Agent eksternal (Cursor IDE, Claude Desktop, Antigravity, ChatGPT) ke database dan sistem kasir outlet Anda secara aman dengan protokol resmi MCP.
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 1: Base URL & Credentials -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <!-- Card Base URL -->
+            <div class="p-4 sm:p-5 rounded-xl bg-white border border-[#ECEEF2] shadow-2xs flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold text-[#1E2029] flex items-center gap-1.5">
+                        <x-ui.icon name="globe" class="w-3.5 h-3.5 text-[#5E63E8]" />
+                        <span>Base URL Endpoint (Hosting / Local)</span>
+                    </label>
+                    <span class="text-2xs font-semibold px-2 py-0.5 rounded bg-[#F4F5F7] text-[#5A5D6C]">POST (JSON-RPC)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input
+                        type="text"
+                        readonly
+                        value="{{ url('/mcp/pos') }}"
+                        class="w-full h-10 bg-[#F8F9FA] text-[#1E2029] font-mono text-xs rounded-xl px-3 border border-[#ECEEF2] focus:outline-none select-all"
+                    />
+                    <button
+                        type="button"
+                        @click="navigator.clipboard.writeText('{{ url('/mcp/pos') }}'); copiedUrl = true; setTimeout(() => copiedUrl = false, 2000)"
+                        class="h-10 px-3.5 rounded-xl bg-[#5E63E8] text-white hover:bg-[#4D52D6] transition-all text-xs font-bold flex items-center gap-1.5 shrink-0 cursor-pointer"
+                    >
+                        <x-ui.icon name="clipboard" class="w-3.5 h-3.5" />
+                        <span x-text="copiedUrl ? 'Tersalin!' : 'Salin'">Salin</span>
+                    </button>
+                </div>
+                <p class="text-2xs text-[#5A5D6C] leading-normal">
+                    📌 <b>Di Hosting:</b> Base URL ini otomatis mendeteksi domain server hosting Anda (misal: <code class="bg-[#F4F5F7] px-1 rounded text-[#1E2029]">https://kasir-anda.com/mcp/pos</code>).
+                </p>
+            </div>
+
+            <!-- Card Credential (API Key) -->
+            <div class="p-4 sm:p-5 rounded-xl bg-white border border-[#ECEEF2] shadow-2xs flex flex-col gap-3">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold text-[#1E2029] flex items-center gap-1.5">
+                        <x-ui.icon name="key" class="w-3.5 h-3.5 text-[#2EB872]" />
+                        <span>MCP API Key (Otentikasi Kredensial)</span>
+                    </label>
+                    <button
+                        type="button"
+                        wire:click="regenerateMcpKey"
+                        wire:confirm="Yakin ingin membuat kunci baru? Kunci lama akan langsung tidak berlaku dan Anda harus memperbarui config di Cursor/Claude."
+                        class="text-2xs font-bold text-[#E5484D] hover:underline cursor-pointer flex items-center gap-1"
+                    >
+                        <x-ui.icon name="refresh" class="w-3 h-3" />
+                        <span>Buat Kunci Baru</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <input
+                        :type="showKey ? 'text' : 'password'"
+                        readonly
+                        value="{{ $mcpApiKey }}"
+                        class="w-full h-10 bg-[#F8F9FA] text-[#1E2029] font-mono text-xs rounded-xl px-3 border border-[#ECEEF2] focus:outline-none select-all"
+                    />
+                    <button
+                        type="button"
+                        @click="showKey = !showKey"
+                        class="h-10 px-3 rounded-xl bg-white border border-[#ECEEF2] text-[#5A5D6C] hover:text-[#1E2029] text-xs shrink-0 cursor-pointer"
+                        title="Tampilkan / Sembunyikan Kunci"
+                    >
+                        <span x-show="!showKey"><x-ui.icon name="eye" class="w-4 h-4" /></span>
+                        <span x-show="showKey" x-cloak><x-ui.icon name="eye-off" class="w-4 h-4" /></span>
+                    </button>
+                    <button
+                        type="button"
+                        @click="navigator.clipboard.writeText('{{ $mcpApiKey }}'); copiedKey = true; setTimeout(() => copiedKey = false, 2000)"
+                        class="h-10 px-3.5 rounded-xl bg-[#2EB872] text-white hover:bg-[#259B5E] transition-all text-xs font-bold flex items-center gap-1.5 shrink-0 cursor-pointer"
+                    >
+                        <x-ui.icon name="clipboard" class="w-3.5 h-3.5" />
+                        <span x-text="copiedKey ? 'Tersalin!' : 'Salin'">Salin</span>
+                    </button>
+                </div>
+                <p class="text-2xs text-[#5A5D6C] leading-normal">
+                    🔒 Gunakan kunci ini pada header <code class="bg-[#F4F5F7] px-1 rounded text-[#1E2029]">Authorization: Bearer &lt;kunci&gt;</code> atau <code class="bg-[#F4F5F7] px-1 rounded text-[#1E2029]">X-MCP-KEY</code>.
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 2: Hosting Configuration Guide -->
+        <div class="p-4 sm:p-5 rounded-xl bg-[#F8F9FA] border border-[#ECEEF2] flex flex-col gap-3">
+            <h4 class="text-xs font-bold text-[#1E2029] flex items-center gap-1.5">
+                <x-ui.icon name="server" class="w-4 h-4 text-[#5E63E8]" />
+                <span>Panduan Konfigurasi di Server Hosting (cPanel / VPS / Railway / Docker)</span>
+            </h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-[#4E5262]">
+                <div class="p-3 bg-white rounded-lg border border-[#ECEEF2] flex flex-col gap-1">
+                    <span class="font-bold text-[#1E2029]">1. Cara Menentukan Base URL di Hosting:</span>
+                    <p class="text-2xs leading-relaxed text-[#5A5D6C]">
+                        Cukup ubah nilai <code class="bg-[#F4F5F7] px-1 rounded text-[#1E2029]">APP_URL</code> di file <b>.env</b> hosting Anda (misal: <code class="bg-[#F4F5F7] px-1 rounded text-[#1E2029]">APP_URL=https://kasir.domainanda.com</code>). MCP Base URL otomatis menjadi <code class="bg-[#F4F5F7] px-1 rounded text-[#1E2029]">https://kasir.domainanda.com/mcp/pos</code>.
+                    </p>
+                </div>
+                <div class="p-3 bg-white rounded-lg border border-[#ECEEF2] flex flex-col gap-1">
+                    <span class="font-bold text-[#1E2029]">2. Cara Mengatur / Mengambil Kredensial di Hosting:</span>
+                    <p class="text-2xs leading-relaxed text-[#5A5D6C]">
+                        Kunci dapat Anda salin langsung dari halaman ini, atau jika menggunakan SSH terminal hosting jalankan perintah <code class="bg-[#F4F5F7] px-1 rounded text-[#1E2029]">php artisan mcp:credentials</code>. Kunci tersimpan di database toko dan di variabel <code class="bg-[#F4F5F7] px-1 rounded text-[#1E2029]">MCP_API_KEY</code>.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Copy-Paste Client Config -->
+        <div class="flex flex-col gap-3" x-data="{ clientTab: 'cursor' }">
+            <div class="flex items-center justify-between">
+                <h4 class="text-xs font-bold text-[#1E2029]">Snippet Konfigurasi Client AI Siap Pakai</h4>
+                <div class="flex items-center gap-1">
+                    <button
+                        type="button"
+                        @click="clientTab = 'cursor'"
+                        :class="clientTab === 'cursor' ? 'bg-[#5E63E8] text-white' : 'bg-white text-[#5A5D6C] border border-[#ECEEF2]'"
+                        class="px-2.5 py-1 rounded-lg text-2xs font-bold cursor-pointer"
+                    >
+                        Cursor IDE
+                    </button>
+                    <button
+                        type="button"
+                        @click="clientTab = 'claude'"
+                        :class="clientTab === 'claude' ? 'bg-[#5E63E8] text-white' : 'bg-white text-[#5A5D6C] border border-[#ECEEF2]'"
+                        class="px-2.5 py-1 rounded-lg text-2xs font-bold cursor-pointer"
+                    >
+                        Claude Desktop
+                    </button>
+                </div>
+            </div>
+
+            <!-- Cursor Snippet -->
+            <div x-show="clientTab === 'cursor'" class="relative">
+                <pre class="p-4 bg-[#1E2029] text-[#E0E2EC] font-mono text-xs rounded-xl overflow-x-auto leading-relaxed"><code>{
+  "mcpServers": {
+    "pos-laravel": {
+      "url": "{{ url('/mcp/pos') }}",
+      "headers": {
+        "Authorization": "Bearer {{ $mcpApiKey }}",
+        "X-MCP-KEY": "{{ $mcpApiKey }}"
+      }
+    }
+  }
+}</code></pre>
+                <button
+                    type="button"
+                    @click="navigator.clipboard.writeText(`{\n  &quot;mcpServers&quot;: {\n    &quot;pos-laravel&quot;: {\n      &quot;url&quot;: &quot;{{ url('/mcp/pos') }}&quot;,\n      &quot;headers&quot;: {\n        &quot;Authorization&quot;: &quot;Bearer {{ $mcpApiKey }}&quot;,\n        &quot;X-MCP-KEY&quot;: &quot;{{ $mcpApiKey }}&quot;\n      }\n    }\n  }\n}`); $dispatch('toast', { type: 'success', title: 'Tersalin', message: 'Konfigurasi Cursor tersalin ke clipboard.' })"
+                    class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-2xs font-bold cursor-pointer flex items-center gap-1"
+                >
+                    <x-ui.icon name="clipboard" class="w-3 h-3" />
+                    <span>Salin JSON</span>
+                </button>
+            </div>
+
+            <!-- Claude Snippet -->
+            <div x-show="clientTab === 'claude'" class="relative" x-cloak>
+                <pre class="p-4 bg-[#1E2029] text-[#E0E2EC] font-mono text-xs rounded-xl overflow-x-auto leading-relaxed"><code>{
+  "mcpServers": {
+    "pos-laravel": {
+      "url": "{{ url('/mcp/pos') }}",
+      "headers": {
+        "Authorization": "Bearer {{ $mcpApiKey }}"
+      }
+    }
+  }
+}</code></pre>
+                <button
+                    type="button"
+                    @click="navigator.clipboard.writeText(`{\n  &quot;mcpServers&quot;: {\n    &quot;pos-laravel&quot;: {\n      &quot;url&quot;: &quot;{{ url('/mcp/pos') }}&quot;,\n      &quot;headers&quot;: {\n        &quot;Authorization&quot;: &quot;Bearer {{ $mcpApiKey }}&quot;\n      }\n    }\n  }\n}`); $dispatch('toast', { type: 'success', title: 'Tersalin', message: 'Konfigurasi Claude tersalin ke clipboard.' })"
+                    class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-2xs font-bold cursor-pointer flex items-center gap-1"
+                >
+                    <x-ui.icon name="clipboard" class="w-3 h-3" />
+                    <span>Salin JSON</span>
+                </button>
+            </div>
         </div>
     </div>
 

@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -18,7 +19,16 @@ class Index extends Component
 {
     use WithFileUploads;
 
-    public string $activeTab = 'profile'; // profile, security, ai, backup
+    public string $activeTab = 'profile'; // profile, security, ai, backup, mcp
+
+    // MCP Settings
+    public string $mcpBaseUrl = '';
+
+    public string $mcpApiKey = '';
+
+    public bool $mcpEnabled = true;
+
+    public bool $showMcpKey = false;
 
     // Profile Settings
     public string $storeName = '';
@@ -113,6 +123,43 @@ class Index extends Component
             $this->testConnectionStatus = 'success';
             $this->testConnectionMessage = 'Tersimpan (Terenkripsi)';
         }
+
+        // Load MCP Settings
+        $this->mcpBaseUrl = config('mcp.base_url', url('/mcp/pos'));
+        $this->mcpApiKey = Setting::get('mcp_api_key') ?: config('mcp.api_key');
+        $this->mcpEnabled = config('mcp.enabled', true);
+    }
+
+    public function regenerateMcpKey(): void
+    {
+        abort_unless(auth()->user()?->isOwner(), 403);
+        $newKey = 'pos_sec_'.Str::random(32);
+        Setting::set('mcp_api_key', $newKey);
+        $this->mcpApiKey = $newKey;
+        config(['mcp.api_key' => $newKey]);
+
+        $envPath = base_path('.env');
+        if (file_exists($envPath) && is_writable($envPath)) {
+            $envContent = file_get_contents($envPath);
+            if (preg_match('/^MCP_API_KEY=.*/m', $envContent)) {
+                $envContent = preg_replace('/^MCP_API_KEY=.*/m', "MCP_API_KEY={$newKey}", $envContent);
+            } else {
+                $envContent .= "\nMCP_API_KEY={$newKey}\n";
+            }
+            @file_put_contents($envPath, $envContent);
+        }
+
+        AuditLog::create([
+            'user_id' => auth()->id(),
+            'action' => 'regenerate_mcp_key',
+            'ip' => request()->ip(),
+        ]);
+
+        $this->dispatch('toast', [
+            'type' => 'success',
+            'title' => 'Kunci MCP Diperbarui',
+            'message' => 'API Key MCP baru berhasil digenerate dan disimpan.',
+        ]);
     }
 
     public function saveProfile(): void

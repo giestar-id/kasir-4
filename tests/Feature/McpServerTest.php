@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Livewire\Settings\Index;
 use App\Mcp\Prompts\CreateMenuWizardPrompt;
 use App\Mcp\Prompts\DailyAnalysisPrompt;
 use App\Mcp\Resources\ActiveCatalogResource;
@@ -21,9 +22,11 @@ use App\Models\Category;
 use App\Models\Ingredient;
 use App\Models\Menu;
 use App\Models\Sale;
+use App\Models\Setting;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Laravel\Mcp\Request;
+use Livewire\Livewire;
 use ReflectionProperty;
 use Tests\TestCase;
 
@@ -651,5 +654,16 @@ class McpServerTest extends TestCase
         $errorCallRes->assertStatus(200);
         $errorCallRes->assertJsonPath('result.isError', true);
         $this->assertStringContainsString('tidak ditemukan', $errorCallRes->json('result.content.0.text'));
+    }
+
+    public function test_settings_mcp_tab_renders_and_regenerates_key(): void
+    {
+        Livewire::test(Index::class)
+            ->assertSee('Model Context Protocol (MCP) Server')
+            ->assertSee(config('mcp.api_key'))
+            ->call('regenerateMcpKey')
+            ->assertDispatched('toast');
+
+        $this->assertNotNull(Setting::get('mcp_api_key'));
     }
 }

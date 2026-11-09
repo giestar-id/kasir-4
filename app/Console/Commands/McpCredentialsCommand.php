@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Setting;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
@@ -31,6 +32,8 @@ class McpCredentialsCommand extends Command
         if ($this->option('generate')) {
             $newKey = 'pos_sec_'.Str::random(32);
 
+            Setting::set('mcp_api_key', $newKey);
+
             if (file_exists($envPath)) {
                 $envContent = file_get_contents($envPath);
                 if (preg_match('/^MCP_API_KEY=.*/m', $envContent)) {
@@ -38,16 +41,17 @@ class McpCredentialsCommand extends Command
                 } else {
                     $envContent .= "\nMCP_API_KEY={$newKey}\n";
                 }
-                file_put_contents($envPath, $envContent);
-                $this->info("🔑 Kunci MCP baru berhasil dibuat dan disimpan ke .env: {$newKey}");
+                @file_put_contents($envPath, $envContent);
+                $this->info("🔑 Kunci MCP baru berhasil dibuat dan disimpan ke database & .env: {$newKey}");
             } else {
-                $this->warn("File .env tidak ditemukan. Kunci baru yang digenerate: {$newKey}");
+                $this->info("🔑 Kunci MCP baru berhasil dibuat dan disimpan ke database: {$newKey}");
             }
 
             config(['mcp.api_key' => $newKey]);
         }
 
         $baseUrl = config('mcp.base_url', url('/mcp/pos'));
+        $apiKey = Setting::get('mcp_api_key') ?: config('mcp.api_key');
         $apiKey = config('mcp.api_key');
         $status = config('mcp.enabled', true) ? 'AKTIF (ONLINE)' : 'NONAKTIF';
 

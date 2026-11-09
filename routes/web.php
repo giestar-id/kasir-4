@@ -69,3 +69,6 @@ Route::middleware('auth')->group(function () {
 
 // Public MCP Server Information
 Route::get('/mcp/info', [McpInfoController::class, 'index'])->name('mcp.info');
+
+// Public MCP Server Information
+Route::get('/mcp/info', [McpInfoController::class, 'index'])->name('mcp.info');

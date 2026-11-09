@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Setting;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -21,7 +22,7 @@ class AuthenticateMcpKey
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $expectedKey = config('mcp.api_key');
+        $expectedKey = Setting::get('mcp_api_key') ?: config('mcp.api_key');
 
         if (! config('mcp.enabled', true)) {
             return response()->json([
