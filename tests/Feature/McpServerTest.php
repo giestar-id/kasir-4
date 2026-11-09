@@ -666,4 +666,26 @@ class McpServerTest extends TestCase
 
         $this->assertNotNull(Setting::get('mcp_api_key'));
     }
+
+    public function test_claude_web_cors_and_get_connectivity_validation(): void
+    {
+        $validKey = Setting::get('mcp_api_key') ?: config('mcp.api_key');
+
+        // 1. Browser CORS preflight (OPTIONS)
+        $optionsRes = $this->options('/mcp/pos');
+        $optionsRes->assertStatus(204);
+        $optionsRes->assertHeader('Access-Control-Allow-Origin', '*');
+        $optionsRes->assertHeader('Access-Control-Allow-Methods');
+
+        // 2. Claude Web connectivity validation via GET with query param ?api_key=
+        $getRes = $this->get('/mcp/pos?api_key='.$validKey);
+        $getRes->assertStatus(200);
+        $getRes->assertJsonPath('status', 'online');
+        $getRes->assertJsonPath('authenticated', true);
+        $getRes->assertHeader('Access-Control-Allow-Origin', '*');
+
+        // 3. Unauthenticated GET returns 401
+        $badGetRes = $this->get('/mcp/pos?api_key=invalid_key');
+        $badGetRes->assertStatus(401);
+    }
 }

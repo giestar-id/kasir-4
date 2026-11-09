@@ -74,3 +74,24 @@ if (class_exists(\Laravel\Mcp\Facades\Mcp::class)) {
     \Laravel\Mcp\Facades\Mcp::web('/mcp/pos', \App\Mcp\Servers\PosServer::class)
         ->middleware([\App\Http\Middleware\AuthenticateMcpKey::class]);
 }
+
+// Override GET & OPTIONS for Claude Web (claude.ai) CORS preflight & connectivity validation
+Route::match(['get', 'options'], '/mcp/pos', function (Request $request) {
+    if ($request->isMethod('OPTIONS')) {
+        return response('', 204)
+            ->header('Access-Control-Allow-Origin', '*')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, DELETE')
+            ->header('Access-Control-Allow-Headers', 'Authorization, X-MCP-KEY, x-api-key, Content-Type, Accept, MCP-Protocol-Version, Mcp-Method, Mcp-Name')
+            ->header('Access-Control-Max-Age', '86400');
+    }
+
+    return response()->json([
+        'status' => 'online',
+        'server' => config('mcp.server_name', 'POS Kuliner MCP Server'),
+        'version' => config('mcp.version', '1.1.0'),
+        'protocol' => 'Model Context Protocol (JSON-RPC 2.0)',
+        'message' => 'MCP Server is authenticated and operational. Send POST requests with JSON-RPC payloads to call tools.',
+        'authenticated' => true,
+        'transport' => 'Streamable HTTP (POST)',
+    ]);
+})->middleware([\App\Http\Middleware\AuthenticateMcpKey::class]);

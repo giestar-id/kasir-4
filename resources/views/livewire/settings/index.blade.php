@@ -625,34 +625,50 @@
         </div>
 
         <!-- Section 3: Copy-Paste Client Config -->
-        <div class="flex flex-col gap-3" x-data="{ clientTab: 'cursor' }">
-            <div class="flex items-center justify-between">
-                <h4 class="text-xs font-bold text-[#1E2029]">Snippet Konfigurasi Client AI Siap Pakai</h4>
-                <div class="flex items-center gap-1">
+        <div class="flex flex-col gap-3" x-data="{ clientTab: 'bearer-header' }">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <h4 class="text-xs font-bold text-[#1E2029]">Snippet Konfigurasi AI Client Siap Pakai (Multi-Cara)</h4>
+                <div class="flex flex-wrap items-center gap-1">
                     <button
                         type="button"
-                        @click="clientTab = 'cursor'"
-                        :class="clientTab === 'cursor' ? 'bg-[#5E63E8] text-white' : 'bg-white text-[#5A5D6C] border border-[#ECEEF2]'"
-                        class="px-2.5 py-1 rounded-lg text-2xs font-bold cursor-pointer"
+                        @click="clientTab = 'bearer-header'"
+                        :class="clientTab === 'bearer-header' ? 'bg-[#5E63E8] text-white' : 'bg-white text-[#5A5D6C] border border-[#ECEEF2]'"
+                        class="px-2.5 py-1 rounded-lg text-2xs font-bold cursor-pointer transition-colors"
                     >
-                        Cursor IDE
+                        Bearer Token (Cursor & Claude Desktop)
                     </button>
                     <button
                         type="button"
-                        @click="clientTab = 'claude'"
-                        :class="clientTab === 'claude' ? 'bg-[#5E63E8] text-white' : 'bg-white text-[#5A5D6C] border border-[#ECEEF2]'"
-                        class="px-2.5 py-1 rounded-lg text-2xs font-bold cursor-pointer"
+                        @click="clientTab = 'claude-code'"
+                        :class="clientTab === 'claude-code' ? 'bg-[#5E63E8] text-white' : 'bg-white text-[#5A5D6C] border border-[#ECEEF2]'"
+                        class="px-2.5 py-1 rounded-lg text-2xs font-bold cursor-pointer transition-colors"
                     >
-                        Claude Desktop
+                        Claude Code (CLI)
+                    </button>
+                    <button
+                        type="button"
+                        @click="clientTab = 'claude-web'"
+                        :class="clientTab === 'claude-web' ? 'bg-[#5E63E8] text-white' : 'bg-white text-[#5A5D6C] border border-[#ECEEF2]'"
+                        class="px-2.5 py-1 rounded-lg text-2xs font-bold cursor-pointer transition-colors"
+                    >
+                        Claude Web / Mobile (URL Param)
+                    </button>
+                    <button
+                        type="button"
+                        @click="clientTab = 'local-stdio'"
+                        :class="clientTab === 'local-stdio' ? 'bg-[#5E63E8] text-white' : 'bg-white text-[#5A5D6C] border border-[#ECEEF2]'"
+                        class="px-2.5 py-1 rounded-lg text-2xs font-bold cursor-pointer transition-colors"
+                    >
+                        Antigravity / Local CLI
                     </button>
                 </div>
             </div>
 
-            <!-- Cursor Snippet -->
-            <div x-show="clientTab === 'cursor'" class="relative">
+            <!-- 1. Bearer Header Snippet (Cursor & Claude Desktop) -->
+            <div x-show="clientTab === 'bearer-header'" class="relative">
                 <pre class="p-4 bg-[#1E2029] text-[#E0E2EC] font-mono text-xs rounded-xl overflow-x-auto leading-relaxed"><code>{
   "mcpServers": {
-    "pos-laravel": {
+    "pos-remote": {
       "url": "{{ url('/mcp/pos') }}",
       "headers": {
         "Authorization": "Bearer {{ $mcpApiKey }}",
@@ -663,7 +679,7 @@
 }</code></pre>
                 <button
                     type="button"
-                    @click="navigator.clipboard.writeText(`{\n  &quot;mcpServers&quot;: {\n    &quot;pos-laravel&quot;: {\n      &quot;url&quot;: &quot;{{ url('/mcp/pos') }}&quot;,\n      &quot;headers&quot;: {\n        &quot;Authorization&quot;: &quot;Bearer {{ $mcpApiKey }}&quot;,\n        &quot;X-MCP-KEY&quot;: &quot;{{ $mcpApiKey }}&quot;\n      }\n    }\n  }\n}`); $dispatch('toast', { type: 'success', title: 'Tersalin', message: 'Konfigurasi Cursor tersalin ke clipboard.' })"
+                    @click="navigator.clipboard.writeText(`{\n  &quot;mcpServers&quot;: {\n    &quot;pos-remote&quot;: {\n      &quot;url&quot;: &quot;{{ url('/mcp/pos') }}&quot;,\n      &quot;headers&quot;: {\n        &quot;Authorization&quot;: &quot;Bearer {{ $mcpApiKey }}&quot;,\n        &quot;X-MCP-KEY&quot;: &quot;{{ $mcpApiKey }}&quot;\n      }\n    }\n  }\n}`); $dispatch('toast', { type: 'success', title: 'Tersalin', message: 'Konfigurasi Bearer Token tersalin ke clipboard.' })"
                     class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-2xs font-bold cursor-pointer flex items-center gap-1"
                 >
                     <x-ui.icon name="clipboard" class="w-3 h-3" />
@@ -671,21 +687,45 @@
                 </button>
             </div>
 
-            <!-- Claude Snippet -->
-            <div x-show="clientTab === 'claude'" class="relative" x-cloak>
+            <!-- 2. Claude Code CLI Command -->
+            <div x-show="clientTab === 'claude-code'" class="relative" x-cloak>
+                <pre class="p-4 bg-[#1E2029] text-[#E0E2EC] font-mono text-xs rounded-xl overflow-x-auto leading-relaxed"><code>claude mcp add --transport http pos {{ url('/mcp/pos') }} --header "Authorization: Bearer {{ $mcpApiKey }}"</code></pre>
+                <button
+                    type="button"
+                    @click="navigator.clipboard.writeText(`claude mcp add --transport http pos {{ url('/mcp/pos') }} --header &quot;Authorization: Bearer {{ $mcpApiKey }}&quot;`); $dispatch('toast', { type: 'success', title: 'Tersalin', message: 'Perintah Claude Code CLI tersalin ke clipboard.' })"
+                    class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-2xs font-bold cursor-pointer flex items-center gap-1"
+                >
+                    <x-ui.icon name="clipboard" class="w-3 h-3" />
+                    <span>Salin Perintah</span>
+                </button>
+            </div>
+
+            <!-- 3. Claude Web (claude.ai) URL Param Connector -->
+            <div x-show="clientTab === 'claude-web'" class="relative" x-cloak>
+                <pre class="p-4 bg-[#1E2029] text-[#E0E2EC] font-mono text-xs rounded-xl overflow-x-auto leading-relaxed"><code>{{ url('/mcp/pos') }}?api_key={{ $mcpApiKey }}</code></pre>
+                <button
+                    type="button"
+                    @click="navigator.clipboard.writeText(`{{ url('/mcp/pos') }}?api_key={{ $mcpApiKey }}`); $dispatch('toast', { type: 'success', title: 'Tersalin', message: 'URL Claude Web tersalin ke clipboard.' })"
+                    class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-2xs font-bold cursor-pointer flex items-center gap-1"
+                >
+                    <x-ui.icon name="clipboard" class="w-3 h-3" />
+                    <span>Salin URL</span>
+                </button>
+            </div>
+
+            <!-- 4. Antigravity / Local CLI -->
+            <div x-show="clientTab === 'local-stdio'" class="relative" x-cloak>
                 <pre class="p-4 bg-[#1E2029] text-[#E0E2EC] font-mono text-xs rounded-xl overflow-x-auto leading-relaxed"><code>{
   "mcpServers": {
-    "pos-laravel": {
-      "url": "{{ url('/mcp/pos') }}",
-      "headers": {
-        "Authorization": "Bearer {{ $mcpApiKey }}"
-      }
+    "pos": {
+      "command": "php",
+      "args": ["artisan", "mcp:start", "pos"]
     }
   }
 }</code></pre>
                 <button
                     type="button"
-                    @click="navigator.clipboard.writeText(`{\n  &quot;mcpServers&quot;: {\n    &quot;pos-laravel&quot;: {\n      &quot;url&quot;: &quot;{{ url('/mcp/pos') }}&quot;,\n      &quot;headers&quot;: {\n        &quot;Authorization&quot;: &quot;Bearer {{ $mcpApiKey }}&quot;\n      }\n    }\n  }\n}`); $dispatch('toast', { type: 'success', title: 'Tersalin', message: 'Konfigurasi Claude tersalin ke clipboard.' })"
+                    @click="navigator.clipboard.writeText(`{\n  &quot;mcpServers&quot;: {\n    &quot;pos&quot;: {\n      &quot;command&quot;: &quot;php&quot;,\n      &quot;args&quot;: [&quot;artisan&quot;, &quot;mcp:start&quot;, &quot;pos&quot;]\n    }\n  }\n}`); $dispatch('toast', { type: 'success', title: 'Tersalin', message: 'Konfigurasi Antigravity / Local tersalin ke clipboard.' })"
                     class="absolute top-3 right-3 px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 text-white text-2xs font-bold cursor-pointer flex items-center gap-1"
                 >
                     <x-ui.icon name="clipboard" class="w-3 h-3" />

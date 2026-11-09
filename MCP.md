@@ -6,18 +6,23 @@ AI dapat melakukan **operasi apapun (CRUD penuh)** pada sistem POS Anda, mulai d
 
 ---
 
-## 🔑 Kredensial & Base URL (Authentication)
+## 🔑 Kredensial & Base URL (Multi-Metode Authentication)
 
-Setiap koneksi HTTP/SSE dari AI Client ke MCP Server diamankan menggunakan **API Key**.
+MCP Server mendukung berbagai skema otentikasi agar kompatibel dengan seluruh AI tool dan platform:
 
-| Parameter | Lingkungan Production (Fly.io) | Lingkungan Lokal | Keterangan |
-|---|---|---|---|
-| **Base URL** | `https://kasir-4.fly.dev/mcp/pos` | `http://localhost:8000/mcp/pos` | Endpoint POST utama untuk komunikasi JSON-RPC 2.0 |
-| **Info URL** | `https://kasir-4.fly.dev/mcp/info` | `http://localhost:8000/mcp/info` | Endpoint GET publik untuk mengecek status & kapabilitas server |
-| **Header Auth** | `Authorization: Bearer <MCP_API_KEY>` | `Authorization: Bearer <MCP_API_KEY>` | Header otentikasi standar Bearer Token |
-| **Header Alternatif** | `X-MCP-KEY: <MCP_API_KEY>` | `X-MCP-KEY: <MCP_API_KEY>` | Header otentikasi alternatif |
-| **Query Auth** | `?api_key=<MCP_API_KEY>` | `?api_key=<MCP_API_KEY>` | Parameter URL alternatif jika client tidak mendukung custom headers |
-| **Default API Key** | `pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf` | (Sesuai `.env` lokal Anda) | Kunci otentikasi tersimpan di `.env` / Fly Secrets |
+| Metode Otentikasi | Cara Penggunaan | Kompatibel Dengan |
+|---|---|---|
+| **Bearer Token (Rekomendasi Utama)** | Header: `Authorization: Bearer <MCP_API_KEY>` | Cursor IDE, Claude Desktop, Claude Code, Windsurf, LangChain |
+| **Custom Header** | Header: `X-MCP-KEY: <MCP_API_KEY>` atau `x-api-key: <MCP_API_KEY>` | Script cURL, Postman, Custom LLM Integrations |
+| **URL Query Param** | URL: `https://kasir-4.fly.dev/mcp/pos?api_key=<MCP_API_KEY>` | Claude.ai Web / Mobile (Browser), Tool tanpa custom headers |
+| **Local Stdio CLI** | CLI command: `php artisan mcp:start pos` | Antigravity, Claude Desktop lokal, Gemini CLI |
+
+### Endpoint URL
+
+| Lingkungan | MCP Streamable Endpoint | MCP Info Endpoint |
+|---|---|---|
+| **Production (Fly.io)** | `https://kasir-4.fly.dev/mcp/pos` | `https://kasir-4.fly.dev/mcp/info` |
+| **Lokal (Development)** | `http://localhost:8000/mcp/pos` | `http://localhost:8000/mcp/info` |
 
 > 💡 **Cek atau Regenerate Kredensial via Terminal:**
 > ```powershell
@@ -30,19 +35,18 @@ Setiap koneksi HTTP/SSE dari AI Client ke MCP Server diamankan menggunakan **API
 
 ---
 
-## 🚀 Cara Menghubungkan AI Client
+## 🚀 Panduan Koneksi ke Berbagai AI Client
 
-### 1. Cursor IDE (Mode Remote Production di Fly.io)
-Buat atau edit file `.cursor/mcp.json` di root folder project:
+### 1. Cursor IDE & Claude Desktop (Metode Bearer Token Header)
+Tambahkan ke konfigurasi MCP (`.cursor/mcp.json` atau `%APPDATA%\Claude\claude_desktop_config.json`):
 
 ```json
 {
   "mcpServers": {
-    "pos-fly": {
+    "pos-remote": {
       "url": "https://kasir-4.fly.dev/mcp/pos",
       "headers": {
-        "Authorization": "Bearer pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf",
-        "X-MCP-KEY": "pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf"
+        "Authorization": "Bearer pos_sec_b6v7yfJm8BVhIwOXASL3SeiCGqhpXEVf"
       }
     }
   }
@@ -51,40 +55,29 @@ Buat atau edit file `.cursor/mcp.json` di root folder project:
 
 ---
 
-### 2. Claude Desktop
+### 2. Claude Code (CLI)
+Gunakan perintah CLI resmi Claude Code dengan transport HTTP dan Bearer Token:
 
-#### Opsi A: Remote Production di Fly.io
-Edit `%APPDATA%\Claude\claude_desktop_config.json`:
-```json
-{
-  "mcpServers": {
-    "pos-fly": {
-      "url": "https://kasir-4.fly.dev/mcp/pos",
-      "headers": {
-        "Authorization": "Bearer pos_sec_KZzqn34UVPK4DayIedpTcKOgUA2tTLlf"
-      }
-    }
-  }
-}
+```bash
+claude mcp add --transport http pos https://kasir-4.fly.dev/mcp/pos --header "Authorization: Bearer pos_sec_b6v7yfJm8BVhIwOXASL3SeiCGqhpXEVf"
 ```
 
-#### Opsi B: Local Stdio CLI (Tanpa perlu HTTP server menyala)
-```json
-{
-  "mcpServers": {
-    "pos-laravel": {
-      "command": "php",
-      "args": ["artisan", "mcp:start", "pos"],
-      "cwd": "D:\\COBA\\project-id-1(llelet)"
-    }
-  }
-}
+Atau jika dijalankan lokal di folder project tanpa HTTP:
+```bash
+claude mcp add pos -- php artisan mcp:start pos
 ```
 
 ---
 
-### 3. Antigravity / Gemini CLI
-Tambahkan ke konfigurasi MCP Antigravity:
+### 3. Claude Web (claude.ai) & Mobile App (Metode URL Connector)
+Pada Claude Web/Mobile (Custom MCP Connectors):
+- **Connector URL:** `https://kasir-4.fly.dev/mcp/pos?api_key=pos_sec_b6v7yfJm8BVhIwOXASL3SeiCGqhpXEVf`
+- *Catatan:* Server sudah dilengkapi dengan **CORS Preflight (OPTIONS)** dan **GET Connectivity Probe validation**, sehingga Claude Web langsung mendeteksi server online dan terotentikasi.
+
+---
+
+### 4. Antigravity / Local Stdio
+Tambahkan ke `mcpServers` Antigravity:
 
 ```json
 {
